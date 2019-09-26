@@ -1,2 +1,6 @@
-- name: install essential packages
+- name: Install essential packages
   import_tasks: packages.yml
+
+- name: Set timezone to UTC
+  timezone:
+    name: Etc/UTC
