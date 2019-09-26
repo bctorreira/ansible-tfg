@@ -1,0 +1,23 @@
+- name: add user macada
+  user:
+    name: admmacada
+    comment: David Martinez
+    uid: 10002
+    group: sudo
+
+- name: add user admdrjato
+  user:
+    name: admdrjato
+    comment: David Reboiro Jato
+    uid: 10008
+    group: sudo
+
+- name: remove old users
+  user:
+    name: "{{ item }}"
+    state: absent
+    remove: yes
+  loop:
+    - admoscarcas
+    - admafsobrino
+

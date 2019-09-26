@@ -13,3 +13,6 @@
     - es_ES.UTF-8
     - ca_ES.UTF-8
 
+- name: create admin users
+  import_tasks: users.yml
+
