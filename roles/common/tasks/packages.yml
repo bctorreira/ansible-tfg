@@ -1,0 +1,24 @@
+- name: install aptitude
+  package:
+    name: aptitude
+    state: latest
+
+- name: install ntp
+  package:
+    name: ntp
+    state: latest
+
+- name: install vim
+  package:
+    name: vim
+    state: latest
+
+- name: install byobu
+  package:
+    name: byobu
+    state: latest
+
+- name: remove ufw
+  package:
+    name: ufw
+    state: absent
