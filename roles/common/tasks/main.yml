@@ -4,3 +4,12 @@
 - name: Set timezone to UTC
   timezone:
     name: Etc/UTC
+
+- name: Generate locales
+  locale_gen: name={{ item }} state=present
+  with_items:
+    - en_US.UTF-8
+    - gl_ES.UTF-8
+    - es_ES.UTF-8
+    - ca_ES.UTF-8
+
