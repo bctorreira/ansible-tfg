@@ -1,11 +1,11 @@
-- name: Install essential packages
+- name: install essential packages
   import_tasks: packages.yml
 
-- name: Set timezone to UTC
+- name: set timezone to utc
   timezone:
     name: Etc/UTC
 
-- name: Generate locales
+- name: generate locales
   locale_gen: name={{ item }} state=present
   with_items:
     - en_US.UTF-8
