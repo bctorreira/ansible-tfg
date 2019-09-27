@@ -1,3 +1,5 @@
+- include_vars: main.yml
+
 - name: install essential packages
   import_tasks: packages.yml
 
@@ -6,12 +8,11 @@
     name: Etc/UTC
 
 - name: generate locales
-  locale_gen: name={{ item }} state=present
-  with_items:
-    - en_US.UTF-8
-    - gl_ES.UTF-8
-    - es_ES.UTF-8
-    - ca_ES.UTF-8
+  locale_gen:
+    name: "{{ item }}"
+    state: present
+  loop:
+    "{{ locales }}"
 
 - name: create admin users
   import_tasks: users.yml
