@@ -1,6 +1,11 @@
+essential_packages:
+  - aptitude
+  - ntp
+  - vim
+  - byobu
+
 locales:
   - en_US.UTF-8
   - gl_ES.UTF-8
   - es_ES.UTF-8
   - ca_ES.UTF-8
-

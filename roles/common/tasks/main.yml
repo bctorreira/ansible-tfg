@@ -1,7 +1,11 @@
 - include_vars: main.yml
 
 - name: install essential packages
-  import_tasks: packages.yml
+  package:
+    name: "{{ essential_packages }}"
+    state: latest
+
+- import_tasks: extra_packages.yml
 
 - name: set timezone to utc
   timezone:
@@ -16,4 +20,3 @@
 
 - name: create admin users
   import_tasks: users.yml
-

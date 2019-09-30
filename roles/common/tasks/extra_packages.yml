@@ -1,0 +1,4 @@
+- name: remove ufw
+  package:
+    name: ufw
+    state: absent
