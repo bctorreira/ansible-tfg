@@ -1,16 +1,14 @@
-- name: add user macada
-  user:
-    name: admmacada
-    comment: David Martinez
-    uid: 10002
-    group: sudo
+- include_vars: users.yml
 
-- name: add user admdrjato
+- name: add admin users
   user:
-    name: admdrjato
-    comment: David Reboiro Jato
-    uid: 10008
+    name: "{{ item.name }}"
+    comment: "{{ item.comment }}"
+    uid: "{{ item.uid }}"
     group: sudo
+    state: present
+  loop:
+    "{{ admin_users }}"
 
 - name: remove old users
   user:
@@ -18,6 +16,4 @@
     state: absent
     remove: yes
   loop:
-    - admoscarcas
-    - admafsobrino
-
+    "{{ old_users }}"

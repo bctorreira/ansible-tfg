@@ -1,0 +1,13 @@
+admin_users:
+  - user:
+    name: admmacada
+    comment: David Martinez
+    uid: 10002
+  - user:
+    name: admdrjato
+    comment: David Reboiro Jato
+    uid: 10008
+
+old_users:
+  - admoscarcas
+  - admafsobrino

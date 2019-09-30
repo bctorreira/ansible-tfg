@@ -18,5 +18,5 @@
   loop:
     "{{ locales }}"
 
-- name: create admin users
+- name: create users
   import_tasks: users.yml
