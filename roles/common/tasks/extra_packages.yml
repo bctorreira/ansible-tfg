@@ -1,4 +1,6 @@
-- name: remove ufw
+- name: remove unneeded packages
   package:
-    name: ufw
+    name:
+      - ufw
+      - unattended-upgrades
     state: absent
