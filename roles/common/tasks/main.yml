@@ -1,5 +1,3 @@
-- include_vars: main.yml
-
 - name: install essential packages
   package:
     name: "{{ essential_packages }}"
@@ -18,5 +16,6 @@
   loop:
     "{{ locales }}"
 
-- name: create users
-  import_tasks: users.yml
+- import_tasks: users.yml
+
+- import_tasks: sysctl.yml

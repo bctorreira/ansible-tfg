@@ -3,6 +3,7 @@ essential_packages:
   - ntp
   - vim
   - byobu
+  - conntrack
 
 locales:
   - en_US.UTF-8

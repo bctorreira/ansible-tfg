@@ -1,0 +1,14 @@
+- include_vars: sysctl.yml
+
+- name: enable netfilter conntrack modules
+  modprobe:
+    name: nf_conntrack_ipv4
+    state: present
+
+- name: set sysctl values
+  sysctl:
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+    state: present
+  loop:
+    "{{ sysctl_values }}"
