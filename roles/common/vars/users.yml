@@ -2,10 +2,12 @@ admin_users:
   - user:
     name: admmacada
     comment: David Martinez
+    password: "{{ vault_admmacada_password }}"
     uid: 10002
   - user:
     name: admdrjato
     comment: David Reboiro Jato
+    password: "{{ vault_admdrjato_password }}"
     uid: 10008
 
 old_users:
