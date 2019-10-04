@@ -1,6 +1,3 @@
-- include_vars: vault_users.yml
-- include_vars: users.yml
-
 - name: add admin users
   user:
     name: "{{ item.name }}"
