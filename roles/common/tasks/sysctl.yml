@@ -1,7 +1,13 @@
-- name: enable netfilter conntrack modules
+- name: enable conntrack modules
   modprobe:
     name: nf_conntrack_ipv4
     state: present
+
+- name: persist enabling conntrack modules
+  copy:
+    dest: /etc/modules-load.d/nf_conntrack_ipv4.conf
+    content:
+      nf_conntrack_ipv4
 
 - name: set sysctl values
   sysctl:
