@@ -1,0 +1,10 @@
+shell_files:
+  - file:
+    src: bash.bashrc
+    dest: /etc/bash.bashrc
+  - file:
+    src: .bashrc
+    dest: /etc/skel/.bashrc
+  - file:
+    src: history.sh
+    dest: /etc/profile.d/history.sh
