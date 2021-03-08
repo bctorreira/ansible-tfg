@@ -1,0 +1,7 @@
+---
+nfs_directories:
+  - /srv/shared/media
+  - /srv/shared/instances
+  - /srv/shared/build
+  - /srv/shared/spool
+  - /srv/shared/backup

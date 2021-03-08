@@ -1,0 +1,12 @@
+---
+- include_vars: nfs_directories.yml
+
+- name: set up directories for nfs service
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: '0775'
+  loop:
+    "{{ nfs_directories }}"
