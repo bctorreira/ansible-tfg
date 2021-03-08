@@ -10,6 +10,14 @@
   loop:
     "{{ admin_users }}"
 
+- name: set authorized keys for users
+  authorized_key:
+    user: "{{ item.name }}"
+    state: present
+    key: "{{ item.pubkey }}"
+  loop:
+    "{{ admin_users }}"
+
 - name: remove old users
   user:
     name: "{{ item }}"

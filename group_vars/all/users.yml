@@ -3,11 +3,13 @@ admin_users:
     name: admmacada
     comment: David Martinez
     password: "{{ vault_admmacada_password }}"
+    pubkey: "{{ lookup('file', 'keys/admmacada.pub') }}"
     uid: 10002
   - user:
     name: admdrjato
     comment: David Reboiro Jato
     password: "{{ vault_admdrjato_password }}"
+    pubkey: "{{ lookup('file', 'keys/admdrjato.pub') }}"
     uid: 10008
 
 old_users:
