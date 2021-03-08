@@ -1,0 +1,4 @@
+---
+- hosts: sto
+  roles:
+    - storage
