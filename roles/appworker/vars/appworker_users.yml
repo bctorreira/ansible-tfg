@@ -1,0 +1,8 @@
+---
+appworker_users:
+  - name: opennemas
+    comment: "Opennemas deploy account"
+    password: "{{ vault_opennemas_password }}"
+    groups: www-data,sudo
+    pubkey: "{{ lookup('file', 'keys/opennemas.pub') }}"
+    uid: 10001

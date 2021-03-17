@@ -1,0 +1,22 @@
+---
+appworker_mountpoints:
+  - path: /home/opennemas/shared/public/build/
+    src: "{{ servers.sto }}:/srv/shared/build"
+    fstype: nfs
+    opts: auto,user,vers=3,rsize=32768,wsize=32768,intr,noatime,noacl,nocto,bg
+  - path: /home/opennemas/shared/public/media/
+    src: "{{ servers.sto }}:/srv/shared/media"
+    fstype: nfs
+    opts: auto,user,vers=3,rsize=32768,wsize=32768,intr,noatime,noacl,nocto,bg
+  - path: /home/opennemas/shared/tmp/backups/
+    src: "{{ servers.sto }}:/srv/shared/backup"
+    fstype: nfs
+    opts: auto,user,vers=3,rsize=32768,wsize=32768,intr,noatime,noacl,nocto,bg
+  - path: /home/opennemas/shared/tmp/instances/
+    src: "{{ servers.sto }}:/srv/shared/instances"
+    fstype: nfs
+    opts: auto,user,vers=3,rsize=32768,wsize=32768,intr,noatime,noacl,nocto,bg
+  - path: /home/opennemas/shared/tmp/spool/
+    src: "{{ servers.sto }}:/srv/shared/spool"
+    fstype: nfs
+    opts: auto,user,vers=3,rsize=32768,wsize=32768,intr,noatime,noacl,nocto,bg

@@ -1,0 +1,58 @@
+---
+- name: Add ondrej/php repository from PPA and install its signing key to get php7.3
+  apt_repository:
+    repo: ppa:ondrej/php
+    update_cache: yes
+
+- name: Include php package list
+  include_vars: appworker_php_packages.yml
+
+- name: Install php packages
+  package:
+    name: "{{ appworker_php_packages }}"
+    state: latest
+
+- name: Include php config variables
+  include_vars: appworker_php_config.yml
+
+# If no match for regexp in lineinfile, appends line at EOF
+- name: Configure cli (cli/php.ini)
+  lineinfile:
+    path: /etc/php/7.3/cli/php.ini
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: present
+  loop: "{{ php_cli_ini }}"
+
+- name: Configure fpm (fpm/php.ini)
+  lineinfile:
+    path: /etc/php/7.3/fpm/php.ini
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: present
+  loop: "{{ php_fpm_ini }}"
+
+- name: Configure fpm (fpm/php-fpm.conf)
+  lineinfile:
+    path: /etc/php/7.3/fpm/php-fpm.conf
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: present
+  loop: "{{ php_fpm_conf }}"
+
+- name: Configure fpm (fpm/pool.d/www.conf)
+  lineinfile:
+    path: /etc/php/7.3/fpm/pool.d/www.conf
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: present
+  loop: "{{ php_www_conf }}"
+
+- name: Configure opcache (mods-available/opcache.ini)
+  lineinfile:
+    path: /etc/php/7.3/mods-available/opcache.ini
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: present
+  loop: "{{ php_opcache_ini }}"
+  notify: Reload php-fpm

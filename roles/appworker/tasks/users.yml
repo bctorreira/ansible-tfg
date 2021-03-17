@@ -1,0 +1,23 @@
+---
+- include_vars: vault_appworker_users.yml
+- include_vars: appworker_users.yml
+
+- name: Add appworker users
+  user:
+    name: "{{ item.name }}"
+    comment: "{{ item.comment }}"
+    uid: "{{ item.uid }}"
+    password: "{{ item.password }}"
+    groups: www-data,sudo
+    shell: /bin/bash
+    state: present
+  loop:
+    "{{ appworker_users }}"
+
+- name: Set authorized key for Opennemas users
+  authorized_key:
+    user: "{{ item.name }}"
+    state: present
+    key: "{{ item.pubkey }}"
+  loop:
+    "{{ appworker_users }}"

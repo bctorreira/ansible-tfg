@@ -1,0 +1,17 @@
+---
+- name: Include node.js package list variables
+  include_vars: appworker_nodejs_packages.yml
+
+- name: Install node.js
+  package:
+    name: "{{ appworker_nodejs_packages }}"
+    state: latest
+
+- name: Include npm package list variables
+  include_vars: appworker_npm_packages.yml
+
+- name: Install npm packages
+  npm:
+    name: "{{ item }}"
+    global: yes
+  loop: "{{ appworker_npm_packages }}"

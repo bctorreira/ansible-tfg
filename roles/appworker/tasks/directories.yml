@@ -1,0 +1,12 @@
+---
+- include_vars: appworker_directories.yml
+
+- name: Create Opennemas app directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: '0775'
+  loop:
+    "{{ appworker_directories }}"

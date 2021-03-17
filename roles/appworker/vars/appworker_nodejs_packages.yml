@@ -1,0 +1,4 @@
+---
+appworker_nodejs_packages:
+  - nodejs
+  - npm

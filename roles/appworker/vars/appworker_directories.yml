@@ -1,0 +1,12 @@
+---
+appworker_directories:
+  - '/home/opennemas/shared/'
+  - '/home/opennemas/shared/public'
+  - '/home/opennemas/shared/public/media'
+  - '/home/opennemas/shared/public/build'
+  - '/home/opennemas/shared/tmp'
+  - '/home/opennemas/shared/tmp/instances'
+  - '/home/opennemas/shared/tmp/logs'
+  - '/home/opennemas/shared/tmp/spool'
+  - '/home/opennemas/shared/tmp/backups'
+  - '/home/opennemas/shared/app'
