@@ -2,3 +2,4 @@
 roles:
   - name: geerlingguy.swap
   - name: geerlingguy.nfs
+  - name: geerlingguy.redis

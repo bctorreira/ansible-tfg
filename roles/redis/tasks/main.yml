@@ -1,0 +1,10 @@
+---
+# Custom sysctl value handling has been implemented into the common role
+
+# - name: Set sysctl values for Redis node
+#   sysctl:
+#     name: "{{ item.name }}"
+#     value: "{{ item.value }}"
+#     state: present
+#   loop:
+#     "{{ sysctl_values }}"

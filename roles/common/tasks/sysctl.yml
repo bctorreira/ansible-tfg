@@ -15,4 +15,11 @@
     value: "{{ item.value }}"
     state: present
   loop:
-    "{{ sysctl_values }}"
+  # `sysctl_values` and `group_sysctl_values` are lists, but only dictionaries can be
+  # combined. Lists are translated into dictionaries, then combined, then translated
+  # into lists again to loop through them. `define([])` allows for an undefined
+  # `group_sysctl_values`, by loading an empty list instead of an undefined one.
+    "{{ sysctl_values | items2dict(key_name='name') | combine(group_sysctl_values | default([]) | items2dict(key_name='name')) | dict2items(key_name='name', value_name='value') }}"
+  # Same thing as before, in case `group_sysctl_values` and `sysctl_values` are both
+  # dictionaries
+  #  "{{ sysctl_values | combine(group_sysctl_values | default([])) | dict2items }}"
