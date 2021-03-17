@@ -1,4 +1,5 @@
 ---
 - hosts: sto
   roles:
+    - common
     - storage
