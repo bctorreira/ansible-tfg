@@ -1,0 +1,5 @@
+---
+- hosts: dbr
+  roles:
+    - common
+    - redis
