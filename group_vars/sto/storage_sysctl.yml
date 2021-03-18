@@ -1,0 +1,12 @@
+---
+# By convention, the name for group-specific sysctl variables must be
+# `group_sysctl_values`, so they can be properly loaded by the playbook.
+# More specific variables completely override more general ones.
+# e.g.: group_vars/dbr/*.yml > group_vars/all/*.yml
+group_sysctl_values:
+  # - name: fs.nfs.nfs_callback_tcpport
+  #   value: 32764
+  - name: fs.nfs.nlm_tcpport
+    value: 32768
+  - name: fs.nfs.nlm_udpport
+    value: 32768

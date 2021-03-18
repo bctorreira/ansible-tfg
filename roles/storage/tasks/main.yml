@@ -10,3 +10,15 @@
     mode: '0775'
   loop:
     "{{ nfs_directories }}"
+
+- name: Configure statd port options
+  lineinfile:
+    path: /etc/default/nfs-common
+    regexp: "STATDOPTS"
+    line: "STATDOPTS=--port 32765 --outgoing-port 32766"
+
+- name: Configure RPC port options
+  lineinfile:
+    path: /etc/default/nfs-kernel-server
+    regexp: "RPCMOUNTDOPTS"
+    line: "RPCMOUNTDOPTS=--manage-gids -p 32767"
