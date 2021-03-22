@@ -1,5 +1,5 @@
 ---
 - name: Reload php-fpm
   service:
-    name: php-fpm7.3
+    name: php7.3-fpm
     state: reloaded
