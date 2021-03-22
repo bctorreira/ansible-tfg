@@ -23,6 +23,7 @@
     line: "{{ item.line }}"
     state: present
   loop: "{{ php_cli_ini }}"
+  notify: Reload php-fpm
 
 - name: Configure fpm (fpm/php.ini)
   lineinfile:
@@ -31,6 +32,7 @@
     line: "{{ item.line }}"
     state: present
   loop: "{{ php_fpm_ini }}"
+  notify: Reload php-fpm
 
 - name: Configure fpm (fpm/php-fpm.conf)
   lineinfile:
@@ -39,6 +41,7 @@
     line: "{{ item.line }}"
     state: present
   loop: "{{ php_fpm_conf }}"
+  notify: Reload php-fpm
 
 - name: Configure fpm (fpm/pool.d/www.conf)
   lineinfile:
@@ -47,6 +50,7 @@
     line: "{{ item.line }}"
     state: present
   loop: "{{ php_www_conf }}"
+  notify: Reload php-fpm
 
 - name: Configure opcache (mods-available/opcache.ini)
   lineinfile:
