@@ -1,0 +1,14 @@
+---
+- name: Reload varnish services
+  service:
+    name: "{{ item }}"
+    state: reloaded
+    daemon_reload: yes
+  loop:
+    - varnish
+    - varnishncsa
+
+- name: Reload nginx service
+  service:
+    name: nginx
+    state: reloaded

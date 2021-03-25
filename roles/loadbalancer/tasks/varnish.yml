@@ -1,0 +1,14 @@
+---
+- name: Install varnish package
+  package:
+    name: varnish
+    state: latest
+
+- name: Send varnish configuration files
+  copy:
+    src: varnish_conf/
+    dest: /etc
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Reload varnish services

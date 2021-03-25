@@ -1,0 +1,56 @@
+---
+- name: Install nginx package
+  package:
+    name: nginx-extras
+    state: latest
+
+- name: Send nginx configuration file
+  copy:
+    src: nginx_conf/nginx.conf
+    dest: /etc/nginx/nginx.conf
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Reload nginx service
+
+- name: Disable default site
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  notify: Reload nginx service
+
+- name: Send certificate file
+  copy:
+    src: certs/openhost/openhost.crt
+    dest: /etc/ssl/certs/openhost.crt
+    owner: root
+    group: root
+    mode: "0400"
+  notify: Reload nginx service
+
+- name: Send key file
+  copy:
+    src: certs/openhost/openhost.key
+    dest: /etc/ssl/private/openhost.key
+    owner: root
+    group: root
+    mode: "0400"
+  notify: Reload nginx service
+
+- name: Send "sslendpoint" site configuration file
+  copy:
+    src: nginx_conf/sslendpoint
+    dest: /etc/nginx/sites-available/sslendpoint
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Reload nginx service
+
+- name: Enable "sslendpoint" site
+  file:
+    src: /etc/nginx/sites-available/sslendpoint
+    dest: /etc/nginx/sites-enabled/sslendpoint
+    owner: root
+    group: root
+    state: link
+  notify: Reload nginx service

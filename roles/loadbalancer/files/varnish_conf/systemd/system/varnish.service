@@ -1,0 +1,41 @@
+[Unit]
+Description=Varnish HTTP accelerator
+Documentation=https://www.varnish-cache.org/docs/6.1/ man:varnishd
+
+[Service]
+# Actually read the variables from the usual location. This is the crux of the solution.
+EnvironmentFile=/etc/default/varnish
+
+# Clear existing ExecStart= (required)
+ExecStart=
+
+# Set a new ExecStart= (using the variables set by the EnvironmentFile)
+# The additional -j and -F options I copied from the original varnish.service definition
+# The -j probably makes sense in any context and thus probably better belongs inside $DAEMON_OPTS
+# The -F only makes sense in this context (systemd) so it should stay here.
+#
+ExecStart=/usr/sbin/varnishd -j unix,user=vcache -F $DAEMON_OPTS
+
+# Unfortunately there are some additional variables set in the original EnvironmentFile, which are used by the sysv init script.
+# They are NFILES and MEMLOCK, which the sysv init script uses to run `ulimit -n` and `ulimit -l` respectively
+# The base varnish.service file sets these like so:
+LimitNOFILE=131072
+LimitMEMLOCK=82000
+
+############ END OF USER CONFIG ############
+
+# From  default varnish.service file
+# Commented lines are already defined earlier
+# TODO: check if needed
+Type=simple
+ProtectSystem=full
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+# LimitNOFILE=131072
+# LimitMEMLOCK=82000
+# ExecStart=/usr/sbin/varnishd -j unix,user=vcache -F -a :6081 -T localhost:6082 -f /etc/varnish/default.vcl -S /etc/varnish/secret -s malloc,256m
+ExecReload=/usr/share/varnish/varnishreload
+
+[Install]
+WantedBy=multi-user.target
