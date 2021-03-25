@@ -2,6 +2,7 @@
 - name: Install nginx-extras package
   package:
     name: nginx-extras
+    state: latest
 
 - name: Copy nginx configuration file
   copy:
@@ -10,7 +11,7 @@
     owner: root
     group: root
     mode: "0644"
-  notify: Reload nginx
+  notify: Reload nginx service
 
 - name: Copy vhost-includes
   copy: 
@@ -19,13 +20,13 @@
     owner: root
     group: root
     mode: "0644"
-  notify: Reload nginx
+  notify: Reload nginx service
 
-- name: Remove default site
+- name: Disable default site
   file:
     path: /etc/nginx/sites-enabled/default
     state: absent
-  notify: Reload nginx
+  notify: Reload nginx service
 
 - name: Copy "manager" site configuration file
   copy:
@@ -34,7 +35,7 @@
     owner: root
     group: root
     mode: "0644"
-  notify: Reload nginx
+  notify: Reload nginx service
 
 - name: Enable "manager" site
   file:
@@ -43,7 +44,7 @@
     owner: root
     group: root
     state: link
-  notify: Reload nginx
+  notify: Reload nginx service
     
 - name: Copy "opennemas" site configuration file
   copy:
@@ -52,7 +53,7 @@
     owner: root
     group: root
     mode: "0644"
-  notify: Reload nginx
+  notify: Reload nginx service
 
 - name: Enable "opennemas" site
   file:
@@ -61,4 +62,4 @@
     owner: root
     group: root
     state: link
-  notify: Reload nginx
+  notify: Reload nginx service
