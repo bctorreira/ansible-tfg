@@ -8,7 +8,7 @@
     comment: "{{ item.comment }}"
     uid: "{{ item.uid }}"
     password: "{{ item.password }}"
-    groups: www-data,sudo
+    groups: www-data
     shell: /bin/bash
     state: present
   loop:
@@ -21,3 +21,14 @@
     key: "{{ item.pubkey }}"
   loop:
     "{{ appworker_users }}"
+
+- name: Add sudo privileges to appworker users
+  lineinfile:
+    path: /etc/sudoers.d/common
+    create: yes
+    state: present
+    regexp: "^{{ item.name }}"
+    line: "{{ item.name }}  ALL=(ALL:ALL) /bin/chmod, /bin/chown, /bin/chgrp, /usr/sbin/service php7.3-fpm reload"
+  loop:
+    "{{ appworker_users }}"
+    
