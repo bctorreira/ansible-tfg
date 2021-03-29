@@ -1,0 +1,50 @@
+---
+- name: Add 'deployer' user
+  user:
+    name: deployer
+    comment: Jenkins deploy account
+    uid: 10005
+    shell: /bin/bash
+    state: present
+
+- name: Set authorized key for 'deployer' user
+  authorized_key:
+    user: deployer
+    state: present
+    key: "{{ lookup('file', 'keys/deployer.pub') }}"
+
+- name: Add sudo privileges to 'deployer' user
+  lineinfile:
+    path: /etc/sudoers.d/common
+    create: yes
+    state: present
+    regexp: "^deployer"
+    line: "deployer  ALL=(ALL:ALL) NOPASSWD: /usr/sbin/service php7.3-fpm reload, /usr/local/bin/updaterepo, /usr/bin/apt-get update, /usr/bin/apt list --installed, /usr/bin/apt-get -y install onm-?*, /usr/bin/apt-get -y remove onm-?*, /usr/bin/apt-get -y remove"
+    validate: /usr/sbin/visudo -cf %s
+
+- name: Add OpenHost repository key
+  apt_key:
+    id: 7B120C4CBE53D005A9060780A8141E39E2209BB8
+    url: http://repo.openhost.es/public.key
+    state: present
+
+- name: Add OpenHost repository
+  apt_repository:
+    repo: deb [arch=amd64] http://repo.openhost.es pre main
+    state: present
+
+- name: Send 'updaterepo' file
+  copy:
+    src: files/updaterepo
+    dest: /usr/local/bin/updaterepo
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Create 'themes' directory
+  file:
+    path: /home/opennemas/shared/public/themes
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: '0775'
