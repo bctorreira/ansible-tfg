@@ -4,7 +4,43 @@
     name: varnish
     state: latest
 
-- name: Send varnish configuration files
+- name: Send backends.vcl template
+  template:
+    src: templates/backends.vcl.j2
+    dest: /etc/varnish/conf.d/backends.vcl
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Reload varnish services
+
+- name: Send acls.vcl template
+  template:
+    src: templates/acls.vcl.j2
+    dest: /etc/varnish/conf.d/acls.vcl
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Reload varnish services
+
+- name: Send error.vcl template
+  template:
+    src: templates/error.vcl.j2
+    dest: /etc/varnish/conf.d/error.vcl
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Reload varnish services
+
+- name: Send default.vcl template
+  template:
+    src: templates/default.vcl.j2
+    dest: /etc/varnish/default.vcl
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Reload varnish services
+
+- name: Send remaining varnish configuration files
   copy:
     src: varnish_conf/
     dest: /etc

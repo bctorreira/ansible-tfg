@@ -1,0 +1,12 @@
+# Ansible managed file
+{% for backend in servers.app %}
+backend {{ backend |  regex_search('^[a-z0-9]+')}} {
+  .host = "{{ backend }}";
+  .port = "8080";
+  .connect_timeout = 25s;
+  .first_byte_timeout = 30s;
+  .between_bytes_timeout = 25s;
+  .max_connections = 5000;
+  .probe = { .url = "/favicon.ico"; .interval = 3s; .timeout = 2s; .window = 5;.threshold = 3; }
+}
+{% endfor %}

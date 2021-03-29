@@ -1,0 +1,11 @@
+# Ansible managed file
+acl purge
+{
+  "127.0.0.1";
+  "localhost";
+{% for backend in servers.app %}
+  "{{ backend }}";
+{% endfor %}
+  "{{ servers.wrk }}";
+}
+
