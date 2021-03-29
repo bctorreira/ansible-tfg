@@ -1,0 +1,41 @@
+---
+- name: Install dependencies
+  package:
+    name: python3-pymysql
+    state: present
+    update_cache: yes
+
+- name: Install mysql-server packages
+  package:
+    name: mysql-server
+    state: present
+    update_cache: yes
+
+- name: Send mysqld configuration file
+  template:
+    src: templates/mysqld.cnf.j2
+    dest: /etc/mysql/mysql.conf.d/mysqld.cnf
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Restart mysql-server service
+
+- name: Set root password
+  mysql_user:
+    check_implicit_admin: yes
+    login_user: root
+    login_password: "{{ vault_root_mysql_password }}"
+    name: root
+    password: "{{ vault_root_mysql_password }}"
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+
+# If column privileges are used, the priv1,priv2 part must be exactly as returned
+# by a SHOW GRANT statement.
+# If not followed, the module will always report changes (as it does right now).
+- name: Add 'onm-instances' mysql user (ALWAYS will report changes)
+  mysql_user:
+    name: onm-instances
+    password: "{{ vault_onm_instances_mysql_password }}"
+    host: '%'
+    priv: '*.*:ALL,GRANT'
+    state: present
