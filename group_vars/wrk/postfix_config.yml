@@ -1,0 +1,10 @@
+---
+# postfix configuration variables for worker nodes
+postfix_config:
+  recipient_user: root
+  recipient: support@openhost.es
+  relayhost: smtp.acumbamail.com
+  relayport: 25
+  smtp_tls_security_level: none
+  sasl_user: openhost.es@gmail.com
+  sasl_pass: "{{ vault_sasl_pass }}"

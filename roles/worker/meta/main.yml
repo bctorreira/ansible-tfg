@@ -1,0 +1,38 @@
+---
+dependencies:
+  - role: arillso.logrotate
+    vars:
+      logrotate_global_config: false
+      logrotate_applications:
+        - name: cron_opennemas
+          definitions:
+            - logs:
+                - /home/opennemas/shared/tmp/logs/cron.log
+              options:
+                - su www-data www-data
+                - maxsize 500M
+                - compress
+                - compresscmd /bin/gzip
+                - dateext
+                - daily
+                - rotate 7
+                - missingok
+                - copytruncate
+
+  - role: oefenweb.postfix
+    vars:
+      postfix_aliases: 
+        - user: "{{ postfix_config.recipient_user }}"
+          alias: "{{ postfix_config.recipient }}"
+
+      postfix_relayhost: "{{ postfix_config.relayhost }}"
+      postfix_relayhost_port: "{{ postfix_config.relayport }}"
+
+      postfix_sasl_user: "{{ postfix_config.sasl_user }}"
+      postfix_sasl_password: "{{ postfix_config.sasl_pass }}"
+
+      postfix_smtp_tls_security_level: "{{ postfix_config.smtp_tls_security_level }}"
+      
+      postfix_compatibility_level: 2
+
+      postfix_raw_options: []
