@@ -1,0 +1,65 @@
+---
+- name: Install nginx-extras package
+  package:
+    name: nginx-extras
+    state: latest
+
+- name: Copy nginx configuration file
+  copy:
+    src: files/nginx.conf
+    dest: /etc/nginx/nginx.conf
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Reload nginx service
+
+- name: Copy vhost-includes
+  copy: 
+    src: files/vhosts-includes
+    dest: /etc/nginx/
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Reload nginx service
+
+- name: Disable default site
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  notify: Reload nginx service
+
+- name: Copy "manager" site configuration file
+  copy:
+    src: files/sites/manager
+    dest: /etc/nginx/sites-available/manager
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Reload nginx service
+
+- name: Enable "manager" site
+  file:
+    src: /etc/nginx/sites-available/manager
+    dest: /etc/nginx/sites-enabled/manager
+    owner: root
+    group: root
+    state: link
+  notify: Reload nginx service
+    
+- name: Copy "opennemas" site configuration file
+  copy:
+    src: files/sites/opennemas
+    dest: /etc/nginx/sites-available/opennemas
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Reload nginx service
+
+- name: Enable "opennemas" site
+  file:
+    src: /etc/nginx/sites-available/opennemas
+    dest: /etc/nginx/sites-enabled/opennemas
+    owner: root
+    group: root
+    state: link
+  notify: Reload nginx service

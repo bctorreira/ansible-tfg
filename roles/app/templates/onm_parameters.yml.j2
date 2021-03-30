@@ -1,0 +1,118 @@
+# Ansible managed file
+parameters:
+  framework.trusted_proxies: null
+  framework.secret: {{onm.framework_secret}}
+  locale: en
+  environment: {{onm.environment}}
+  database:
+    dbal:
+      default_connection: default
+      connections:
+        default:
+          driver: mysqli
+          dbname: onm-instances
+          host: {{onm.dba_hostname}}
+          port: 3306
+          user: 'onm-instances'
+          password: {{onm.mysql_password}}
+          charset: UTF-8
+  orm.default:
+    connection:
+      driver: mysqli
+      dbname: onm-instances
+      host: {{onm.dba_hostname}}
+      port: 3306
+      user: 'onm-instances'
+      password: {{onm.mysql_password}}
+      charset: UTF-8
+  cache.default:
+    type: redis
+    file:
+      name: internal
+      namespace: internal
+      path: %kernel.root_dir%/../tmp/cache/%kernel.environment%/file
+    redis:
+      port: 6379
+      prefix: onm
+      server: {{onm.dbr_hostname}}
+      ttl: 86400
+  mailer_transport: smtp
+  mailer_host: localhost
+  mailer_user: null
+  mailer_password: null
+  mailer_protocol: null
+  mailer_port: 9267
+  mailer_no_reply_address: {{onm.no_reply_sender}}
+  session.name: __onm_sess
+  session.gc_maxlifetime: 2629800
+  session_memcache_host: {{onm.dbr_hostname}}
+  session_memcache_port: 11211
+  session_memcache_prefix: sess
+  session_memcache_expire: '%session.gc_maxlifetime%'
+  session_handler_id:     session.handler.drak.redis
+  session_handler_options:
+    cookie_lifetime: {{onm.cookie_lifetime}}
+  session_handler_savepath: 'tcp://{{onm.dbr_hostname}}:6379?database=1'
+  cache_handler: Onm\Cache\Redis
+  cache_handler_params:
+    server: {{onm.dbr_hostname}}
+      port: 6379
+    connection_string: 'tcp://{{onm.dbr_hostname}}:6379'
+    options:
+      prefix: old
+      server: {{onm.dbr_hostname}}
+      ttl: 86400
+  logger_file_path: tmp/log/application.log
+  dev_token: {{onm.dev_token}}
+  manager_webservice:
+    api_key: {{onm.manager_api_key}}
+    company_mail: {{onm.company_mail}}
+    info_mail: {{onm.info_mail}}
+    no_reply_sender: {{onm.no_reply_sender}}
+    no_reply_from: {{onm.no_reply_from}}
+  instance_creator:
+    end_point: 'https://manager.onm.local/managerws/'
+    base_domain: {{onm.base_domain}}
+    template: {{onm.template}}
+  password_min_level: 1
+  varnish:
+    header_name: X-Varnish-Ban
+    servers:
+{%  for server in onm.varnish_servers %}
+      server{{loop.index}}:
+        host: {{server}}
+        port: 80
+{%  endfor %}
+  opennemas.backend_force_ssl: true
+  opennemas.base_domain: {{onm.opennemas_base_domain}}
+  opennemas.redirect_frontend: true
+  opennemas.assetic.asset_compilation_in_dev: false
+  opennemas.assetic.use_asset_servers: false
+  opennemas.assetic.asset_servers: 3
+  opennemas.assetic.asset_domain: //media%d.{{onm.opennemas_assetic_asset_domain}}
+  api.facebook.client_id: {{onm.api_facebook_client_id}}
+  api.facebook.client_secret: {{onm.api_facebook_client_secret}}
+  api.twitter.client_id: {{onm.api_twitter_client_id}}
+  api.twitter.client_secret: {{onm.api_twitter_client_secret}}
+  api.recaptcha.site_key: {{onm.api_recaptcha_site_key}}
+  api.recaptcha.secret_key: {{onm.api_recaptcha_secret_key}}
+  recaptcha_public_key: {{onm.recaptcha_public_key}}
+  recaptcha_private_key: {{onm.recaptcha_private_key}}
+  #JWT (Shared key)
+  shared_key_algorithm: HS512
+  shared_key: yoursharedkey
+  disable_robots: {{onm.disable_robots}}
+  sales_email: sales@openhost.es
+  backend_analytics.enabled: true
+  freshbooks.domain: {{onm.freshbooks_domain}}
+  freshbooks.url: https://%freshbooks.domain%.freshbooks.com
+  freshbooks.token: {{onm.freshbooks_token}}
+  braintree.environment: sandbox
+  braintree.merchant_id: {{onm.braintree_merchant_id}}
+  braintree.public_key: {{onm.braintree_public_key}}
+  braintree.private_key: {{onm.braintree_private_key}}
+  braintree.url: https://sandbox.braintreegateway.com
+  manager_url: https://{{onm.manager_domain}}/
+  panorama:
+    youtube:
+      api_key: {{onm.youtube_api_key}}
