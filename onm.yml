@@ -1,3 +1,7 @@
 - import_playbook: stoservers.yml
 - import_playbook: dbrservers.yml
+- import_playbook: dbaservers.yml
 - import_playbook: appservers.yml
+- import_playbook: wrkservers.yml
+- import_playbook: lblservers.yml
+
