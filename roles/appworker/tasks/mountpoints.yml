@@ -4,9 +4,6 @@
     name: nfs-common
     state: latest
 
-- name: Include appworker mountpoints variables
-  include_vars: appworker_mountpoints.yml
-
 - name: Mount NFS drives
   mount:
     path: "{{ item.path }}"

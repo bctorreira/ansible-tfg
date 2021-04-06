@@ -1,7 +1,4 @@
 ---
-- include_vars: vault_appworker_users.yml
-- include_vars: appworker_users.yml
-
 - name: Add appworker users
   user:
     name: "{{ item.name }}"

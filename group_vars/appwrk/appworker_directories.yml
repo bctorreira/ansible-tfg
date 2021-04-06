@@ -10,3 +10,4 @@ appworker_directories:
   - '/home/opennemas/shared/tmp/spool'
   - '/home/opennemas/shared/tmp/backups'
   - '/home/opennemas/shared/app'
+  - '/home/opennemas/shared/app/config'

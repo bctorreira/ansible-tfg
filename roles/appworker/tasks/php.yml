@@ -4,16 +4,10 @@
     repo: ppa:ondrej/php
     update_cache: yes
 
-- name: Include php package list
-  include_vars: appworker_php_packages.yml
-
 - name: Install php packages
   package:
     name: "{{ appworker_php_packages }}"
     state: latest
-
-- name: Include php config variables
-  include_vars: appworker_php_config.yml
 
 # If no match for regexp in lineinfile, appends line at EOF
 - name: Configure cli (cli/php.ini)

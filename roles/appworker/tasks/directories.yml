@@ -1,6 +1,4 @@
 ---
-- include_vars: appworker_directories.yml
-
 - name: Create Opennemas app directories
   file:
     path: "{{ item }}"

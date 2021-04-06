@@ -1,6 +1,4 @@
 ---
-- include_vars: nfs_directories.yml
-
 - name: set up directories for nfs service
   file:
     path: "{{ item }}"
