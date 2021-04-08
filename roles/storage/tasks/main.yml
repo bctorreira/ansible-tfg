@@ -9,6 +9,14 @@
   loop:
     "{{ nfs_directories }}"
 
+- name: set sysctl values
+  sysctl:
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+    state: present
+  loop:
+    "{{ sto_sysctl_values }}"
+
 - name: Configure statd port options
   lineinfile:
     path: /etc/default/nfs-common

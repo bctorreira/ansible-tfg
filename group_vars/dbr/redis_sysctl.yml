@@ -1,9 +1,10 @@
 ---
-# By convention, the name for group-specific sysctl variables must be
-# `group_sysctl_values`, so they can be properly loaded by the playbook.
+# By convention, the name for role-specific sysctl variables that
+# override those set on the common role must be `ovr_sysctl_values`,
+# so they can be properly loaded by the playbook.
 # More specific variables completely override more general ones.
 # e.g.: group_vars/dbr/*.yml > group_vars/all/*.yml
-group_sysctl_values:
+ovr_sysctl_values:
   - name: vm.overcommit_memory
     value: 1
   - name: net.ipv4.ip_local_port_range
