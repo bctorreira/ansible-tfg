@@ -5,6 +5,7 @@
     uid: "{{ item.uid }}"
     password: "{{ item.password }}"
     group: sudo
+    append: yes
     shell: /bin/bash
     state: present
   loop:
