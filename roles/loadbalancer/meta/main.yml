@@ -1,5 +1,5 @@
 ---
-dependencies: 
+dependencies:
   - role: gabops.papertrail
     vars:
       papertrail_version: "0.20"
@@ -21,4 +21,3 @@ dependencies:
       papertrail_exclude_patterns: []
       papertrail_files_to_exclude: []
       papertrail_files_to_log: "{{ onm_papertrail_files_to_log }}"
-  

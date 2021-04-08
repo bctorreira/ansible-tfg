@@ -1,0 +1,9 @@
+---
+# prepend with `onm` to avoid overwriting original variables
+# in gabops.papertrail role
+
+onm_papertrail_files_to_log:
+  - "/var/log/syslog"
+  - "/var/log/nginx/sslendpoint-ssl-error.log"
+  - "/var/log/nginx/error.log"
+  - "/var/log/varnish/varnishncsa.log"
