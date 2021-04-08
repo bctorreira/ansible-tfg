@@ -5,4 +5,4 @@
 # maxmemory = host_memory*1000000 - 1500000000
 
 # (redis_maxmemory var name is in use and provokes recursive calling)
-redis_host_maxmemory: "{{ ansible_facts['memtotal_mb']*900000 }}" # 90% of total
+redis_host_maxmemory: "{{ ansible_facts.memtotal_mb*900000 }}" # 90% of total
