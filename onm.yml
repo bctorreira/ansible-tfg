@@ -1,7 +1,13 @@
+- import_playbook: common.yml
 - import_playbook: stoservers.yml
 - import_playbook: dbrservers.yml
 - import_playbook: dbaservers.yml
+- import_playbook: appwrkservers.yml
 - import_playbook: appservers.yml
 - import_playbook: wrkservers.yml
 - import_playbook: lblservers.yml
 
+# The PLAY RECAP should be reporting at least 2 changes in database servers
+# (because of permission modification for mysql users, always reporting changes),
+# and 3? changes in worker servers (because the execution of the netdata
+# installation script through the non-idempotent `command` module)

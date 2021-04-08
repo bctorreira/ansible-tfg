@@ -1,5 +1,5 @@
 - hosts: app
   roles:
-    - common
-    - appworker
+    #- common
+    #- appworker
     - app

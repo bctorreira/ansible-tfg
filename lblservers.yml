@@ -1,5 +1,5 @@
 ---
 - hosts: lbl
   roles:
-    - common
+    #- common
     - loadbalancer
