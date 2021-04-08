@@ -10,3 +10,5 @@ locales:
   - gl_ES.UTF-8
   - es_ES.UTF-8
   - ca_ES.UTF-8
+
+ansible_port: 22222
