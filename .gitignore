@@ -1,4 +1,3 @@
-
 group_vars/all/vault_users.yml
 
 local
@@ -8,3 +7,15 @@ VAULT_PASSWORD_FILE
 roles_galaxy/
 
 keys/
+
+.notes/
+
+.cache/
+
+certs/
+
+test.yml
+
+TODO
+
+secrets.yml
