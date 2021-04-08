@@ -4,6 +4,11 @@
     name: varnish
     state: latest
 
+- name: Create configuration directory
+  file:
+    path: /etc/varnish/conf.d/
+    state: directory
+
 - name: Send backends.vcl template
   template:
     src: templates/backends.vcl.j2
