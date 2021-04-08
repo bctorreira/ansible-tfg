@@ -10,7 +10,7 @@ mysqld_config:
   - name: interactive_timeout
     value: 60
   - name: innodb_buffer_pool_size
-    value: 9G
+    value: 512M # VALUE WAS 9G, CHANGED BECAUSE NOT THAT MUCH MEMORY IN TESTING ENVIRONMENT
   - name: innodb_buffer_pool_instances
     value: 8
   - name: innodb_flush_log_at_trx_commit
