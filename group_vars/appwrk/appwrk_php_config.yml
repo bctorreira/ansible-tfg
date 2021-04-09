@@ -1,4 +1,6 @@
 ---
+php_unix_socket: "/var/run/php7.3-fpm.sock"
+
 php_cli_ini:
   - regexp: "serialize_precision ="
     line: "serialize_precision = 17"
@@ -56,6 +58,8 @@ php_www_conf:
     line: "rlimit_core = unlimited"
   - regexp: "chdir ="
     line: "chdir = /"
+  - regexp: "listen ="
+    line: "listen = {{ php_unix_socket }}"
 
 php_opcache_ini:
   - regexp: "opcache.enable="
