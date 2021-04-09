@@ -1,0 +1,38 @@
+# Ansible managed file
+
+# netdata configuration
+
+# global netdata configuration
+
+[global]
+  hostname = {{ ansible_facts.fqdn }}
+  history = 3600
+  update every = 10
+
+  config directory = /opt/netdata/etc/netdata
+  log directory = /opt/netdata/var/log/netdata
+  plugins directory = /opt/netdata/usr/libexec/netdata/plugins.d
+  web files directory = /opt/netdata/usr/share/netdata/web
+  cache directory = /opt/netdata/var/cache/netdata
+  
+  memory mode = none
+
+  debug flags = 0x00000000
+  debug log = /opt/netdata/var/log/netdata/debug.log
+  error log = /opt/netdata/var/log/netdata/error.log
+  access log = /opt/netdata/var/log/netdata/access.log
+
+  web files user = netdata
+  web files group = netdata   
+  run as user = netdata
+  default port = 19999
+  bind to = 127.0.0.1
+
+# web configuration
+
+[web]
+  mode = multi-threaded
+
+# registry configuration
+
+[registry]

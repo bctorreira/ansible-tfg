@@ -1,0 +1,37 @@
+---
+- name: Download the netdata installation script
+  ansible.builtin.get_url:
+    url: https://my-netdata.io/kickstart-static64.sh
+    dest: /tmp/kickstart-static64.sh
+    mode: "0500"
+    checksum: md5:c735fd724be5726c8a1850deed2793b8
+
+# The --dont-start-it flags prevents later problems, by delegating the task of starting the
+# service to the role playbooks, after proper configuration of the netdata service.
+# If started right after installation, restarting the service after sending new
+# configurations results in a failed start.
+- name: Run the netdata installation script
+  command: /tmp/kickstart-static64.sh --stable-channel --no-updates --dont-wait --dont-start-it
+
+- name: Delete the netdata installation script
+  ansible.builtin.file:
+    path: /tmp/kickstart-static64.sh
+    state: absent
+
+- name: Send netdata main configuration file
+  ansible.builtin.template:
+    src: templates/netdata.conf.j2
+    dest: /opt/netdata/etc/netdata/netdata.conf
+    owner: netdata
+    group: netdata
+    mode: "0644"
+  notify: Restart netdata service
+
+- name: Send netdata stream configuration file
+  ansible.builtin.template:
+    src: templates/stream.conf.j2
+    dest: /opt/netdata/etc/netdata/stream.conf
+    owner: netdata
+    group: netdata
+    mode: "0644"
+  notify: Restart netdata service

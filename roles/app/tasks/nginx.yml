@@ -28,9 +28,45 @@
     state: absent
   notify: Reload nginx service
 
-- name: Copy "manager" site configuration file
-  copy:
-    src: files/sites/manager
+# If netdata is installed the site configurations are different,
+# so this check must be run beforehand
+- name: Check if netdata is installed
+  stat:
+    path: /opt/netdata/usr/sbin/netdata
+  register: nd
+
+- name: Send netdata nginx plugin configuration if netdata is installed
+  template:
+    src: templates/netdata_nginx.conf.j2
+    dest: /opt/netdata/etc/netdata/python.d/nginx.conf
+    owner: netdata
+    group: netdata
+    mode: "0644"
+  when: nd.stat.exists
+  notify: Restart netdata service
+  
+- name: Send netdata php-fpm plugin configuration if netdata is installed
+  template:
+    src: templates/netdata_phpfpm.conf.j2
+    dest: /opt/netdata/etc/netdata/python.d/phpfpm.conf
+    owner: netdata
+    group: netdata
+    mode: "0644"
+  when: nd.stat.exists
+  notify: Restart netdata service
+
+- name: Add `status` page for netdata access if netdata installed (fpm/pool.d/www.conf)
+  lineinfile:
+    path: /etc/php/7.3/fpm/pool.d/www.conf
+    regexp: "pm.status_path ="
+    line: "pm.status_path = /status"
+    state: present
+  when: nd.stat.exists
+  notify: Reload php-fpm
+
+- name: Send "manager" site configuration file
+  template:
+    src: templates/sites/manager.j2
     dest: /etc/nginx/sites-available/manager
     owner: root
     group: root
@@ -46,9 +82,9 @@
     state: link
   notify: Reload nginx service
     
-- name: Copy "opennemas" site configuration file
-  copy:
-    src: files/sites/opennemas
+- name: Send "opennemas" site configuration file
+  template:
+    src: templates/sites/opennemas.j2
     dest: /etc/nginx/sites-available/opennemas
     owner: root
     group: root

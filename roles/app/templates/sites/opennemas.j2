@@ -1,4 +1,5 @@
-#puppet managed file
+# Ansible managed file
+
 server {
     root /home/opennemas/current/public;
     listen 0.0.0.0:8080 default_server;
@@ -19,7 +20,7 @@ server {
     }
 
     location ~ ^/(app|app_dev|config)\.php(/|$) {
-        fastcgi_pass unix:/var/run/php7.3-fpm.sock;
+        fastcgi_pass unix:{{ php_unix_socket }};
         fastcgi_split_path_info ^(.+\.php)(/.*)$;
         include fastcgi_params;
         fastcgi_param SCRIPT_FILENAME   $document_root$fastcgi_script_name;
@@ -37,6 +38,12 @@ server {
         return 200;
     }
 
+    location ~ ^/manager(.*)$ {
+        return 404;
+    }
+
+{%  if nd.stat.exists is defined and nd.stat.exists | bool %}
+    # netdata nginx logging
     location /stub_status {
         stub_status on;
         access_log off;
@@ -44,16 +51,14 @@ server {
         deny all;
     }
 
+    # netdata php logging
     location /status {
         access_log off;
         allow 127.0.0.1;
         deny all;
         include fastcgi_params;
-        fastcgi_pass unix:/var/run/php7.3-fpm.sock;
+        fastcgi_pass unix:{{ php_unix_socket }};
         fastcgi_param SCRIPT_FILENAME   $document_root$fastcgi_script_name;
     }
-
-    location ~ ^/manager(.*)$ {
-        return 404;
-    }
+{%  endif %}
 }

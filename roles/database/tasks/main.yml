@@ -39,3 +39,29 @@
     host: '%'
     priv: '*.*:ALL,GRANT'
     state: present
+
+- name: Check if netdata is installed
+  stat:
+    path: /opt/netdata/usr/sbin/netdata
+  register: nd
+
+# If column privileges are used, the priv1,priv2 part must be exactly as returned
+# by a SHOW GRANT statement.
+# If not followed, the module will always report changes (as it does right now).
+- name: Create netdata mysql user if netdata is installed
+  mysql_user:
+    name: netdata
+    password: "{{ vault_netdata_mysql_password }}"
+    host: 'localhost'
+    priv: '*.*:USAGE'
+    state: present
+  when: nd.stat.exists
+
+- name: Send netdata mysql plugin configuration if netdata is installed
+  template:
+    src: templates/netdata_plugin_mysql.conf.j2
+    dest: /opt/netdata/etc/netdata/python.d/mysql.conf
+    owner: netdata
+    group: netdata
+    mode: "0644"
+  when: nd.stat.exists

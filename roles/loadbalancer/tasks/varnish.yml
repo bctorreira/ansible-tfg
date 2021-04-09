@@ -53,3 +53,16 @@
     group: root
     mode: "0644"
   notify: Reload varnish services
+
+- name: Check if netdata is installed
+  stat:
+    path: /opt/netdata/usr/sbin/netdata
+  register: nd
+
+- name: Add netdata user to varnish group if netdata is installed
+  user:
+    name: netdata
+    groups: varnish
+    append: yes
+  when: nd.stat.exists
+  notify: Restart netdata service
