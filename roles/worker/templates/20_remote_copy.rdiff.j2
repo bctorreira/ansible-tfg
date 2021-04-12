@@ -1,0 +1,18 @@
+[source]
+type = local
+keep = 7
+include = /var/backups/mysql
+exclude = /home/*/.gnupg
+exclude = /home/*/.local/share/Trash
+exclude = /home/*/.Trash
+exclude = /home/*/.thumbnails
+exclude = /home/*/.beagle
+exclude = /home/*/.aMule
+exclude = /home/*/gtk-gnutella-downloads
+
+[dest]
+type = remote
+host = backup.openhost.es
+directory = /home/backup_opennemas/{{ cloud }}/rdiff-backup/
+user = rsyncusr
+sshoptions = -p {{ ssh_port }}

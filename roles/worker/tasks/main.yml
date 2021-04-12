@@ -1,2 +1,4 @@
 ---
 - import_tasks: cron.yml
+
+- import_tasks: backupninja.yml

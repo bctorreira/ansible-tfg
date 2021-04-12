@@ -1,0 +1,2 @@
+#!/bin/sh
+/usr/bin/rsync -ar -e "ssh -p {{ ssh_port }}" /home/opennemas/shared/public/media/ rsyncusr@backup.openhost.es:/home/media.opennemas.com/{{ cloud }}}/media/

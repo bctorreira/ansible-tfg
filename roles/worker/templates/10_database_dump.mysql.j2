@@ -1,0 +1,12 @@
+user = root
+dbusername = root
+dbpassword = {{ vault_root_mysql_password }}
+dbhost = {{ servers.dba }}
+databases = all
+backupdir = /var/backups/mysql
+configfile = /etc/mysql/debian.cnf
+nodata = information_schema.INNODB_BUFFER_PAGE_LRU  information_schema.INNODB_BUFFER_PAGE
+sqldumpoptions = {{ sqldumpoptions }}
+hotcopy = no
+sqldump = yes
+compress = yes

@@ -1,0 +1,48 @@
+---
+- name: Install backupninja package
+  package:
+    name: backupninja
+    state: present
+
+- name: Configure backupninja (backupninja.conf)
+  lineinfile:
+    path: /etc/backupninja.conf
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: present
+  loop: "{{ backupninja_conf }}"
+
+- name: Configure backupninja (10_database_dump.mysql)
+  template:
+    src: templates/10_database_dump.mysql.j2
+    dest: /etc/backup.d/10_database_dump.mysql
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Configure backupninja (20_remote_copy.rdiff)
+  template:
+    src: templates/20_remote_copy.rdiff.j2
+    dest: /etc/backup.d/20_remote_copy.rdiff
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Configure backupninja (30_media_backup.sh)
+  template:
+    src: templates/30_media_backup.sh.j2
+    dest: /etc/backup.d/30_media_backup.sh
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Create mysql dump directories for backupninja with group read permissions
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0750'
+  loop:
+    - /var/backups/mysql
+    - /var/backups/mysql/sqldump
