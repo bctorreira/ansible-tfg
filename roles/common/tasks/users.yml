@@ -5,7 +5,7 @@
     comment: "{{ item.comment }}"
     uid: "{{ item.uid }}"
     password: "{{ item.password }}"
-    group: sudo
+    groups: sudo
     append: yes
     shell: /bin/bash
     state: present
