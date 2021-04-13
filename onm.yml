@@ -1,11 +1,48 @@
-- import_playbook: common.yml
-- import_playbook: stoservers.yml
-- import_playbook: dbrservers.yml
-- import_playbook: dbaservers.yml
-- import_playbook: appwrkservers.yml
-- import_playbook: appservers.yml
-- import_playbook: wrkservers.yml
-- import_playbook: lblservers.yml
+---
+# ONM general playbook
+
+# Run the common role for all nodes simultaneously
+- hosts:
+    - all
+  roles:
+    - common
+
+- hosts:
+    - dbr
+  roles:
+    - redis
+
+- hosts:
+    - sto
+  roles:
+    - storage
+
+- hosts:
+    - dba
+  roles:
+    - database
+
+# Run the appworker role for all app and wrk nodes simultaneously,
+# avoiding running the appworker role twice.
+- hosts:
+    - appwrk
+  roles:
+    - appworker
+
+- hosts:
+    - app
+  roles:
+    - app
+
+- hosts:
+    - wrk
+  roles:
+    - worker
+
+- hosts:
+    - lbl
+  roles:
+    - loadbalancer
 
 # The PLAY RECAP should be reporting at least 2 changes in database servers
 # (because of permission modification for mysql users, always reporting changes),
