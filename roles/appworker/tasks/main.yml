@@ -1,12 +1,18 @@
 ---
-- import_tasks: users.yml
+- name: User tasks
+  ansible.builtin.import_tasks: users.yml
 
-- import_tasks: directories.yml
+- name: Directory tasks
+  ansible.builtin.import_tasks: directories.yml
 
-- import_tasks: mountpoints.yml
+- name: Mountpoints tasks
+  ansible.builtin.import_tasks: mountpoints.yml
 
-- import_tasks: php.yml
+- name: PHP tasks
+  ansible.builtin.import_tasks: php.yml
 
-- import_tasks: nodejs.yml
+- name: Node.js tasks
+  ansible.builtin.import_tasks: nodejs.yml
 
-- import_tasks: deployer.yml
+- name: Deployer user tasks
+  ansible.builtin.import_tasks: deployer.yml

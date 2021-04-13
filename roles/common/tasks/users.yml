@@ -1,6 +1,6 @@
 ---
 - name: add admin users
-  user:
+  ansible.builtin.user:
     name: "{{ item.name }}"
     comment: "{{ item.comment }}"
     uid: "{{ item.uid }}"
@@ -13,7 +13,7 @@
     "{{ admin_users }}"
 
 - name: set authorized keys for users
-  authorized_key:
+  ansible.posix.authorized_key:
     user: "{{ item.name }}"
     state: present
     key: "{{ item.pubkey }}"
@@ -21,7 +21,7 @@
     "{{ admin_users }}"
 
 - name: remove old users
-  user:
+  ansible.builtin.user:
     name: "{{ item }}"
     state: absent
     remove: yes

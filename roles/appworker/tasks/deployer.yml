@@ -1,6 +1,6 @@
 ---
 - name: Add 'deployer' user
-  user:
+  ansible.builtin.user:
     name: deployer
     comment: Jenkins deploy account
     uid: 10005
@@ -8,13 +8,13 @@
     state: present
 
 - name: Set authorized key for 'deployer' user
-  authorized_key:
+  ansible.posix.authorized_key:
     user: deployer
     state: present
     key: "{{ lookup('file', 'keys/deployer.pub') }}"
 
 - name: Add sudo privileges to 'deployer' user
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/sudoers.d/common
     create: yes
     mode: "0400"
@@ -24,18 +24,18 @@
     validate: /usr/sbin/visudo -cf %s
 
 - name: Add OpenHost repository key
-  apt_key:
+  ansible.builtin.apt_key:
     id: 7B120C4CBE53D005A9060780A8141E39E2209BB8
     url: http://repo.openhost.es/public.key
     state: present
 
 - name: Add OpenHost repository
-  apt_repository:
+  ansible.builtin.apt_repository:
     repo: deb [arch=amd64] http://repo.openhost.es pre main
     state: present
 
 - name: Send 'updaterepo' file
-  copy:
+  ansible.builtin.copy:
     src: files/updaterepo
     dest: /usr/local/bin/updaterepo
     owner: root
@@ -43,7 +43,7 @@
     mode: "0755"
 
 - name: Create 'themes' directory
-  file:
+  ansible.builtin.file:
     path: /home/opennemas/shared/public/themes
     state: directory
     owner: www-data

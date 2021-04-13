@@ -1,5 +1,5 @@
 ---
 - name: Restart netdata service
-  service:
+  ansible.builtin.service:
     name: netdata
     state: restarted

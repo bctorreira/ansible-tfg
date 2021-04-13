@@ -1,15 +1,15 @@
 ---
 - name: Reload nginx service
-  service:
+  ansible.builtin.service:
     name: nginx
     state: reloaded
 
 - name: Reload php-fpm
-  service:
+  ansible.builtin.service:
     name: php7.3-fpm
     state: reloaded
 
 - name: Restart netdata service
-  service:
+  ansible.builtin.service:
     name: netdata
     state: restarted

@@ -1,10 +1,11 @@
 ---
 - name: install essential packages
-  package:
+  ansible.builtin.package:
     name: "{{ essential_packages }}"
     state: present
 
-- import_tasks: extra_packages.yml
+- name: Extra packages tasks
+  ansible.builtin.import_tasks: extra_packages.yml
 
 - name: set timezone to utc
   timezone:
@@ -17,10 +18,14 @@
   loop:
     "{{ locales }}"
 
-- import_tasks: users.yml
+- name: User tasks
+  ansible.builtin.import_tasks: users.yml
 
-- import_tasks: sysctl.yml
+- name: Sysctl tasks
+  ansible.builtin.import_tasks: sysctl.yml
 
-- import_tasks: shell_files.yml
+- name: Shell files tasks
+  ansible.builtin.import_tasks: shell_files.yml
 
-- import_tasks: netdata.yml
+- name: Netdata tasks
+  ansible.builtin.import_tasks: netdata.yml

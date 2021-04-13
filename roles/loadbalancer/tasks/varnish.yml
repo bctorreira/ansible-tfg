@@ -1,17 +1,17 @@
 ---
 - name: Install varnish package
-  package:
+  ansible.builtin.package:
     name: varnish
     state: present
 
 - name: Create configuration directory
-  file:
+  ansible.builtin.file:
     path: /etc/varnish/conf.d/
     state: directory
     mode: "0755"
 
 - name: Send backends.vcl template
-  template:
+  ansible.builtin.template:
     src: templates/backends.vcl.j2
     dest: /etc/varnish/conf.d/backends.vcl
     owner: root
@@ -20,7 +20,7 @@
   notify: Reload varnish services
 
 - name: Send acls.vcl template
-  template:
+  ansible.builtin.template:
     src: templates/acls.vcl.j2
     dest: /etc/varnish/conf.d/acls.vcl
     owner: root
@@ -29,7 +29,7 @@
   notify: Reload varnish services
 
 - name: Send error.vcl template
-  template:
+  ansible.builtin.template:
     src: templates/error.vcl.j2
     dest: /etc/varnish/conf.d/error.vcl
     owner: root
@@ -38,7 +38,7 @@
   notify: Reload varnish services
 
 - name: Send default.vcl template
-  template:
+  ansible.builtin.template:
     src: templates/default.vcl.j2
     dest: /etc/varnish/default.vcl
     owner: root
@@ -47,7 +47,7 @@
   notify: Reload varnish services
 
 - name: Send remaining varnish configuration files
-  copy:
+  ansible.builtin.copy:
     src: varnish_conf/
     dest: /etc
     owner: root
@@ -56,12 +56,12 @@
   notify: Reload varnish services
 
 - name: Check if netdata is installed
-  stat:
+  ansible.builtin.stat:
     path: /opt/netdata/usr/sbin/netdata
   register: nd
 
 - name: Add netdata user to varnish group if netdata is installed
-  user:
+  ansible.builtin.user:
     name: netdata
     groups: varnish
     append: yes

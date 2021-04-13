@@ -1,17 +1,17 @@
 ---
 - name: Add ondrej/php repository from PPA and install its signing key to get php7.3
-  apt_repository:
+  ansible.builtin.apt_repository:
     repo: ppa:ondrej/php
     update_cache: yes
 
 - name: Install php packages
-  package:
+  ansible.builtin.package:
     name: "{{ appworker_php_packages }}"
     state: present
 
 # If no match for regexp in lineinfile, appends line at EOF
 - name: Configure cli (cli/php.ini)
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/php/7.3/cli/php.ini
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
@@ -20,7 +20,7 @@
   notify: Reload php-fpm
 
 - name: Configure fpm (fpm/php.ini)
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/php/7.3/fpm/php.ini
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
@@ -29,7 +29,7 @@
   notify: Reload php-fpm
 
 - name: Configure fpm (fpm/php-fpm.conf)
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/php/7.3/fpm/php-fpm.conf
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
@@ -38,7 +38,7 @@
   notify: Reload php-fpm
 
 - name: Configure fpm (fpm/pool.d/www.conf)
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/php/7.3/fpm/pool.d/www.conf
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
@@ -47,7 +47,7 @@
   notify: Reload php-fpm
 
 - name: Configure opcache (mods-available/opcache.ini)
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/php/7.3/mods-available/opcache.ini
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"

@@ -1,6 +1,6 @@
 ---
 - name: Send ONM configuration
-  template:
+  ansible.builtin.template:
     src: templates/onm_parameters.yml.j2
     dest: /home/opennemas/shared/app/config/parameters.yml
     owner: root

@@ -1,6 +1,6 @@
 ---
 - name: Add appworker users
-  user:
+  ansible.builtin.user:
     name: "{{ item.name }}"
     comment: "{{ item.comment }}"
     uid: "{{ item.uid }}"
@@ -13,7 +13,7 @@
     "{{ appworker_users }}"
 
 - name: Set authorized key for Opennemas users
-  authorized_key:
+  ansible.posix.authorized_key:
     user: "{{ item.name }}"
     state: present
     key: "{{ item.pubkey }}"
@@ -21,7 +21,7 @@
     "{{ appworker_users }}"
 
 - name: Add sudo privileges to appworker users
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/sudoers.d/common
     create: yes
     mode: "0400"

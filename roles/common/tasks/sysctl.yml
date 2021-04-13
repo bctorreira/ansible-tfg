@@ -1,18 +1,18 @@
 ---
 - name: enable conntrack modules
-  modprobe:
+  community.general.modprobe:
     name: nf_conntrack
     state: present
 
 - name: persist enabling conntrack modules
-  copy:
+  ansible.builtin.copy:
     dest: /etc/modules-load.d/nf_conntrack.conf
     mode: "0644"
     content:
       nf_conntrack
 
 - name: set sysctl values
-  sysctl:
+  ansible.posix.sysctl:
     name: "{{ item.name }}"
     value: "{{ item.value }}"
     state: present

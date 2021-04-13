@@ -1,18 +1,18 @@
 ---
 - name: Install dependencies
-  package:
+  ansible.builtin.package:
     name: python3-pymysql
     state: present
     update_cache: yes
 
 - name: Install mysql-server packages
-  package:
+  ansible.builtin.package:
     name: mysql-server
     state: present
     update_cache: yes
 
 - name: Send mysqld configuration file
-  template:
+  ansible.builtin.template:
     src: templates/mysqld.cnf.j2
     dest: /etc/mysql/mysql.conf.d/mysqld.cnf
     owner: root
@@ -21,7 +21,7 @@
   notify: Restart mysql-server service
 
 - name: Set root password
-  mysql_user:
+  community.mysql.mysql_user:
     check_implicit_admin: yes
     login_user: root
     login_password: "{{ vault_root_mysql_password }}"
@@ -33,7 +33,7 @@
 # by a SHOW GRANT statement.
 # If not followed, the module will always report changes (as it does right now).
 - name: Add 'onm-instances' mysql user (ALWAYS will report changes)
-  mysql_user:
+  community.mysql.mysql_user:
     name: onm-instances
     password: "{{ vault_onm_instances_mysql_password }}"
     host: '%'
@@ -41,7 +41,7 @@
     state: present
 
 - name: Check if netdata is installed
-  stat:
+  ansible.builtin.stat:
     path: /opt/netdata/usr/sbin/netdata
   register: nd
 
@@ -49,7 +49,7 @@
 # by a SHOW GRANT statement.
 # If not followed, the module will always report changes (as it does right now).
 - name: Create netdata mysql user if netdata is installed
-  mysql_user:
+  community.mysql.mysql_user:
     name: netdata
     password: "{{ vault_netdata_mysql_password }}"
     host: 'localhost'
@@ -58,7 +58,7 @@
   when: nd.stat.exists
 
 - name: Send netdata mysql plugin configuration if netdata is installed
-  template:
+  ansible.builtin.template:
     src: templates/netdata_plugin_mysql.conf.j2
     dest: /opt/netdata/etc/netdata/python.d/mysql.conf
     owner: netdata

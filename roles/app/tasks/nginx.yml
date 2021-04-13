@@ -1,11 +1,11 @@
 ---
 - name: Install nginx-extras package
-  package:
+  ansible.builtin.package:
     name: nginx-extras
     state: present
 
 - name: Copy nginx configuration file
-  copy:
+  ansible.builtin.copy:
     src: files/nginx.conf
     dest: /etc/nginx/nginx.conf
     owner: root
@@ -14,7 +14,7 @@
   notify: Reload nginx service
 
 - name: Copy vhost-includes
-  copy:
+  ansible.builtin.copy:
     src: files/vhosts-includes
     dest: /etc/nginx/
     owner: root
@@ -23,7 +23,7 @@
   notify: Reload nginx service
 
 - name: Disable default site
-  file:
+  ansible.builtin.file:
     path: /etc/nginx/sites-enabled/default
     state: absent
   notify: Reload nginx service
@@ -31,12 +31,12 @@
 # If netdata is installed the site configurations are different,
 # so this check must be run beforehand
 - name: Check if netdata is installed
-  stat:
+  ansible.builtin.stat:
     path: /opt/netdata/usr/sbin/netdata
   register: nd
 
 - name: Send netdata nginx plugin configuration if netdata is installed
-  template:
+  ansible.builtin.template:
     src: templates/netdata_nginx.conf.j2
     dest: /opt/netdata/etc/netdata/python.d/nginx.conf
     owner: netdata
@@ -46,7 +46,7 @@
   notify: Restart netdata service
 
 - name: Send netdata php-fpm plugin configuration if netdata is installed
-  template:
+  ansible.builtin.template:
     src: templates/netdata_phpfpm.conf.j2
     dest: /opt/netdata/etc/netdata/python.d/phpfpm.conf
     owner: netdata
@@ -56,7 +56,7 @@
   notify: Restart netdata service
 
 - name: Add `status` page for netdata access if netdata installed (fpm/pool.d/www.conf)
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/php/7.3/fpm/pool.d/www.conf
     regexp: "pm.status_path ="
     line: "pm.status_path = /status"
@@ -65,7 +65,7 @@
   notify: Reload php-fpm
 
 - name: Send "manager" site configuration file
-  template:
+  ansible.builtin.template:
     src: templates/sites/manager.j2
     dest: /etc/nginx/sites-available/manager
     owner: root
@@ -74,7 +74,7 @@
   notify: Reload nginx service
 
 - name: Enable "manager" site
-  file:
+  ansible.builtin.file:
     src: /etc/nginx/sites-available/manager
     dest: /etc/nginx/sites-enabled/manager
     owner: root
@@ -83,7 +83,7 @@
   notify: Reload nginx service
 
 - name: Send "opennemas" site configuration file
-  template:
+  ansible.builtin.template:
     src: templates/sites/opennemas.j2
     dest: /etc/nginx/sites-available/opennemas
     owner: root
@@ -92,7 +92,7 @@
   notify: Reload nginx service
 
 - name: Enable "opennemas" site
-  file:
+  ansible.builtin.file:
     src: /etc/nginx/sites-available/opennemas
     dest: /etc/nginx/sites-enabled/opennemas
     owner: root

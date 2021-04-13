@@ -1,6 +1,6 @@
 ---
 - name: Set cron jobs
-  cron:
+  ansible.builtin.cron:
     name: "{{ item.name | default ('') }}"
     minute: "{{ item.minute | default ('*') }}"
     hour: "{{ item.hour | default ('*') }}"

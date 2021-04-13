@@ -1,6 +1,6 @@
 ---
 - name: set up directories for nfs service
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
     owner: www-data
@@ -10,7 +10,7 @@
     "{{ nfs_directories }}"
 
 - name: set sysctl values
-  sysctl:
+  ansible.posix.sysctl:
     name: "{{ item.name }}"
     value: "{{ item.value }}"
     state: present
@@ -18,13 +18,13 @@
     "{{ sto_sysctl_values }}"
 
 - name: Configure statd port options
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/default/nfs-common
     regexp: "STATDOPTS"
     line: "STATDOPTS=--port 32765 --outgoing-port 32766"
 
 - name: Configure RPC port options
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/default/nfs-kernel-server
     regexp: "RPCMOUNTDOPTS"
     line: "RPCMOUNTDOPTS=--manage-gids -p 32767"

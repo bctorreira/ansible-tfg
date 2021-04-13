@@ -1,6 +1,6 @@
 ---
 - name: Reload varnish services
-  service:
+  ansible.builtin.service:
     name: "{{ item }}"
     state: reloaded
     daemon_reload: yes
@@ -9,6 +9,6 @@
     - varnishncsa
 
 - name: Reload nginx service
-  service:
+  ansible.builtin.service:
     name: nginx
     state: reloaded

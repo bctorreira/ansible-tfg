@@ -1,6 +1,6 @@
 ---
 - name: Create Opennemas app directories
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
     owner: www-data

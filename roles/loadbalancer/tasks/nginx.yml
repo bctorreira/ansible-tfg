@@ -1,11 +1,11 @@
 ---
 - name: Install nginx package
-  package:
+  ansible.builtin.package:
     name: nginx-extras
     state: present
 
 - name: Send nginx configuration file
-  copy:
+  ansible.builtin.copy:
     src: nginx_conf/nginx.conf
     dest: /etc/nginx/nginx.conf
     owner: root
@@ -14,13 +14,13 @@
   notify: Reload nginx service
 
 - name: Disable default site
-  file:
+  ansible.builtin.file:
     path: /etc/nginx/sites-enabled/default
     state: absent
   notify: Reload nginx service
 
 - name: Send certificate file
-  copy:
+  ansible.builtin.copy:
     src: certs/openhost/openhost.crt
     dest: /etc/ssl/certs/openhost.crt
     owner: root
@@ -29,7 +29,7 @@
   notify: Reload nginx service
 
 - name: Send key file
-  copy:
+  ansible.builtin.copy:
     src: certs/openhost/openhost.key
     dest: /etc/ssl/private/openhost.key
     owner: root
@@ -38,7 +38,7 @@
   notify: Reload nginx service
 
 - name: Send "sslendpoint" site configuration file
-  copy:
+  ansible.builtin.copy:
     src: nginx_conf/sslendpoint
     dest: /etc/nginx/sites-available/sslendpoint
     owner: root
@@ -47,7 +47,7 @@
   notify: Reload nginx service
 
 - name: Enable "sslendpoint" site
-  file:
+  ansible.builtin.file:
     src: /etc/nginx/sites-available/sslendpoint
     dest: /etc/nginx/sites-enabled/sslendpoint
     owner: root

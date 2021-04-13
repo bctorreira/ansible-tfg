@@ -1,4 +1,6 @@
 ---
-- import_tasks: cron.yml
+- name: Cron tasks
+  ansible.builtin.import_tasks: cron.yml
 
-- import_tasks: backupninja.yml
+- name: Backupninja tasks
+  ansible.builtin.import_tasks: backupninja.yml

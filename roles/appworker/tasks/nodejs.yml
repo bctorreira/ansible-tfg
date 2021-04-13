@@ -1,11 +1,11 @@
 ---
 - name: Install node.js
-  package:
+  ansible.builtin.package:
     name: "{{ appworker_nodejs_packages }}"
     state: present
 
 - name: Install npm packages
-  npm:
+  community.general.npm:
     name: "{{ item }}"
     global: yes
   loop: "{{ appworker_npm_packages }}"
