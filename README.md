@@ -161,6 +161,7 @@ After defining the inventory, execute the following command to run a playbook th
 ```
 ansible-playbook -u root --private-key keys/root initial_config.yml
 ```
+
 - `-u root`: connect to the host as the `root` user.
 - `--private-key keys/root`: use the `root` private key under `./keys` to authenticate.
 - `initial_config.yml`: the playbook to run.
@@ -178,6 +179,7 @@ This command will run the `onm.yml` playbook as the `ansible` user, configuring 
 ### Per-role configuration
 
 To configure hosts with a specific functionality (app servers, database servers, etc), different playbooks exist:
+
 - `dbrservers.yml`: configures hosts with the Redis role (`dbr` group).
   - `common` role.
   - `redis` role.
