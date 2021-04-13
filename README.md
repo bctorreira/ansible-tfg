@@ -181,24 +181,24 @@ This command will run the `onm.yml` playbook as the `ansible` user, configuring 
 To configure hosts with a specific functionality (app servers, database servers, etc), different playbooks exist:
 
 - `dbrservers.yml`: configures hosts with the Redis role (`dbr` group).
-  - `common` role.
-  - `redis` role.
+	- `common` role.
+	- `redis` role.
 - `dbaservers.yml`: configures hosts with the MySQL database role (`dba` group).
-  - `common` role.
-  - `database` role.
+	- `common` role.
+	- `database` role.
 - `stoservers.yml`: configures hosts with the Storage role (`sto` group).
-  - `common` role.
-  - `storage` role.
+	- `common` role.
+	- `storage` role.
 - `appservers.yml`: configures hosts with the App role (`app` group).
-  - `common` role.
-  - `appworker` role.
-  - `app` role.
+	- `common` role.
+	- `appworker` role.
+	- `app` role.
 - `wrkservers.yml`: configures hosts with the Worker role (`wrk` group).
-  - `common` role.
-  - `appworker` role.
-  - `worker` role.
+	- `common` role.
+	- `appworker` role.
+	- `worker` role.
 - `lblservers.yml`: configures hosts with the Load Balancer role (`lbl` group).
-  - `common` role.
-  - `loadbalancer` role.
+	- `common` role.
+	- `loadbalancer` role.
 
 All of these playbooks will run the `common` role and the roles needed for the host to have the desired functionality.
