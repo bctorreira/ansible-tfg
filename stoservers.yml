@@ -1,5 +1,5 @@
 ---
 - hosts: sto
   roles:
-    #- common
+    - common
     - storage

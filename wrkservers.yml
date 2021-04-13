@@ -1,6 +1,6 @@
 ---
 - hosts: wrk
   roles:
-    #- common
-    #- appworker
+    - common
+    - appworker
     - worker

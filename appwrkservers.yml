@@ -1,6 +1,0 @@
----
-- hosts:
-    - appwrk
-  roles:
-    #- common
-    - appworker

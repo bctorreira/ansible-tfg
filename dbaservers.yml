@@ -1,5 +1,5 @@
 ---
 - hosts: dba
   roles:
-    # - common
+    - common
     - database
