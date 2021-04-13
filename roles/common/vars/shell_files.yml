@@ -1,3 +1,4 @@
+---
 shell_files:
   - file:
     src: bash.bashrc

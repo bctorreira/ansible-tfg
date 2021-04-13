@@ -2,7 +2,7 @@
 - name: Install node.js
   package:
     name: "{{ appworker_nodejs_packages }}"
-    state: latest
+    state: present
 
 - name: Install npm packages
   npm:

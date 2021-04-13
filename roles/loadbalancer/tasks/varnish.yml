@@ -2,12 +2,13 @@
 - name: Install varnish package
   package:
     name: varnish
-    state: latest
+    state: present
 
 - name: Create configuration directory
   file:
     path: /etc/varnish/conf.d/
     state: directory
+    mode: "0755"
 
 - name: Send backends.vcl template
   template:

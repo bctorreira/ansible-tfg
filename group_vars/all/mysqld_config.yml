@@ -1,3 +1,4 @@
+---
 mysqld_config:
   # defaults in mysqld.cnf
   - name: user
@@ -10,7 +11,7 @@ mysqld_config:
   - name: interactive_timeout
     value: 60
   - name: innodb_buffer_pool_size
-    value: 512M # VALUE WAS 9G, CHANGED BECAUSE NOT THAT MUCH MEMORY IN TESTING ENVIRONMENT
+    value: 512M     # VALUE WAS 9G, CHANGED BECAUSE NOT THAT MUCH MEMORY IN TESTING ENVIRONMENT
   - name: innodb_buffer_pool_instances
     value: 8
   - name: innodb_flush_log_at_trx_commit
@@ -26,7 +27,7 @@ mysqld_config:
   - name: innodb_lru_scan_depth
     value: 1024
   - name: innodb_log_buffer_size
-    value: 64M 
+    value: 64M
   - name: innodb_log_file_size
     value: 512M
   - name: innodb_read_io_threads
@@ -41,7 +42,7 @@ mysqld_config:
     value: 64M
   - name: log_queries_not_using_indexes
     value: 1
-  - name: long_query_time 
+  - name: long_query_time
     value: 2
   - name: max_allowed_packet
     value: 16M

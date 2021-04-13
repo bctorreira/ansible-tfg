@@ -2,7 +2,7 @@
 - name: Install nginx-extras package
   package:
     name: nginx-extras
-    state: latest
+    state: present
 
 - name: Copy nginx configuration file
   copy:
@@ -14,7 +14,7 @@
   notify: Reload nginx service
 
 - name: Copy vhost-includes
-  copy: 
+  copy:
     src: files/vhosts-includes
     dest: /etc/nginx/
     owner: root
@@ -44,7 +44,7 @@
     mode: "0644"
   when: nd.stat.exists
   notify: Restart netdata service
-  
+
 - name: Send netdata php-fpm plugin configuration if netdata is installed
   template:
     src: templates/netdata_phpfpm.conf.j2
@@ -81,7 +81,7 @@
     group: root
     state: link
   notify: Reload nginx service
-    
+
 - name: Send "opennemas" site configuration file
   template:
     src: templates/sites/opennemas.j2

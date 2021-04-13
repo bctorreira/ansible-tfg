@@ -2,7 +2,7 @@
 - name: Ensure the nfs client is installed
   package:
     name: nfs-common
-    state: latest
+    state: present
 
 - name: Mount NFS drives
   mount:

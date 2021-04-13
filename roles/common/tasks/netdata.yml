@@ -12,6 +12,7 @@
 # configurations results in a failed start.
 - name: Run the netdata installation script
   command: /tmp/kickstart-static64.sh --stable-channel --no-updates --dont-wait --dont-start-it
+  when: yes
 
 - name: Delete the netdata installation script
   ansible.builtin.file:

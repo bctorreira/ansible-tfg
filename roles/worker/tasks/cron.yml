@@ -14,5 +14,3 @@
     cron_file: "{{ item.cron_file | default ('onm-default') }}"
   loop:
     "{{ cronjobs }}"
-
-

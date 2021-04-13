@@ -1,0 +1,10 @@
+---
+exclude_paths:
+  - .cache/
+  - .github/
+  - roles_galaxy/
+
+skip_list:
+  - comments-indentation
+  - line-length
+  - truthy

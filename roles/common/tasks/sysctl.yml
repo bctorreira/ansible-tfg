@@ -1,3 +1,4 @@
+---
 - name: enable conntrack modules
   modprobe:
     name: nf_conntrack
@@ -6,6 +7,7 @@
 - name: persist enabling conntrack modules
   copy:
     dest: /etc/modules-load.d/nf_conntrack.conf
+    mode: "0644"
     content:
       nf_conntrack
 

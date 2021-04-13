@@ -1,3 +1,4 @@
+---
 essential_packages:
   - aptitude
   - ntp

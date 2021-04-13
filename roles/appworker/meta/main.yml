@@ -2,7 +2,7 @@
 dependencies:
   - role: arillso.logrotate
     vars:
-      logrotate_global_config: false # TODO: check if correct
+      logrotate_global_config: false      # TODO: check if correct
       logrotate_applications:
         - name: application_opennemas
           definitions:

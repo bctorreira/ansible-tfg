@@ -1,3 +1,4 @@
+---
 # Redis needs memory in bytes, Ansible gets memory in megabytes
 # The previous value for maxmemory was 7516192768
 # Usually, the value for maxmemory should be (totalmemory - 1.5gb)
@@ -5,4 +6,4 @@
 # maxmemory = host_memory*1000000 - 1500000000
 
 # (redis_maxmemory var name is in use and provokes recursive calling)
-redis_host_maxmemory: "{{ ansible_facts.memtotal_mb*900000 }}" # 90% of total
+redis_host_maxmemory: "{{ ansible_facts.memtotal_mb*900000 }}"    # 90% of total

@@ -1,7 +1,8 @@
+---
 - name: install essential packages
   package:
     name: "{{ essential_packages }}"
-    state: latest
+    state: present
 
 - import_tasks: extra_packages.yml
 

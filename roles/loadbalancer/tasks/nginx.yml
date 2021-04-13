@@ -2,7 +2,7 @@
 - name: Install nginx package
   package:
     name: nginx-extras
-    state: latest
+    state: present
 
 - name: Send nginx configuration file
   copy:

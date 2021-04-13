@@ -7,7 +7,7 @@
 - name: Install php packages
   package:
     name: "{{ appworker_php_packages }}"
-    state: latest
+    state: present
 
 # If no match for regexp in lineinfile, appends line at EOF
 - name: Configure cli (cli/php.ini)

@@ -1,4 +1,6 @@
-- include_vars: shell_files.yml
+---
+- name: include shell files variables
+  include_vars: shell_files.yml
 
 - name: copy shell files
   copy:

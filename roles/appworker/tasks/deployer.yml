@@ -17,6 +17,7 @@
   lineinfile:
     path: /etc/sudoers.d/common
     create: yes
+    mode: "0400"
     state: present
     regexp: "^deployer"
     line: "deployer  ALL=(ALL:ALL) NOPASSWD: /usr/sbin/service php7.3-fpm reload, /usr/local/bin/updaterepo, /usr/bin/apt-get update, /usr/bin/apt list --installed, /usr/bin/apt-get -y install onm-?*, /usr/bin/apt-get -y remove onm-?*, /usr/bin/apt-get -y remove"

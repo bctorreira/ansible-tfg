@@ -40,10 +40,10 @@ dependencies:
       papertrail_exclude_patterns: []
       papertrail_files_to_exclude: []
       papertrail_files_to_log: "{{ onm_papertrail_files_to_log }}"
-      
+
   - role: oefenweb.postfix
     vars:
-      postfix_aliases: 
+      postfix_aliases:
         - user: "{{ postfix_config.recipient_user }}"
           alias: "{{ postfix_config.recipient }}"
 
@@ -54,7 +54,7 @@ dependencies:
       postfix_sasl_password: "{{ postfix_config.sasl_pass }}"
 
       postfix_smtp_tls_security_level: "{{ postfix_config.smtp_tls_security_level }}"
-      
+
       postfix_compatibility_level: 2
 
       postfix_raw_options: []

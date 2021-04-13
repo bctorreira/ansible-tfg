@@ -1,3 +1,4 @@
+---
 - name: remove unneeded packages
   package:
     name:
