@@ -53,7 +53,7 @@
     owner: root
     group: root
     mode: "0644"
-  notify: Reload varnish services
+  notify: Restart varnish service
 
 - name: Check if netdata is installed
   ansible.builtin.stat:

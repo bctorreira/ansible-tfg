@@ -8,6 +8,12 @@
     - varnish
     - varnishncsa
 
+- name: Restart varnish service
+  ansible.builtin.service:
+    name: varnish
+    state: restarted
+    daemon_reload: yes
+
 - name: Reload nginx service
   ansible.builtin.service:
     name: nginx
