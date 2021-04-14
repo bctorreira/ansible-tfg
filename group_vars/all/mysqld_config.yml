@@ -84,3 +84,5 @@ mysqld_config:
     value: /var/run/mysqld/mysqld.sock
   - name: default_authentication_plugin
     value: mysql_native_password
+  - name: sql_mode
+    value: ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION
