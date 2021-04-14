@@ -16,3 +16,6 @@
 
 - name: Deployer user tasks
   ansible.builtin.import_tasks: deployer.yml
+
+- name: ONM application tasks
+  ansible.builtin.import_tasks: onm.yml

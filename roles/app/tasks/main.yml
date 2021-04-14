@@ -1,6 +1,3 @@
 ---
 - name: Nginx tasks
   ansible.builtin.import_tasks: nginx.yml
-
-- name: ONM application tasks
-  ansible.builtin.import_tasks: onm.yml
