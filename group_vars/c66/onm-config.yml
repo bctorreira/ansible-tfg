@@ -46,6 +46,6 @@ onm:
   braintree_public_key: bpubkey
   braintree_private_key: bprivkey
 
-  manager_domain: https://manager.pre.opennemas.net/
+  manager_domain: https://"{{ onm_manager_url }}"/
 
   youtube_api_key: ytapikey

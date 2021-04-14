@@ -2,7 +2,7 @@
 
 server {
     root /home/opennemas/current/public;
-    server_name manager.pre.opennemas.net;
+    server_name {{ onm_manager_url }};
     listen 0.0.0.0:8080;
     merge_slashes on;
     error_log /home/opennemas/shared/tmp/logs/manager-error.log;
@@ -10,7 +10,7 @@ server {
 
 
     location / {
-        rewrite ^(/)$ https://manager.pre.opennemas.net/manager permanent;
+        rewrite ^(/)$ https://{{ onm_manager_url }}/manager permanent;
     }
 
     location ~ ^/(manager|framework)(.*)$ {
