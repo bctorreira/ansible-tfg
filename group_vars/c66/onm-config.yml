@@ -2,14 +2,12 @@
 onm:
   framework_secret: secret
   environment: production
-  mysql_password: password
+  mysql_password: "{{ vault_onm_instances_mysql_password }}"
 
-  dba_hostname: hostname
-  dbr_hostname: hostname
+  dba_hostname: "{{ servers.dba }}"
+  dbr_hostname: "{{ servers.dbr }}"
 
-  varnish_servers:
-    - lbl1
-    - lbl2
+  varnish_servers: "{{ servers.lbl }}"
 
   cookie_lifetime: 2629800
   dev_token: 11111
