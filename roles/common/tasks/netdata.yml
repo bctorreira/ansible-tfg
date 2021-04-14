@@ -1,4 +1,9 @@
 ---
+- name: Check if netdata is already installed
+  ansible.builtin.stat:
+    path: /opt/netdata/usr/sbin/netdata
+  register: nd
+
 - name: Download the netdata installation script
   ansible.builtin.get_url:
     url: https://my-netdata.io/kickstart-static64.sh
@@ -6,6 +11,7 @@
     checksum: md5:c735fd724be5726c8a1850deed2793b8
   run_once: yes
   delegate_to: localhost
+  when: not nd.stat.exists
   become: no
 
 - name: Send the netdata installation script
@@ -15,7 +21,7 @@
     owner: root
     group: root
     mode: "0500"
-    checksum: md5:c735fd724be5726c8a1850deed2793b8
+  when: not nd.stat.exists
 
 # The --dont-start-it flags prevents later problems, by delegating the task of starting the
 # service to the role playbooks, after proper configuration of the netdata service.
@@ -24,12 +30,13 @@
 # IMPORTANT: command module does not work when using FQCN (ansible bug)
 - name: Run the netdata installation script
   command: /tmp/kickstart-static64.sh --stable-channel --no-updates --dont-wait --dont-start-it
-  when: yes
+  when: not nd.stat.exists
 
 - name: Delete the netdata installation script
   ansible.builtin.file:
     path: /tmp/kickstart-static64.sh
     state: absent
+  when: not nd.stat.exists
 
 - name: Send netdata main configuration file
   ansible.builtin.template:
