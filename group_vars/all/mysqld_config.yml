@@ -82,3 +82,5 @@ mysqld_config:
     value: 60
   - name: socket
     value: /var/run/mysqld/mysqld.sock
+  - name: default_authentication_plugin
+    value: mysql_native_password
