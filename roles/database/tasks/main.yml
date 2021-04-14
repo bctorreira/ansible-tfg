@@ -35,6 +35,8 @@
 # If not followed, the module will always report changes (as it does right now).
 - name: Add 'onm-instances' mysql user (ALWAYS will report changes)
   community.mysql.mysql_user:
+    login_user: root
+    login_password: "{{ vault_root_mysql_password }}"
     name: onm-instances
     password: "{{ vault_onm_instances_mysql_password }}"
     host: '%'
@@ -52,6 +54,8 @@
 # If not followed, the module will always report changes (as it does right now).
 - name: Create netdata mysql user if netdata is installed
   community.mysql.mysql_user:
+    login_user: root
+    login_password: "{{ vault_root_mysql_password }}"
     name: netdata
     password: "{{ vault_netdata_mysql_password }}"
     host: 'localhost'
