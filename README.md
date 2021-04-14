@@ -57,6 +57,7 @@ It's possible to put each host in **more than one group**. For example a product
 It is also possible to **nest groups**.
 For example:
 ```
+---
 all:
   hosts:
     # Ungrouped hosts go here (belong to group `ungrouped`)
@@ -158,12 +159,73 @@ The ansible project is structured as follows:
 └─ README.md
 ```
 
+Following this scructure, group-specific and host-specific variables can be defined. If two variables have the same name, more "spcecific" variables override more "general" variables (e.g. host variables override group variables, and role variables override host variables)
+
+Roles are related to specific server configurations, to achieve the desired functionalities. A `common` role exists, that specifies configuration for all hosts defined in the inventory. Also, more specific ones exist, such as a `redis` role, to achieve a working Redis installation, `appworker`, that contains common configuration for `app` and `wrk` nodes, and `worker`, for `wrk` nodes, and so on.
+
+Playbooks for each server role exist, such as `dbrservers.yml` and `appservers.yml`, that set up the needed configurations, both common and specific to the role. In addition, the `onm.yml` playbook is designed to configure every server defined in the inventory file at the same time.
+
+## Setup
+
+### Control node setup
+
+#### Requirements
+- Python >= 3.5
+- SSH client
+
+#### Installing ansible
+Ubuntu builds are available in the official ansible PPA: https://launchpad.net/~ansible/+archive/ubuntu/ansible
+
+To configure the PPA and install Ansible, run the following commands with root permissions:
+
+```
+# on the control node:
+apt update
+apt install software-properties-common
+apt-add-repository --yes --update ppa:ansible/ansible
+apt install ansible
+```
+
+#### Cloning the repository
+Clone the Ansible repository from https://bitbucket.org/opennemas/onm-ansible/src/master/ and move its contents to `/etc/ansible`, overwriting files if necessary:
+```
+# on the control node:
+git clone git@bitbucket.org:drjato/onm-ansible.git
+mv -i onm-ansible/* /etc/ansible/
+```
+
+#### Satisfying dependencies
+
+Dependencies are defined in a `requirements.yml`. Install the required roles and collections from said file:
+```
+# on the control node
+ansible-galaxy role install -r requirements.yml
+ansible-galaxy collection install -r requirements.yml
+```
+
+#### Vault password
+
+Sensible data is (and must be) encrypted with ansible-vault. To be able to decrypt said data at runtime, a `VAULT_PASSWORD_FILE` must be present in the project root, containing ONLY the password used for encryption. E.g.:
+
+`./VAULT_PASSWORD_FILE`:
+```
+thisisapassword
+```
+
+### Managed node setup
+
+#### Requirements
+- SSH server with SFTP support, listening on port 22.
+- Python 3.5 or higher (this can be installed even through the Ansible raw module).
 
 ## Usage
-### Initial setup
 
-After defining the inventory, execute the following command to run a playbook that configures the SSH service and creates an `ansible` user in all hosts:
+### Initial configuration
+
+Assuming that an SSH connection can be established to the managed nodes through port 22 as the root user using public key authentication, simply run the initial-config.yml playbook from the control node:
+
 ```
+# on the control node
 ansible-playbook -u root --private-key keys/root initial_config.yml
 ```
 
@@ -171,9 +233,9 @@ ansible-playbook -u root --private-key keys/root initial_config.yml
 - `--private-key keys/root`: use the `root` private key under `./keys` to authenticate.
 - `initial_config.yml`: the playbook to run.
 
-The hosts will begin to listen for SSH connections at port 22222, and will prohibit `root` logins.
+This playbook will change the default SSH configuration, switching the default port to a different one (22222) and prohibiting root login, for instance. It will also create the ansible user with sudo privileges, and set up a trust relationship for said user.
 
-### Host configuration
+### General configuration
 
 To configure all hosts at once, simply execute the following command:
 ```
@@ -181,7 +243,7 @@ ansible-playbook onm.yml
 ```
 This command will run the `onm.yml` playbook as the `ansible` user, configuring all nodes listed in the inventory.
 
-### Per-role configuration
+### Per-group configuration
 
 To configure hosts with a specific functionality (app servers, database servers, etc), different playbooks exist:
 
@@ -206,4 +268,71 @@ To configure hosts with a specific functionality (app servers, database servers,
 	- `common` role.
 	- `loadbalancer` role.
 
-All of these playbooks will run the `common` role and the roles needed for the host to have the desired functionality.
+All of these playbooks will run the `common` role and the roles needed for the hosts defined in that group to have the desired functionality.
+
+To run one of these playbooks:
+```
+ansible-playbook <playbookfile.yml>
+```
+
+## Some ansible-playbook options
+
+### Check hosts
+
+To output a list of matching hosts for the execution without executing the playbook add the `--list-hosts` option. E.g.:
+```
+ansible-playbook --list-hosts playbookfile.yml
+```
+
+### Specify an inventory or host list
+
+To run playbooks in hosts defined on a specific inventory file, add the `-i` or `--inventory` option. E.g.:
+```
+ansible-playbook -i ./myinventory
+```
+
+To run playnooks one or more hosts without an inventory file, a comma-separated host list can be specified:
+```
+ansible-playbook -i web.example.com, playbookfile.yml
+```
+In a comma-separated host list there can be no spaces, and a comma is **always** required at the end of the list. To check in which hosts the playbook will take effect, the aforementioned `--list-hosts` option can be added.
+
+### Specify a subset of hosts
+
+To further limit selected hosts to an additional pattern, such as a specific group, add the `-l` or `--limit` option. E.g.:
+```
+ansible-playbook -l groupname playbookfile.yml
+```
+This will run the playbook for hosts belonging to the `groupname` group specified in the default inventory.
+
+### Run tasks one by one
+To run tasks in a playbook step by step, confirming each task before running it, add the `--step` option:
+```
+ansible-playbook --step playbook.yml
+```
+
+### Start at specific task
+To start the playbook at a specific task, the `--start-at-task` option can be added. E.g.:
+```
+ansible-playbook --start-at-task "Install essential packages" playbook.yml
+```
+This will run the "Install essential packages" task and any subsequent task.
+
+### Run a specific task only
+A dirty but functional approach to run **a specific task only** is to add both the `--start-at-task` and the `--step` options, run the desired task and then halt execution with `^C`.
+
+### Run tagged tasks
+To only run plays and tasks tagged with specific values, the `-t` or `--tags` option can be added:
+```
+ansible-playbook -t "config,packages" playbook.yml
+```
+This will only run the tasks which have the `config` or `packages` tags.
+
+### Skip tags
+To skip plays and tasks tagged with specific values, the `--skip-tags` option can be added:
+```
+ansible-playbook --skip-tags "config,packages"
+```
+This will run all tasks except those wich have the `config` or `packages` tags.
+
+TODO: Add more use cases
