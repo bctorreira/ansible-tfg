@@ -37,6 +37,11 @@ become = True
 
 # always ask for sudo password
 become_ask_pass = True
+
+[ssh_connection]
+
+# ssh arguments to use, defaul values + `-o StrictHostKeyChecking=no` to skip host authenticity confirmation
+ssh_args = -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no
 ```
 
 ## Inventory organization
