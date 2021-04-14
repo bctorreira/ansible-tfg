@@ -7,5 +7,5 @@
     group: root
     mode: "0644"
   notify:
-    - Reload php-fpm
     - Delete doctrine cache
+    - Reload php-fpm
