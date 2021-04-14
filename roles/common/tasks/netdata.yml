@@ -3,6 +3,17 @@
   ansible.builtin.get_url:
     url: https://my-netdata.io/kickstart-static64.sh
     dest: /tmp/kickstart-static64.sh
+    checksum: md5:c735fd724be5726c8a1850deed2793b8
+  run_once: yes
+  delegate_to: localhost
+  become: no
+
+- name: Send the netdata installation script
+  ansible.builtin.copy:
+    src: /tmp/kickstart-static64.sh
+    dest: /tmp/kickstart-static64.sh
+    owner: root
+    group: root
     mode: "0500"
     checksum: md5:c735fd724be5726c8a1850deed2793b8
 
