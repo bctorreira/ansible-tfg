@@ -6,11 +6,11 @@ servers:
   sto: 192.168.0.99
   dbr: 192.168.0.100
   dba: 192.168.0.110
-  wrk: wrk01fra1doc.pre.opennemas.net
-  # wrk: 192.168.0.111
+  # wrk: wrk01fra1doc.pre.opennemas.net
+  wrk: 192.168.0.111
   app:
-    # - 192.168.0.98
-    - app02fra1doc.pre.opennemas.net
-    - app03fra1doc.pre.opennemas.net
+    - 192.168.0.98
+    # - app02fra1doc.pre.opennemas.net
+    # - app03fra1doc.pre.opennemas.net
   lbl:
     - 192.168.0.106

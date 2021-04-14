@@ -1,6 +1,6 @@
 # Ansible managed file
 {% for backend in servers.app %}
-backend {{ backend |  regex_search('^[a-z0-9]+')}} {
+backend b_{{ backend |  regex_search('^[a-z0-9]+')}} {
   .host = "{{ backend }}";
   .port = "8080";
   .connect_timeout = 25s;
