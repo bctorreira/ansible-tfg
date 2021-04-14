@@ -12,7 +12,3 @@ admin_users:
     password: "{{ vault_admdrjato_password }}"
     pubkey: "{{ lookup('file', 'keys/admdrjato.pub') }}"
     uid: 10008
-
-old_users:
-  - admoscarcas
-  - admafsobrino

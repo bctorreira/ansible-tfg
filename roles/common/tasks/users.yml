@@ -19,11 +19,3 @@
     key: "{{ item.pubkey }}"
   loop:
     "{{ admin_users }}"
-
-- name: remove old users
-  ansible.builtin.user:
-    name: "{{ item }}"
-    state: absent
-    remove: yes
-  loop:
-    "{{ old_users }}"
