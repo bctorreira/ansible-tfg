@@ -11,6 +11,7 @@
     state: present
   loop:
     "{{ admin_users }}"
+  no_log: yes
 
 - name: set authorized keys for users
   ansible.posix.authorized_key:

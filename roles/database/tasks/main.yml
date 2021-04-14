@@ -28,6 +28,7 @@
     name: root
     password: "{{ vault_root_mysql_password }}"
     login_unix_socket: /var/run/mysqld/mysqld.sock
+  no_log: yes
 
 # If column privileges are used, the priv1,priv2 part must be exactly as returned
 # by a SHOW GRANT statement.
@@ -39,6 +40,7 @@
     host: '%'
     priv: '*.*:ALL,GRANT'
     state: present
+  no_log: yes
 
 - name: Check if netdata is installed
   ansible.builtin.stat:
@@ -56,6 +58,7 @@
     priv: '*.*:USAGE'
     state: present
   when: nd.stat.exists
+  no_log: yes
 
 - name: Send netdata mysql plugin configuration if netdata is installed
   ansible.builtin.template:

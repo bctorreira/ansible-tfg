@@ -115,6 +115,7 @@
       append: yes
       shell: /bin/bash
       state: present
+    no_log: yes
 
   - name: Set authorized key for ansible user
     ansible.posix.authorized_key:
