@@ -1,9 +1,5 @@
 ---
 # This is needed to avoid having to parse the groups which a node belongs to
-cloud: c66
-
-onm_manager_url: manager.pre.opennemas.net
-
 servers:
   sto: 192.168.61.4
   dbr: 192.168.61.5

@@ -1,4 +1,8 @@
 ---
+onm_prefix: c66
+
+onm_manager_url: "manager.{{ onm_prefix }}.opennemas.net"
+
 onm:
   framework_secret: secret
   environment: production
@@ -18,11 +22,12 @@ onm:
   no_reply_sender: no-reply@postman.opennemas.com
   no_reply_from: no-reply@opennemas.com
 
-  base_domain: pre.opennemas.com
+  base_domain: "{{ onm_prefix }}.opennemas.com"
+
   template: es.openhost.theme.nemo
 
-  opennemas_base_domain: .pre.opennemas.com
-  opennemas_assetic_asset_domain: pre.opennemas.net
+  opennemas_base_domain: ".{{ onm_prefix }}.opennemas.com"
+  opennemas_assetic_asset_domain: "{{ onm_prefix }}.opennemas.net"
 
   api_facebook_client_id: fbcliid
   api_facebook_client_secret: fbclisec
@@ -46,6 +51,6 @@ onm:
   braintree_public_key: bpubkey
   braintree_private_key: bprivkey
 
-  manager_domain: https://"{{ onm_manager_url }}"/
+  manager_domain: "https://{{ onm_manager_url }}/"
 
   youtube_api_key: ytapikey
