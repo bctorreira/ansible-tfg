@@ -5,14 +5,12 @@ cloud: c66
 onm_manager_url: manager.pre.opennemas.net
 
 servers:
-  sto: 192.168.0.99
-  dbr: 192.168.0.100
-  dba: 192.168.0.110
-  # wrk: wrk01fra1doc.pre.opennemas.net
-  wrk: 192.168.0.111
+  sto: 192.168.61.4
+  dbr: 192.168.61.5
+  dba: 192.168.61.7
+  wrk: 192.168.61.9
   app:
-    - 192.168.0.98
-    # - app02fra1doc.pre.opennemas.net
-    # - app03fra1doc.pre.opennemas.net
+    - 192.168.61.10
+    - 192.168.61.11
   lbl:
-    - 192.168.0.106
+    - 192.168.61.12
