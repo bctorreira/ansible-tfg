@@ -299,11 +299,12 @@ In a comma-separated host list there can be no spaces, and a comma is **always**
 
 ### Specify a subset of hosts
 
-To further limit selected hosts to an additional pattern, such as a specific group, add the `-l` or `--limit` option. E.g.:
+To further limit selected hosts to an additional pattern, such as a specific group or host, add the `-l` or `--limit` option. E.g.:
 ```
 ansible-playbook -l groupname playbookfile.yml
+ansible-playbook -l 10.10.10.10 playbookfile.yml
 ```
-This will run the playbook for hosts belonging to the `groupname` group specified in the default inventory.
+The first command will run the playbook for hosts belonging to the `groupname` group specified in the default inventory. The second one will run the playbook only for the `10.10.10.10` host.
 
 ### Run tasks one by one
 To run tasks in a playbook step by step, confirming each task before running it, add the `--step` option:
@@ -336,3 +337,33 @@ ansible-playbook --skip-tags "config,packages"
 This will run all tasks except those wich have the `config` or `packages` tags.
 
 TODO: Add more use cases
+
+## More utilities
+
+### Encrypting variables
+
+To be prompted for a string to encrypt, encrypt it with the password from the default password file and name the variable ‘vault_secret_variable’
+```
+ansible-vault encrypt_string --stdin-name 'vault_secret_variable'
+```
+The command above triggers this prompt:
+```
+Reading plaintext input from stdin. (ctrl-d to end input, twice if your content does not already have a new line)
+```
+Type the string to encrypt (for example, ‘secrettext’), hit ctrl-d, and wait.
+
+Warning
+
+Do not press Enter after supplying the string to encrypt. That will add a newline to the encrypted value.
+
+The sequence above creates output like this:
+```
+vault_secret_variable: !vault |
+          $ANSIBLE_VAULT;1.2;AES256
+          37636561366636643464376336303466613062633537323632306566653533383833366462366662
+          6565353063303065303831323539656138653863353230620a653638643639333133306331336365
+          62373737623337616130386137373461306535383538373162316263386165376131623631323434
+          3866363862363335620a376466656164383032633338306162326639643635663936623939666238
+          3161
+```
+Encrypted variables are larger than plain-text variables, but they protect sensitive content while leaving the rest of the playbook, variables file, or role in plain text so it can be easily read.
