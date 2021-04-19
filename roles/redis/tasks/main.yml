@@ -8,3 +8,6 @@
 #     state: present
 #   loop:
 #     "{{ sysctl_values }}"
+
+- name: Redis tasks
+  ansible.builtin.import_tasks: redis.yml

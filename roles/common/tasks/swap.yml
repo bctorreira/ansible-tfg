@@ -1,0 +1,9 @@
+---
+- name: Include swap role
+  ansible.builtin.include_role:
+    name: geerlingguy.swap
+  vars:
+    swap_file_path: /swapfile
+    swap_file_size_mb: '1024'
+    swap_file_state: present
+    swap_swappiness: '10'

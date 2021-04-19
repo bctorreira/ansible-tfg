@@ -1,0 +1,2 @@
+---
+php_unix_socket: "/var/run/php7.3-fpm.sock"

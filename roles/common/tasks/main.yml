@@ -1,4 +1,7 @@
 ---
+- name: Swap tasks
+  ansible.builtin.import_tasks: swap.yml
+
 - name: install essential packages
   ansible.builtin.package:
     name: "{{ essential_packages }}"

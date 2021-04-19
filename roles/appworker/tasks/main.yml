@@ -19,3 +19,6 @@
 
 - name: ONM configuration tasks
   ansible.builtin.import_tasks: onm-config.yml
+
+- name: Logrotate tasks
+  ansible.builtin.import_tasks: logrotate.yml

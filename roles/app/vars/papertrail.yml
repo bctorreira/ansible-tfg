@@ -1,8 +1,8 @@
 ---
-# prepend with `onm` to avoid overwriting original variables
+# prepend with role name to avoid overwriting original variables
 # in gabops.papertrail role
 
-onm_papertrail_files_to_log:
+app_papertrail_files_to_log:
   - "/home/opennemas/shared/tmp/logs/manager-error.log"
   - "/home/opennemas/shared/tmp/logs/prod.log"
   - "/home/opennemas/shared/tmp/logs/opennemas-error.log"

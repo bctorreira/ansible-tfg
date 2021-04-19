@@ -1,0 +1,22 @@
+---
+- name: Include variables for redis-related tasks
+  ansible.builtin.include_vars:
+    file: redis.yml
+
+- name: Include redis role
+  ansible.builtin.include_role:
+    name: geerlingguy.redis
+  vars:
+    redis_bind_interface: 0.0.0.0
+    redis_timeout: 300
+    redis_save: []
+    # TODO: sacar a variable de host ("{{ redis_host_maxmemory }}"?), valor por defecto -> sobreescribir
+    redis_maxmemory: "{{ redis_host_maxmemory }}"
+    redis_maxmemory_policy: "allkeys-lru"
+    redis_logfile: /var/log/redis/redis-server.log
+
+    # The following parameters were not in the 'geerlingguy.redis' role,
+    # so it has been modified to add them
+    redis_tcp_keepalive: 60
+    redis_slowlog_max_len: 128
+    # manage_repo: false # only from puppet?

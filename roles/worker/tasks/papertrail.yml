@@ -1,0 +1,13 @@
+---
+- name: Include variables for papertrail-related tasks
+  ansible.builtin.include_vars:
+    file: papertrail.yml
+
+- name: Include papertrail role
+  ansible.builtin.include_role:
+    name: gabops.papertrail
+  vars:
+    papertrail_destination_host: "{{ onm_papertrail_destination_host }}"
+    papertrail_destination_port: "{{ onm_papertrail_destination_port }}"
+    papertrail_destination_protocol: "{{ onm_papertrail_destination_protocol }}"
+    papertrail_files_to_log: "{{ worker_papertrail_files_to_log }}"

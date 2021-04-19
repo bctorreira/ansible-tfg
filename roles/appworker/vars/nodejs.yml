@@ -1,0 +1,8 @@
+---
+nodejs_packages:
+  - nodejs
+  - npm
+
+npm_packages:
+  - uglify-js
+  - uglifycss

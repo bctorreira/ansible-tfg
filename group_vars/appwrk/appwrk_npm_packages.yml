@@ -1,4 +1,0 @@
----
-appworker_npm_packages:
-  - uglify-js
-  - uglifycss

@@ -1,5 +1,5 @@
 ---
-appworker_mountpoints:
+mountpoints:
   - path: /home/opennemas/shared/public/build/
     src: "{{ servers.sto }}:/srv/shared/build"
     fstype: nfs

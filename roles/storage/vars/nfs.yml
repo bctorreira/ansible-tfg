@@ -1,8 +1,15 @@
 ---
-# This variables are used not in the common role, but in the
+nfs_directories:
+  - /srv/shared/media
+  - /srv/shared/instances
+  - /srv/shared/build
+  - /srv/shared/spool
+  - /srv/shared/backup
+
+# This variable is used not in the common role, but in the
 # storage role, due to the fact that the sysctl directives
 # do not exist before the installation of the nfs packages
-sto_sysctl_values:
+nfs_sysctl_values:
   # - name: fs.nfs.nfs_callback_tcpport
   #   value: 32764
   - name: fs.nfs.nlm_tcpport

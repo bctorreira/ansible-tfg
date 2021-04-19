@@ -4,3 +4,6 @@
 
 - name: Nginx lbl tasks
   ansible.builtin.import_tasks: nginx.yml
+
+- name: Papertrail tasks
+  ansible.builtin.import_tasks: papertrail.yml

@@ -2,7 +2,8 @@
 # prepend with `onm` to avoid overwriting original variables
 # in gabops.papertrail role
 
-onm_papertrail_destination_host: logs4.papertrailapp.com
+# original url: logs4.papertrailapp.com
+onm_papertrail_destination_host: logs4.example.com
 
 onm_papertrail_destination_port: 24181
 

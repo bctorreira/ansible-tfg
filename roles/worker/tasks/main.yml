@@ -1,6 +1,15 @@
 ---
+- name: Postfix tasks
+  ansible.builtin.import_tasks: postfix.yml
+
 - name: Cron tasks
   ansible.builtin.import_tasks: cron.yml
 
 - name: Backupninja tasks
   ansible.builtin.import_tasks: backupninja.yml
+
+- name: Papertrail tasks
+  ansible.builtin.import_tasks: papertrail.yml
+
+- name: Logrotate tasks
+  ansible.builtin.import_tasks: logrotate.yml

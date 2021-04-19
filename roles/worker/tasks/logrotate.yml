@@ -1,0 +1,21 @@
+---
+- name: Include logrotate role
+  ansible.builtin.include_role:
+    name: arillso.logrotate
+  vars:
+    logrotate_global_config: false
+    logrotate_applications:
+      - name: cron_opennemas
+        definitions:
+          - logs:
+              - /home/opennemas/shared/tmp/logs/cron.log
+            options:
+              - su www-data www-data
+              - maxsize 500M
+              - compress
+              - compresscmd /bin/gzip
+              - dateext
+              - daily
+              - rotate 7
+              - missingok
+              - copytruncate

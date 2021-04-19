@@ -1,12 +1,13 @@
 ---
 # This is needed to avoid having to parse the groups which a node belongs to
+cloud: c66
+
 servers:
-  sto: 192.168.61.4
-  dbr: 192.168.61.5
-  dba: 192.168.61.7
-  wrk: 192.168.61.9
+  sto: 192.168.0.99
+  dbr: 192.168.0.100
+  dba: 192.168.0.110
+  wrk: 192.168.0.111
   app:
-    - 192.168.61.10
-    - 192.168.61.11
+    - 192.168.0.98
   lbl:
-    - 192.168.61.12
+    - 192.168.0.106

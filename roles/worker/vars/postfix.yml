@@ -8,3 +8,4 @@ postfix_config:
   smtp_tls_security_level: none
   sasl_user: openhost.es@gmail.com
   sasl_pass: "{{ vault_sasl_pass }}"
+  compatibility_level: 2

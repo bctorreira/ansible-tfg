@@ -1,0 +1,22 @@
+---
+- name: Include variables for postfix-related tasks
+  ansible.builtin.include_vars:
+    file: postfix.yml
+
+- name: Include encrypted variables for postfix-related tasks
+  ansible.builtin.include_vars:
+    file: vault_sasl_pass.yml
+
+- name: Include postfix role
+  ansible.builtin.include_role:
+    name: oefenweb.postfix
+  vars:
+    postfix_aliases:
+      - user: "{{ postfix_config.recipient_user }}"
+        alias: "{{ postfix_config.recipient }}"
+    postfix_relayhost: "{{ postfix_config.relayhost }}"
+    postfix_relayhost_port: "{{ postfix_config.relayport }}"
+    postfix_sasl_user: "{{ postfix_config.sasl_user }}"
+    postfix_sasl_password: "{{ postfix_config.sasl_pass }}"
+    postfix_smtp_tls_security_level: "{{ postfix_config.smtp_tls_security_level }}"
+    postfix_compatibility_level: "{{ postfix_config.compatibility_level }}"

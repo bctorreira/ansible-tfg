@@ -4,7 +4,7 @@
 # so they can be properly loaded by the playbook.
 # More specific variables completely override more general ones.
 # e.g.: group_vars/dbr/*.yml > group_vars/all/*.yml
-ovr_sysctl_values:
+ovr_sysctl_values:  # Redis
   - name: vm.overcommit_memory
     value: 1
   - name: net.ipv4.ip_local_port_range

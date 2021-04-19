@@ -1,4 +1,8 @@
 ---
+- name: Include variables for cron-related tasks
+  ansible.builtin.include_vars:
+    file: cron.yml
+
 - name: Set cron jobs
   ansible.builtin.cron:
     name: "{{ item.name | default ('') }}"
