@@ -2,7 +2,7 @@
 
 Ansible dedicated repository.
 
-Clone this repo and move its contents to `/etc/ansible`, overwriting any files if needed.
+Clone this repository and move its contents to `/etc/ansible`, overwriting any files if needed.
 
 ## Modified ansible configuration parameters
 ```
@@ -45,7 +45,7 @@ ssh_args = -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecki
 ```
 
 ## Inventory organization
-Ansible works against multiple managed nodes or “hosts” in your infrastructure at the same time, using a list or group of lists known as inventory. These “hosts” may be **hostnames** or **ip addresses**.
+Ansible works against multiple managed nodes or “hosts” in your infrastructure at the same time, using a list or group of lists known as inventory. These “hosts” may be **hostnames** or **IP addresses**.
 
 There are two default groups: `all` and `ungrouped`. The `all` group contains every host. The `ungrouped` group contains all hosts that don’t have another group aside from `all`. Every host will always belong to at least 2 groups (`all` and `ungrouped` or `all` and some other group). Though `all` and `ungrouped` are always present, they can be implicit and not appear in group listings like `group_names`.
 
@@ -92,10 +92,10 @@ all:
 ```
 In this example, `free.example.com` belongs to the `ungrouped` group. `web1.example.com` and `web2.example.com` belong the `webserver` group, but only `web1.example.com` belongs in the `testing` group, `web2.example.com` belonging to the production group. However, all hosts belonging to the `production` and `testing` groups (that is, every host except `free.example.com`), also belong to the `france` group. That said, every host belongs to the `all` group.
 
-The hosts file, as per current configuration, should be called `local` and reside in the base directory of the ansible project.
+The hosts file, as per current configuration, should be called `local` and reside in the base directory of the Ansible project.
 
 ## Project structure
-The ansible project is structured as follows:
+The Ansible project is structured as follows:
 ```bash
 .
 ├─ certs/              #Certificate files directory.
@@ -159,7 +159,7 @@ The ansible project is structured as follows:
 └─ README.md
 ```
 
-Following this scructure, group-specific and host-specific variables can be defined. If two variables have the same name, more "spcecific" variables override more "general" variables (e.g. host variables override group variables, and role variables override host variables)
+Following this structure, group-specific and host-specific variables can be defined. If two variables have the same name, more "specific" variables override more "general" variables (E.g.: host variables override group variables, and role variables override host variables)
 
 Roles are related to specific server configurations, to achieve the desired functionalities. A `common` role exists, that specifies configuration for all hosts defined in the inventory. Also, more specific ones exist, such as a `redis` role, to achieve a working Redis installation, `appworker`, that contains common configuration for `app` and `wrk` nodes, and `worker`, for `wrk` nodes, and so on.
 
@@ -178,29 +178,29 @@ Ubuntu builds are available in the official ansible PPA: https://launchpad.net/~
 
 To configure the PPA and install Ansible, run the following commands with root permissions:
 
-```
+```bash
 # on the control node:
-apt update
-apt install software-properties-common
-apt-add-repository --yes --update ppa:ansible/ansible
-apt install ansible
+$ apt update
+$ apt install software-properties-common
+$ apt-add-repository --yes --update ppa:ansible/ansible
+$ apt install ansible
 ```
 
 #### Cloning the repository
 Clone the Ansible repository from https://bitbucket.org/opennemas/onm-ansible/src/master/ and move its contents to `/etc/ansible`, overwriting files if necessary:
-```
+```bash
 # on the control node:
-git clone git@bitbucket.org:drjato/onm-ansible.git
-mv -i onm-ansible/* /etc/ansible/
+$ git clone git@bitbucket.org:drjato/onm-ansible.git
+$ mv -i onm-ansible/* /etc/ansible/
 ```
 
 #### Satisfying dependencies
 
 Dependencies are defined in a `requirements.yml`. Install the required roles and collections from said file:
-```
+```bash
 # on the control node
-ansible-galaxy role install -r requirements.yml
-ansible-galaxy collection install -r requirements.yml
+$ ansible-galaxy role install -r requirements.yml
+$ ansible-galaxy collection install -r requirements.yml
 ```
 
 #### Vault password
@@ -224,9 +224,9 @@ thisisapassword
 
 Assuming that an SSH connection can be established to the managed nodes through port 22 as the root user using public key authentication, simply run the initial-config.yml playbook from the control node:
 
-```
+```bash
 # on the control node
-ansible-playbook -u root --private-key keys/root initial_config.yml
+$ ansible-playbook -u root --private-key keys/root initial_config.yml
 ```
 
 - `-u root`: connect to the host as the `root` user.
@@ -238,8 +238,8 @@ This playbook will change the default SSH configuration, switching the default p
 ### General configuration
 
 To configure all hosts at once, simply execute the following command:
-```
-ansible-playbook onm.yml
+```bash
+$ ansible-playbook onm.yml
 ```
 This command will run the `onm.yml` playbook as the `ansible` user, configuring all nodes listed in the inventory.
 
@@ -271,8 +271,8 @@ To configure hosts with a specific functionality (app servers, database servers,
 All of these playbooks will run the `common` role and the roles needed for the hosts defined in that group to have the desired functionality.
 
 To run one of these playbooks:
-```
-ansible-playbook <playbookfile.yml>
+```bash
+$ ansible-playbook <playbookfile.yml>
 ```
 
 ## Some ansible-playbook options
@@ -280,71 +280,80 @@ ansible-playbook <playbookfile.yml>
 ### Check hosts
 
 To output a list of matching hosts for the execution without executing the playbook add the `--list-hosts` option. E.g.:
-```
-ansible-playbook --list-hosts playbookfile.yml
-```
-
-### Specify an inventory or host list
-
-To run playbooks in hosts defined on a specific inventory file, add the `-i` or `--inventory` option. E.g.:
-```
-ansible-playbook -i ./myinventory
+```bash
+$ ansible-playbook --list-hosts playbookfile.yml
 ```
 
-To run playnooks one or more hosts without an inventory file, a comma-separated host list can be specified:
-```
-ansible-playbook -i web.example.com, playbookfile.yml
-```
-In a comma-separated host list there can be no spaces, and a comma is **always** required at the end of the list. To check in which hosts the playbook will take effect, the aforementioned `--list-hosts` option can be added.
+### Run on a specific host or subset of hosts
 
-### Specify a subset of hosts
-
-To further limit selected hosts to an additional pattern, such as a specific group or host, add the `-l` or `--limit` option. E.g.:
-```
-ansible-playbook -l groupname playbookfile.yml
-ansible-playbook -l 10.10.10.10 playbookfile.yml
+To limit selected hosts to an additional pattern, such as a specific group or host, add the `-l` or `--limit` option. E.g.:
+```bash
+$ ansible-playbook -l groupname playbookfile.yml
+$ ansible-playbook -l 10.10.10.10 playbookfile.yml
 ```
 The first command will run the playbook for hosts belonging to the `groupname` group specified in the default inventory. The second one will run the playbook only for the `10.10.10.10` host.
 
-### Run tasks one by one
-To run tasks in a playbook step by step, confirming each task before running it, add the `--step` option:
-```
-ansible-playbook --step playbook.yml
+The `-l` option will **take into account** the hierarchy of the inventory file - groups, host variables defined in the inventory file, etc. will be used.
+
+In a comma-separated host list there can be no spaces. To check in which hosts the playbook will take effect, the aforementioned `--list-hosts` option can be added.
+
+### Run on a specific inventory or host list
+
+To run playbooks in hosts defined on a specific inventory file, add the `-i` or `--inventory` option. E.g.:
+```bash
+$ ansible-playbook -i ./myinventory
 ```
 
-### Start at specific task
-To start the playbook at a specific task, the `--start-at-task` option can be added. E.g.:
+To run playbooks one or more hosts without an inventory file, a comma-separated host list can be specified:
+```bash
+$ ansible-playbook -i web.example.com, playbookfile.yml
 ```
-ansible-playbook --start-at-task "Install essential packages" playbook.yml
+The `-i` option will **IGNORE** the default inventory configuration for the current run -  groups, host variables defined in the inventory file, etc. will **not** be taken into account.
+
+In a comma-separated host list there can be no spaces, and a comma is **always** required at the end of the list. To check in which hosts the playbook will take effect, the aforementioned `--list-hosts` option can be added.
+
+### Run tasks one by one
+To run tasks in a playbook step by step, confirming each task before running it, add the `--step` option:
+```bash
+$ ansible-playbook --step playbook.yml
+```
+
+When prompted, one can answer `y` to run a task, `n` to skip a task, `c` to continue execution and stop asking, or `^D` (`ctrl`+`d`) to stop execution gracefully.
+
+### Start at specific task
+
+To start the playbook at a specific task, the `--start-at-task` option can be added. E.g.:
+```bash
+$ ansible-playbook --start-at-task "Install essential packages" playbook.yml
 ```
 This will run the "Install essential packages" task and any subsequent task.
 
 ### Run a specific task only
-A dirty but functional approach to run **a specific task only** is to add both the `--start-at-task` and the `--step` options, run the desired task and then halt execution with `^C`.
+A dirty but functional approach to run **a specific task only** is to add both the `--start-at-task` and the `--step` options, run the desired task and then halt execution with `^D`.
 
 ### Run tagged tasks
 To only run plays and tasks tagged with specific values, the `-t` or `--tags` option can be added:
-```
-ansible-playbook -t "config,packages" playbook.yml
+```bash
+$ ansible-playbook -t "config,packages" playbook.yml
 ```
 This will only run the tasks which have the `config` or `packages` tags.
 
 ### Skip tags
 To skip plays and tasks tagged with specific values, the `--skip-tags` option can be added:
+```bash
+$ ansible-playbook --skip-tags "config,packages"
 ```
-ansible-playbook --skip-tags "config,packages"
-```
-This will run all tasks except those wich have the `config` or `packages` tags.
+This will run all tasks except those which have the `config` or `packages` tags.
 
-TODO: Add more use cases
+
 
 ## More utilities
 
 ### Encrypting variables
 
 To be prompted for a string to encrypt, encrypt it with the password from the default password file and name the variable ‘vault_secret_variable’
-```
-ansible-vault encrypt_string --stdin-name 'vault_secret_variable'
+```bash
+$ ansible-vault encrypt_string --stdin-name 'vault_secret_variable'
 ```
 The command above triggers this prompt:
 ```
@@ -352,9 +361,7 @@ Reading plaintext input from stdin. (ctrl-d to end input, twice if your content 
 ```
 Type the string to encrypt (for example, ‘secrettext’), hit ctrl-d, and wait.
 
-Warning
-
-Do not press Enter after supplying the string to encrypt. That will add a newline to the encrypted value.
+> Warning: Do not press Enter after supplying the string to encrypt. That will add a newline to the encrypted value.
 
 The sequence above creates output like this:
 ```
@@ -367,3 +374,40 @@ vault_secret_variable: !vault |
           3161
 ```
 Encrypted variables are larger than plain-text variables, but they protect sensitive content while leaving the rest of the playbook, variables file, or role in plain text so it can be easily read.
+
+### Ad-hoc commands
+
+An Ansible ad-hoc command uses the `/usr/bin/ansible` command-line tool to automate a single task on one or more managed nodes. Ad-hoc commands are quick and easy, but they are not reusable.
+
+Ad-hoc commands are great for tasks that are rarely repeated. They look like this:
+
+```bash
+$ ansible [pattern] -m [module] -a "[module options]"
+```
+
+Patterns allow the execution commands and playbooks against specific hosts and/or groups defined in an inventory. An Ansible pattern can refer to a **single host**, an **IP address**, an **inventory group**, a **set of groups**, or **all hosts** in an inventory. Patterns are highly flexible - they allow to exclude or require subsets of hosts, use wildcards or regular expressions, and more. Ansible executes on all inventory hosts included in the pattern.
+
+The default module for the `ansible` command-line utility is the `ansible.builtin.command` module. For example, to power off all the machines in your office for Christmas vacation, one could execute a quick one-liner in Ansible without writing a playbook:
+
+```bash
+$ ansible office -a "/sbin/poweroff"
+```
+
+By default Ansible uses only 5 simultaneous processes. If there are more hosts than the value set for the fork count, Ansible will talk to them, but it will take a little longer. To specify a maximum number of simultaneous processes, the `-f` option may be used:
+
+```bash
+$ ansible lab -a "/sbin/poweroff" -f 10
+```
+
+Another example - to send the `/etc/hosts` file to all servers in the `[france]` group, except the `mail1.example.com` server:
+
+```bash
+$ ansible france,!mail1.example.com -m copy -a "src=/etc/hosts dest=/tmp/hosts"
+```
+
+Or to restart a service on a specific server:
+
+```bash
+$ ansible app1.example.com -m service -a "name=php7.3-fpm state=restarted"
+```
+
