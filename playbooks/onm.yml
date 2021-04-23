@@ -2,45 +2,37 @@
 # ONM general playbook
 
 # Run the common role for all nodes simultaneously
-- hosts:
-    - all
+- hosts: all
   roles:
     - common
 
-- hosts:
-    - dbr
+- hosts: dbr
   roles:
     - redis
 
-- hosts:
-    - sto
+- hosts: sto
   roles:
     - storage
 
-- hosts:
-    - dba
+- hosts: dba
   roles:
     - database
 
 # Run the appworker role for all app and wrk nodes simultaneously,
 # avoiding running the appworker role twice.
-- hosts:
-    - appwrk
+- hosts: appwrk
   roles:
     - appworker
 
-- hosts:
-    - app
+- hosts: app
   roles:
     - app
 
-- hosts:
-    - wrk
+- hosts: wrk
   roles:
     - worker
 
-- hosts:
-    - lbl
+- hosts: lbl
   roles:
     - loadbalancer
 
