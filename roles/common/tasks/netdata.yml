@@ -29,7 +29,8 @@
 # configurations results in a failed start.
 # IMPORTANT: command module does not work when using FQCN (ansible bug)
 - name: Run the netdata installation script
-  command: /tmp/kickstart-static64.sh --stable-channel --no-updates --dont-wait --dont-start-it
+  ansible.builtin.command:
+    cmd: /tmp/kickstart-static64.sh --stable-channel --no-updates --dont-wait --dont-start-it
   when: not nd.stat.exists
 
 - name: Delete the netdata installation script
