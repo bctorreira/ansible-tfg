@@ -34,11 +34,10 @@ cronjobs:
     hour: "9"
     job: "find /home/opennemas/current/tmp/spool/files/ -type f -mtime +7 -exec rm -- {} \\;"
 
-  - name: "Sync news agency elements"
-    minute: "1-59"
-    job: "/home/opennemas/current/bin/console news-agency:synchronize -c >> /home/opennemas/current/tmp/logs/cron.log 2>&1"
+  - name: "Generate scheduled newsletters"
+    minute: "1-59/30"
+    job: "/home/opennemas/current/bin/console newsletter:schedule >> /home/opennemas/current/tmp/logs/cron.log 2>&1"
 
-  # - name: "Newsletter"
-  #   minute: "1-59/30"
-  #   job: "/home/opennemas/current/bin/console newsletter:schedule --env=prod pre >> /home/opennemas/current/tmp/logs/cron.log 2>&1"
-  #   cron_file: "onm-newsletter-pre.opennemas.net"
+  - name: "Sync news agency elements"
+    minute: "2-59"
+    job: "/home/opennemas/current/bin/console news-agency:synchronize -c >> /home/opennemas/current/tmp/logs/cron.log 2>&1"
