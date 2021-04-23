@@ -3,6 +3,12 @@
   ansible.builtin.include_vars:
     file: cron.yml
 
+- name: Add MAILTO directive to onm-default cron file
+  ansible.builtin.lineinfile:
+    regexp: "^MAILTO( )*="
+    line: "MAILTO={{ mailto }}"
+    insertbefore: BOF
+
 - name: Set cron jobs
   ansible.builtin.cron:
     name: "{{ item.name | default ('') }}"

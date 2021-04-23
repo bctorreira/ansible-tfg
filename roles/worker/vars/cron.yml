@@ -1,4 +1,6 @@
 ---
+mailto: "support@placeholder.es"
+
 cronjobs:
   - name: "Delect Smarty cache files"
     minute: "*/5"
