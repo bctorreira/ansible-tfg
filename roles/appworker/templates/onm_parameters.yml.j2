@@ -4,64 +4,10 @@ parameters:
   framework.secret: {{onm.framework_secret}}
   locale: en
   environment: {{onm.environment}}
-  database:
-    dbal:
-      default_connection: default
-      connections:
-        default:
-          driver: mysqli
-          dbname: onm-instances
-          host: {{onm.dba_hostname}}
-          port: 3306
-          user: 'onm-instances'
-          password: {{onm.mysql_password}}
-          charset: UTF-8
-  orm.default:
-    connection:
-      driver: mysqli
-      dbname: onm-instances
-      host: {{onm.dba_hostname}}
-      port: 3306
-      user: 'onm-instances'
-      password: {{onm.mysql_password}}
-      charset: UTF-8
-  cache.default:
-    type: redis
-    file:
-      name: internal
-      namespace: internal
-      path: %kernel.root_dir%/../tmp/cache/%kernel.environment%/file
-    redis:
-      port: 6379
-      prefix: onm
-      server: {{onm.dbr_hostname}}
-      ttl: 86400
-  mailer_transport: smtp
-  mailer_host: localhost
-  mailer_user: null
-  mailer_password: null
-  mailer_protocol: null
-  mailer_port: 9267
-  mailer_no_reply_address: {{onm.no_reply_sender}}
-  session.name: __onm_sess
-  session.gc_maxlifetime: 2629800
   session_memcache_host: {{onm.dbr_hostname}}
   session_memcache_port: 11211
   session_memcache_prefix: sess
   session_memcache_expire: '%session.gc_maxlifetime%'
-  session_handler_id:     session.handler.drak.redis
-  session_handler_options:
-    cookie_lifetime: {{onm.cookie_lifetime}}
-  session_handler_savepath: 'tcp://{{onm.dbr_hostname}}:6379?database=1'
-  cache_handler: Onm\Cache\Redis
-  cache_handler_params:
-    server: {{onm.dbr_hostname}}
-    port: 6379
-    connection_string: 'tcp://{{onm.dbr_hostname}}:6379'
-    options:
-      prefix: old
-      server: {{onm.dbr_hostname}}
-      ttl: 86400
   logger_file_path: tmp/log/application.log
   dev_token: {{onm.dev_token}}
   manager_webservice:
@@ -75,14 +21,6 @@ parameters:
     base_domain: {{onm.base_domain}}
     template: {{onm.template}}
   password_min_level: 1
-  varnish:
-    header_name: X-Varnish-Ban
-    servers:
-{%  for server in onm.varnish_servers %}
-      server{{loop.index}}:
-        host: {{server}}
-        port: 80
-{%  endfor %}
   opennemas.backend_force_ssl: true
   opennemas.base_domain: {{onm.opennemas_base_domain}}
   opennemas.redirect_frontend: true
@@ -116,3 +54,7 @@ parameters:
   panorama:
     youtube:
       api_key: {{onm.youtube_api_key}}
+
+imports:
+    -
+        resource: connections.yml
