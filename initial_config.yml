@@ -1,5 +1,6 @@
 ---
 - hosts: all
+  remote_user: root
   tasks:
   # ansible_port can change throughout this role, keep a copy around
   - name: Set configured port fact
@@ -44,7 +45,7 @@
     register: configured_ssh
     when: default_ssh is defined and
           default_ssh.state is undefined
-    become: "no"
+    become: no
 
   # If {{ ansible_port }} is reachable, we don't need to do anything special
   - name: SSH port is configured properly
@@ -121,7 +122,7 @@
     ansible.posix.authorized_key:
       user: ansible
       state: present
-      key: "{{ lookup('file', 'keys/ansible_key.pub') }}"
+      key: "{{ lookup('file', '../keys/ansible_key.pub') }}"
 
   - name: Restart sshd service
     ansible.builtin.service:
@@ -129,3 +130,5 @@
       state: restarted
 
   gather_facts: no
+  vars:
+    ansible_ssh_private_key_file: "./keys/root"
