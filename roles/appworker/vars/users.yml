@@ -4,5 +4,5 @@ appworker_users:
     comment: "Opennemas deploy account"
     password: "{{ vault_opennemas_password }}"
     groups: www-data,sudo
-    pubkey: "{{ lookup('file', 'keys/opennemas.pub') }}"
+    pubkey: "{{ lookup('file', '../keys/opennemas.pub') }}"
     uid: 10001

@@ -11,7 +11,7 @@
   ansible.posix.authorized_key:
     user: deployer
     state: present
-    key: "{{ lookup('file', 'keys/deployer.pub') }}"
+    key: "{{ lookup('file', '../keys/deployer.pub') }}"
 
 - name: Add sudo privileges to 'deployer' user
   ansible.builtin.lineinfile:

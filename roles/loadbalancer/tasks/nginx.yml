@@ -21,7 +21,7 @@
 
 - name: Send certificate file
   ansible.builtin.copy:
-    src: certs/openhost/openhost.crt
+    src: ../certs/openhost/openhost.crt
     dest: /etc/ssl/certs/openhost.crt
     owner: root
     group: root
@@ -30,7 +30,7 @@
 
 - name: Send key file
   ansible.builtin.copy:
-    src: certs/openhost/openhost.key
+    src: ../certs/openhost/openhost.key
     dest: /etc/ssl/private/openhost.key
     owner: root
     group: root
