@@ -402,7 +402,7 @@ $ ansible lab -a "/sbin/poweroff" -f 10
 Another example - to send the `/etc/hosts` file to all servers in the `[france]` group, except the `mail1.example.com` server:
 
 ```bash
-$ ansible france,!mail1.example.com -m copy -a "src=/etc/hosts dest=/tmp/hosts"
+$ ansible france:!mail1.example.com -m copy -a "src=/etc/hosts dest=/tmp/hosts"
 ```
 
 Or to restart a service on a specific server:
