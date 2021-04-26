@@ -17,8 +17,8 @@
 - name: Configure cli (cli/php.ini)
   ansible.builtin.lineinfile:
     path: /etc/php/7.3/cli/php.ini
-    regexp: "{{ item.regexp }}"
-    line: "{{ item.line }}"
+    regexp: "{{ item.directive }}( )*="
+    line: "{{ item.directive }} = {{ item.value }}"
     state: present
   loop: "{{ php_cli_ini }}"
   notify: Reload php-fpm
@@ -26,8 +26,8 @@
 - name: Configure fpm (fpm/php.ini)
   ansible.builtin.lineinfile:
     path: /etc/php/7.3/fpm/php.ini
-    regexp: "{{ item.regexp }}"
-    line: "{{ item.line }}"
+    regexp: "{{ item.directive }}( )*="
+    line: "{{ item.directive }} = {{ item.value }}"
     state: present
   loop: "{{ php_fpm_ini }}"
   notify: Reload php-fpm
@@ -35,8 +35,8 @@
 - name: Configure fpm (fpm/php-fpm.conf)
   ansible.builtin.lineinfile:
     path: /etc/php/7.3/fpm/php-fpm.conf
-    regexp: "{{ item.regexp }}"
-    line: "{{ item.line }}"
+    regexp: "{{ item.directive }}( )*="
+    line: "{{ item.directive }} = {{ item.value }}"
     state: present
   loop: "{{ php_fpm_conf }}"
   notify: Reload php-fpm
@@ -44,8 +44,8 @@
 - name: Configure fpm (fpm/pool.d/www.conf)
   ansible.builtin.lineinfile:
     path: /etc/php/7.3/fpm/pool.d/www.conf
-    regexp: "{{ item.regexp }}"
-    line: "{{ item.line }}"
+    regexp: "{{ item.directive }}( )*="
+    line: "{{ item.directive }} = {{ item.value }}"
     state: present
   loop: "{{ php_www_conf }}"
   notify: Reload php-fpm
@@ -53,8 +53,8 @@
 - name: Configure opcache (mods-available/opcache.ini)
   ansible.builtin.lineinfile:
     path: /etc/php/7.3/mods-available/opcache.ini
-    regexp: "{{ item.regexp }}"
-    line: "{{ item.line }}"
+    regexp: "{{ item.directive }}( )*="
+    line: "{{ item.directive }}={{ item.value }}"
     state: present
   loop: "{{ php_opcache_ini }}"
   notify: Reload php-fpm
