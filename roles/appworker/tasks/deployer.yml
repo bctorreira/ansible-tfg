@@ -31,7 +31,7 @@
 
 - name: Add OpenHost repository
   ansible.builtin.apt_repository:
-    repo: deb [arch=amd64] http://repo.openhost.es pre main
+    repo: deb [arch=amd64] http://repo.openhost.es "{{ dist }}" main
     state: present
 
 - name: Send 'updaterepo' file
