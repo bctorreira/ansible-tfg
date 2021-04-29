@@ -118,11 +118,12 @@
       state: present
     no_log: yes
 
-  - name: Set authorized key for ansible user
+  - name: Set authorized keys for ansible user
     ansible.posix.authorized_key:
       user: ansible
       state: present
-      key: "{{ lookup('file', '../keys/ansible_key.pub') }}"
+      key: "{{ item }}"
+    with_file: "{{ authorized_key_files }}"
 
   - name: Restart sshd service
     ansible.builtin.service:
@@ -130,5 +131,6 @@
       state: restarted
 
   gather_facts: no
+  become: no
   vars:
     ansible_ssh_private_key_file: "./keys/root"
