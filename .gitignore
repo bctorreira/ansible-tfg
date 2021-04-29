@@ -14,8 +14,10 @@ keys/
 
 certs/
 
-test.yml
+playbooks/test.yml
 
-TODO
+.vscode/
 
-secrets.yml
+ansible_collections/
+
+collections/
