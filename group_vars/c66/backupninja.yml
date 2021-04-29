@@ -6,3 +6,4 @@ when: hourly
 
 # /etc/backup.d/10_database_dump.mysql
 sqldumpoptions: --lock-tables --complete-insert --add-drop-table --quick --quote-names --single-transaction
+backupdir: /var/backups/mysql
