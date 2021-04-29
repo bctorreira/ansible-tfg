@@ -27,7 +27,7 @@ include "conf.d/acls.vcl";
 sub vcl_init {
   new vdir = directors.round_robin();
 {% for backend in servers.app %}
-    vdir.add_backend(b_{{ backend |  regex_search('^[a-z0-9]+')}});
+    vdir.add_backend(b{{ loop.index }}_{{ backend |  regex_search('^[a-z0-9]+')}});
 {% endfor %}
 }
 #########
