@@ -11,8 +11,8 @@
 - name: Configure backupninja (backupninja.conf)
   ansible.builtin.lineinfile:
     path: /etc/backupninja.conf
-    regexp: "{{ item.regexp }}"
-    line: "{{ item.line }}"
+    regexp: "{{ item.directive }}( )*="
+    line: "{{ item.directive }} = {{ item.value }}"
     state: present
   loop: "{{ backupninja_conf }}"
 
