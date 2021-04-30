@@ -98,64 +98,72 @@ The hosts file, as per current configuration, should be called `local` and resid
 The Ansible project is structured as follows:
 ```bash
 .
-├─ certs/              #Certificate files directory.
-│   └─ certname/         #Each certificate .crt-.key pair in a different dir.
+├─ certs/              # Certificate files directory.
+│   └─ certname/         # Each certificate .crt-.key pair in a different dir.
 │       ├─ certname.crt
 │       └─ certname.key
 │
-├─ keys/               #Auth key files directory, all files in the same dir.
+├─ keys/               # Auth key files directory, all files in the same dir.
 │   ├─ key
 │   └─ key.pub
 │
-├─ group_vars/         #Group-specific variables directory.
-│   └─ groupname/        #Each group that needs specific vars has its own dir.
-│       └─ vars.yml        #Many files may reside here, all will be read.
+├─ group_vars/         # Group-specific variables directory.
+│   └─ groupname/        # Each group that needs specific vars has its own dir.
+│       └─ vars.yml        # Many files may reside here, all will be read.
 │
-├─ host_vars/          #Host-specific variables directory.
-│   └─ hostname/         #Each group that needs specific vars has its own dir.
-│       └─ vars.yml        #Many files may reside here, all will be read.
+├─ host_vars/          # Host-specific variables directory.
+│   └─ hostname/         # Each group that needs specific vars has its own dir.
+│       └─ vars.yml        # Many files may reside here, all will be read.
 │
-├─ roles/              #User-created roles directory.
-│   └─ rolename/         #Each role has its own directory.
-│       ├─ files/          #Files directory.
-│       │   └─ file          #Files to send reside here.
+├─ roles/              # User-created roles directory.
+│   └─ rolename/         # Each role has its own directory.
+│       ├─ files/          # Files directory.
+│       │   └─ file          # Files to send reside here.
 │       │
-│       ├─ handlers/       #Handlers directory.
-│       │   └─ main.yml      #Tasks defined here run at the end of a play if a
-│       │                    #specific task has been executed.
+│       ├─ handlers/       # Handlers directory.
+│       │   └─ main.yml      # Tasks defined here run at the end of a play if a
+│       │                    # specific task has been executed.
 │       │
-│       ├─ meta/           #Meta directory.
-│       │   └─ main.yml      #Information about the role and role dependencies
-│       │                    #are defined here.
+│       ├─ meta/           # Meta directory.
+│       │   └─ main.yml      # Information about the role and role dependencies
+│       │                    # are defined here.
 │       │
-│       ├─ tasks/          #Tasks directory.
-│       │   └─ main.yml      #Tasks to run on the managed nodes (hosts) are
-│       │                    #defined here.
+│       ├─ tasks/          # Tasks directory.
+│       │   └─ main.yml      # Tasks to run on the managed nodes (hosts) are
+│       │                    # defined here.
 │       │
-│       ├─ templates/      #Templates directory.
-│       │   └─ template.j2   #Template files (e.g. for configuration files)
-│       │                    #reside here.
+│       ├─ templates/      # Templates directory.
+│       │   └─ template.j2   # Template files (e.g. for configuration files)
+│       │                    # reside here.
 │       │
-│       └─ vars/           #Role variables directory.
-│           └─ vars.yml      #Role-specific variables are defined here.
+│       └─ vars/           # Role variables directory.
+│           └─ vars.yml      # Role-specific variables are defined here.
 │
-├─ roles_galaxy/           #Galaxy roles directory. Roles downloaded from the
-│   │                      #ansible-galaxy repo are installed here.
-│   └─ author.rolename/      #Each role installed in its own directory.
+├─ roles_galaxy/           # Galaxy roles directory. Roles downloaded from the
+│   │                      # ansible-galaxy repo are installed here.
+│   └─ author.rolename/      # Each role installed in its own directory.
 │
-├─ ansible.cfg         #Ansible configuration file.
-├─ local               #Inventory file.
-├─ requirements.yml    #Requirements (dependencies) file.
-├─ VAULT_PASSWORD_FILE #Vault password file, for encryption and decryption of
-│                      #sensible information (passwords, api keys, etc.)
-├─ initial_config.yml
-├─ onm.yml
-├─ dbrservers.yml
-├─ dbaservers.yml
-├─ stoservers.yml
-├─ appservers.yml
-├─ wrkservers.yml
-├─ lblservers.yml
+├─ collections_galaxy/     # Galaxy collections directory. Collections downloaded
+│   │                      # from the ansible-galaxy repo are installed here.
+│   └─ namespace/
+│       └─ collection/        # Each collection installed in its own directory.
+│
+├─ ansible.cfg         # Ansible configuration file.
+├─ local               # Inventory file.
+├─ requirements.yml    # Requirements (dependencies) file.
+├─ VAULT_PASSWORD_FILE # Vault password file, for encryption and decryption of
+│                      # sensible information (passwords, api keys, etc.)
+├─ playbooks/          # Playbooks directory. Playbooks reside and are
+│   │                  # from here
+│   ├─ initial_config.yml
+│   ├─ onm.yml
+│   ├─ dbrservers.yml
+│   ├─ dbaservers.yml
+│   ├─ stoservers.yml
+│   ├─ appservers.yml
+│   ├─ wrkservers.yml
+│   └─ lblservers.yml
+│
 └─ README.md
 ```
 
@@ -405,9 +413,9 @@ Another example - to send the `/etc/hosts` file to all servers in the `[france]`
 $ ansible france:!mail1.example.com -m copy -a "src=/etc/hosts dest=/tmp/hosts"
 ```
 
-Or to restart a service on a specific server:
+Or to restart the `php-fpm` service in any host in `webservers` that are also in `testing`, except `special.example.com`:
 
 ```bash
-$ ansible app1.example.com -m service -a "name=php7.3-fpm state=restarted"
+$ ansible webservers:&testing:!special.example.com -m service -a "name=php7.3-fpm state=restarted"
 ```
 
