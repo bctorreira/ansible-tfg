@@ -1,12 +1,4 @@
 ---
-- name: Include variables for user-related tasks
-  ansible.builtin.include_vars:
-    file: users.yml
-
-- name: Include encrypted variables for user-related tasks
-  ansible.builtin.include_vars:
-    file: vault_users.yml
-
 - name: Add appworker users
   ansible.builtin.user:
     name: "{{ item.name }}"

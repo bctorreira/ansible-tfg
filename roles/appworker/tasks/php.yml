@@ -4,10 +4,6 @@
     repo: ppa:ondrej/php
     update_cache: yes
 
-- name: Include variables for php-related tasks
-  ansible.builtin.include_vars:
-    file: php.yml
-
 - name: Install php packages
   ansible.builtin.package:
     name: "{{ php_packages }}"

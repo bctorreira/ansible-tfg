@@ -4,10 +4,6 @@
     name: backupninja
     state: present
 
-- name: Include variables for backupninja-related tasks
-  ansible.builtin.include_vars:
-    file: backupninja.yml
-
 - name: Configure backupninja (backupninja.conf)
   ansible.builtin.lineinfile:
     path: /etc/backupninja.conf

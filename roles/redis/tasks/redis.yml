@@ -1,8 +1,4 @@
 ---
-- name: Include variables for redis-related tasks
-  ansible.builtin.include_vars:
-    file: redis.yml
-
 - name: Include redis role
   ansible.builtin.include_role:
     name: geerlingguy.redis

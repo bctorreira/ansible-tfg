@@ -1,7 +1,4 @@
 ---
-- name: Inlcude variables for nfs-related tasks
-  ansible.builtin.include_vars: nfs.yml
-
 - name: Create directories for nfs
   ansible.builtin.file:
     path: "{{ item }}"

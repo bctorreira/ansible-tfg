@@ -1,8 +1,4 @@
 ---
-- name: Include variables for directory-related tasks
-  ansible.builtin.include_vars:
-    file: directories.yml
-
 - name: Create Opennemas app directories
   ansible.builtin.file:
     path: "{{ item }}"

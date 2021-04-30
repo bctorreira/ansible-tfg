@@ -23,7 +23,7 @@ php_packages:
   - php7.3-xsl
   - php7.3-zip
 
-# php_unix_socket: "/var/run/php7.3-fpm.sock"
+php_unix_socket: "/var/run/php7.3-fpm.sock"
 
 php_cli_ini:
   - directive: "serialize_precision"

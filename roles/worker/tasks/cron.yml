@@ -1,8 +1,4 @@
 ---
-- name: Include variables for cron-related tasks
-  ansible.builtin.include_vars:
-    file: cron.yml
-
 - name: Add MAILTO directive to onm-default cron file
   ansible.builtin.lineinfile:
     path: /etc/cron.d/onm-default

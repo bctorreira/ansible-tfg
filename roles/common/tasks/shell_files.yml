@@ -1,7 +1,4 @@
 ---
-- name: include shell files variables
-  ansible.builtin.include_vars: shell_files.yml
-
 - name: copy shell files
   ansible.builtin.copy:
     src: "{{ item.src }}"

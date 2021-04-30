@@ -1,8 +1,4 @@
 ---
-- name: Include variables for papertrail-related tasks
-  ansible.builtin.include_vars:
-    file: papertrail.yml
-
 - name: Include papertrail role
   ansible.builtin.include_role:
     name: gabops.papertrail

@@ -11,10 +11,6 @@
     state: present
     update_cache: yes
 
-- name: Include variables for mysql-related tasks
-  ansible.builtin.include_vars:
-    file: mysql.yml
-
 - name: Send mysqld configuration file
   ansible.builtin.template:
     src: templates/mysqld.cnf.j2

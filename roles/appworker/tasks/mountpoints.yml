@@ -4,10 +4,6 @@
     name: nfs-common
     state: present
 
-- name: Include variables for mount-related tasks
-  ansible.builtin.include_vars:
-    file: mountpoints.yml
-
 - name: Mount NFS drives
   ansible.posix.mount:
     path: "{{ item.path }}"

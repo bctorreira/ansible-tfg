@@ -1,8 +1,4 @@
 ---
-- name: Include variables for Node.js-related tasks
-  ansible.builtin.include_vars:
-    file: nodejs.yml
-
 - name: Check if Node.js is already installed
   ansible.builtin.stat:
     path: /usr/bin/node
