@@ -143,7 +143,7 @@ The Ansible project is structured as follows:
 │   │                      # ansible-galaxy repo are installed here.
 │   └─ author.rolename/      # Each role installed in its own directory.
 │
-├─ collections_galaxy/     # Galaxy collections directory. Collections downloaded
+├─ ansible_collections/    # Collections directory. Collections downloaded
 │   │                      # from the ansible-galaxy repo are installed here.
 │   └─ namespace/
 │       └─ collection/        # Each collection installed in its own directory.
