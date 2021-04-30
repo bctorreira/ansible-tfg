@@ -3,6 +3,40 @@
   ansible.builtin.include_vars:
     file: nodejs.yml
 
+- name: Check if Node.js is already installed
+  ansible.builtin.stat:
+    path: /usr/bin/node
+  register: node
+
+- name: Download the Node.js repository script
+  ansible.builtin.get_url:
+    url: "{{ node_repo_script_url }}"
+    dest: /tmp/node_repo_setup
+  run_once: yes
+  delegate_to: localhost
+  when: not node.stat.exists
+  become: no
+
+- name: Send the Node.js repository script
+  ansible.builtin.copy:
+    src: /tmp/node_repo_setup
+    dest: /tmp/node_repo_setup
+    owner: root
+    group: root
+    mode: "0500"
+  when: not node.stat.exists
+
+- name: Run the Node.js repository script
+  ansible.builtin.command:
+    cmd: /tmp/node_repo_setup
+  when: not node.stat.exists
+
+- name: Delete the Node.js repository script
+  ansible.builtin.file:
+    path: /tmp/node_repo_setup
+    state: absent
+  when: not node.stat.exists
+
 - name: Install node.js
   ansible.builtin.package:
     name: "{{ nodejs_packages }}"

@@ -1,7 +1,8 @@
 ---
+node_repo_script_url: https://deb.nodesource.com/setup_12.x
+
 nodejs_packages:
   - nodejs
-  - npm
 
 npm_packages:
   - uglify-js
