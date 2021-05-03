@@ -1,5 +1,5 @@
 ---
-- name: Add MAILTO directive to onm-default cron file
+- name: add mailing directive to onm-default cron file
   ansible.builtin.lineinfile:
     path: /etc/cron.d/onm-default
     create: yes
@@ -7,7 +7,7 @@
     line: "MAILTO={{ cron_mailto }}"
     insertbefore: BOF
 
-- name: Set cron jobs
+- name: set cron jobs
   ansible.builtin.cron:
     name: "{{ item.name | default ('') }}"
     minute: "{{ item.minute | default ('*') }}"

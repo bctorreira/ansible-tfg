@@ -17,7 +17,7 @@
     line: "{{ item.directive }} = {{ item.value }}"
     state: present
   loop: "{{ php_cli_ini }}"
-  notify: Reload php-fpm
+  notify: reload php-fpm
 
 - name: Configure fpm (fpm/php.ini)
   ansible.builtin.lineinfile:
@@ -26,7 +26,7 @@
     line: "{{ item.directive }} = {{ item.value }}"
     state: present
   loop: "{{ php_fpm_ini }}"
-  notify: Reload php-fpm
+  notify: reload php-fpm
 
 - name: Configure fpm (fpm/php-fpm.conf)
   ansible.builtin.lineinfile:
@@ -35,7 +35,7 @@
     line: "{{ item.directive }} = {{ item.value }}"
     state: present
   loop: "{{ php_fpm_conf }}"
-  notify: Reload php-fpm
+  notify: reload php-fpm
 
 - name: Configure fpm (fpm/pool.d/www.conf)
   ansible.builtin.lineinfile:
@@ -44,7 +44,7 @@
     line: "{{ item.directive }} = {{ item.value }}"
     state: present
   loop: "{{ php_www_conf }}"
-  notify: Reload php-fpm
+  notify: reload php-fpm
 
 - name: Configure opcache (mods-available/opcache.ini)
   ansible.builtin.lineinfile:
@@ -53,4 +53,4 @@
     line: "{{ item.directive }}={{ item.value }}"
     state: present
   loop: "{{ php_opcache_ini }}"
-  notify: Reload php-fpm
+  notify: reload php-fpm

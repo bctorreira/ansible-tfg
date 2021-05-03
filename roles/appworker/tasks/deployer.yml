@@ -1,5 +1,5 @@
 ---
-- name: Add 'deployer' user
+- name: add deployer user
   ansible.builtin.user:
     name: deployer
     comment: Jenkins deploy account
@@ -7,13 +7,13 @@
     shell: /bin/bash
     state: present
 
-- name: Set authorized key for 'deployer' user
+- name: set authorized key for deployer user
   ansible.posix.authorized_key:
     user: deployer
     state: present
     key: "{{ lookup('file', '../keys/deployer.pub') }}"
 
-- name: Add sudo privileges to 'deployer' user
+- name: add sudo privileges to deployer user
   ansible.builtin.lineinfile:
     path: /etc/sudoers.d/common
     create: yes
@@ -23,18 +23,18 @@
     line: "deployer  ALL=(ALL:ALL) NOPASSWD: /usr/sbin/service php7.3-fpm reload, /usr/local/bin/updaterepo, /usr/bin/apt-get update, /usr/bin/apt list --installed, /usr/bin/apt-get -y install onm-?*, /usr/bin/apt-get -y remove onm-?*, /usr/bin/apt-get -y remove"
     validate: /usr/sbin/visudo -cf %s
 
-- name: Add OpenHost repository key
+- name: add openhost repository key
   ansible.builtin.apt_key:
     id: 7B120C4CBE53D005A9060780A8141E39E2209BB8
     url: http://repo.openhost.es/public.key
     state: present
 
-- name: Add OpenHost repository
+- name: add openhost repository
   ansible.builtin.apt_repository:
     repo: deb [arch=amd64] http://repo.openhost.es "{{ dist }}" main
     state: present
 
-- name: Send 'updaterepo' file
+- name: send `updaterepo` file
   ansible.builtin.copy:
     src: files/updaterepo
     dest: /usr/local/bin/updaterepo
@@ -42,7 +42,7 @@
     group: root
     mode: "0755"
 
-- name: Create 'themes' directory
+- name: create `themes` directory
   ansible.builtin.file:
     path: /home/opennemas/shared/public/themes
     state: directory

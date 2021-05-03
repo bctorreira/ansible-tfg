@@ -1,8 +1,8 @@
 ---
-- name: Install
+- name: Install tasks
   hosts: wrk, app
   tasks:
-    - name: Install opennemas packages
+    - name: install opennemas packages
       ansible.builtin.package:
         name:
           - onm-core-pre1178
@@ -12,7 +12,7 @@
         state: present
       ignore_errors: yes
 
-    - name: Link configuration
+    - name: link configuration
       ansible.builtin.file:
         src: /home/opennemas/shared/app/config/connections.yml
         dest: /home/opennemas/current/app/config/connections.yml
@@ -20,37 +20,37 @@
         group: root
         state: link
 
-    - name: Fix broken packages
+    - name: fix broken packages
       ansible.builtin.command:
         cmd: dpkg --configure -a
       become: yes
 
-    - name: Reload php-fpm
+    - name: reload php-fpm
       ansible.builtin.service:
         name: php7.3-fpm
         state: reloaded
 
-- name: Build
+- name: Build tasks
   hosts: wrk
   tasks:
-    - name: Build database
+    - name: build database
       community.general.make:
         chdir: /home/opennemas/current
         target: database
 
-    - name: Build media
+    - name: build media
       community.general.make:
         chdir: /home/opennemas/current
         target: media
 
-    - name: Clean database
+    - name: clean database
       community.general.make:
         chdir: /home/opennemas/current
         target: clean-database
 
-- name: Check
+- name: Check tasks
   hosts: wrk, app
   tasks:
-    - name: Check status
+    - name: check status
       ansible.builtin.command:
         cmd: sudo -u www-data -s '/bin/bash' -c '/home/opennemas/current/bin/console core:status:check -vvv'

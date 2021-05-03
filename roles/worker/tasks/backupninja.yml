@@ -1,10 +1,10 @@
 ---
-- name: Install backupninja package
+- name: install backupninja package
   ansible.builtin.package:
     name: backupninja
     state: present
 
-- name: Configure backupninja (backupninja.conf)
+- name: configure backupninja (backupninja.conf)
   ansible.builtin.lineinfile:
     path: /etc/backupninja.conf
     regexp: "{{ item.directive }}( )*="
@@ -12,7 +12,7 @@
     state: present
   loop: "{{ backupninja_conf }}"
 
-- name: Configure backupninja (10_database_dump.mysql)
+- name: configure backupninja (10_database_dump.mysql)
   ansible.builtin.template:
     src: templates/10_database_dump.mysql.j2
     dest: /etc/backup.d/10_database_dump.mysql
@@ -20,7 +20,7 @@
     group: root
     mode: "0644"
 
-- name: Configure backupninja (20_remote_copy.rdiff)
+- name: configure backupninja (20_remote_copy.rdiff)
   ansible.builtin.template:
     src: templates/20_remote_copy.rdiff.j2
     dest: /etc/backup.d/20_remote_copy.rdiff
@@ -28,7 +28,7 @@
     group: root
     mode: "0644"
 
-- name: Configure backupninja (30_media_backup.sh)
+- name: configure backupninja (30_media_backup.sh)
   ansible.builtin.template:
     src: templates/30_media_backup.sh.j2
     dest: /etc/backup.d/30_media_backup.sh
@@ -36,7 +36,7 @@
     group: root
     mode: "0644"
 
-- name: Create mysql dump directories for backupninja with group read permissions
+- name: create mysql dump directories
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory

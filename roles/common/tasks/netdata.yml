@@ -1,10 +1,10 @@
 ---
-- name: Check if netdata is already installed
+- name: check if netdata is already installed
   ansible.builtin.stat:
     path: /opt/netdata/usr/sbin/netdata
   register: nd
 
-- name: Download the netdata installation script
+- name: download netdata installation script
   ansible.builtin.get_url:
     url: https://my-netdata.io/kickstart-static64.sh
     dest: /tmp/kickstart-static64.sh
@@ -14,7 +14,7 @@
   when: not nd.stat.exists
   become: no
 
-- name: Send the netdata installation script
+- name: send netdata installation script
   ansible.builtin.copy:
     src: /tmp/kickstart-static64.sh
     dest: /tmp/kickstart-static64.sh
@@ -27,32 +27,31 @@
 # service to the role playbooks, after proper configuration of the netdata service.
 # If started right after installation, restarting the service after sending new
 # configurations results in a failed start.
-# IMPORTANT: command module does not work when using FQCN (ansible bug)
-- name: Run the netdata installation script
+- name: run the netdata installation script
   ansible.builtin.command:
     cmd: /tmp/kickstart-static64.sh --stable-channel --no-updates --dont-wait --dont-start-it
   when: not nd.stat.exists
 
-- name: Delete the netdata installation script
+- name: delete the netdata installation script
   ansible.builtin.file:
     path: /tmp/kickstart-static64.sh
     state: absent
   when: not nd.stat.exists
 
-- name: Send netdata main configuration file
+- name: configure netdata (netdata.conf)
   ansible.builtin.template:
     src: templates/netdata.conf.j2
     dest: /opt/netdata/etc/netdata/netdata.conf
     owner: netdata
     group: netdata
     mode: "0644"
-  notify: Restart netdata service
+  notify: restart netdata service
 
-- name: Send netdata stream configuration file
+- name: configure netdata (stream.conf)
   ansible.builtin.template:
     src: templates/stream.conf.j2
     dest: /opt/netdata/etc/netdata/stream.conf
     owner: netdata
     group: netdata
     mode: "0644"
-  notify: Restart netdata service
+  notify: restart netdata service

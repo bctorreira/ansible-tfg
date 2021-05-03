@@ -1,10 +1,10 @@
 ---
-- name: Ensure the nfs client is installed
+- name: install nfs server package
   ansible.builtin.package:
     name: nfs-common
     state: present
 
-- name: Mount NFS drives
+- name: mount nfs drives
   ansible.posix.mount:
     path: "{{ item.path }}"
     src: "{{ item.src }}"

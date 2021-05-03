@@ -1,10 +1,10 @@
 ---
-- name: Check if Node.js is already installed
+- name: check if nodejs is already installed
   ansible.builtin.stat:
     path: /usr/bin/node
   register: node
 
-- name: Download the Node.js repository script
+- name: download the nodejs repository script
   ansible.builtin.get_url:
     url: "{{ node_repo_script_url }}"
     dest: /tmp/node_repo_setup
@@ -13,7 +13,7 @@
   when: not node.stat.exists
   become: no
 
-- name: Send the Node.js repository script
+- name: send the nodejs repository script
   ansible.builtin.copy:
     src: /tmp/node_repo_setup
     dest: /tmp/node_repo_setup
@@ -22,23 +22,23 @@
     mode: "0500"
   when: not node.stat.exists
 
-- name: Run the Node.js repository script
+- name: run the nodejs repository script
   ansible.builtin.command:
     cmd: /tmp/node_repo_setup
   when: not node.stat.exists
 
-- name: Delete the Node.js repository script
+- name: delete the nodejs repository script
   ansible.builtin.file:
     path: /tmp/node_repo_setup
     state: absent
   when: not node.stat.exists
 
-- name: Install node.js
+- name: install nodejs packages
   ansible.builtin.package:
     name: "{{ nodejs_packages }}"
     state: present
 
-- name: Install npm packages
+- name: install needed packages from npm
   community.general.npm:
     name: "{{ item }}"
     global: yes

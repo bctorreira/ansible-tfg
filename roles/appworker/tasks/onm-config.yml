@@ -1,5 +1,5 @@
 ---
-- name: Send ONM configuration (parameters.yml)
+- name: configure opennemas (parameters.yml)
   ansible.builtin.template:
     src: templates/onm_parameters.yml.j2
     dest: /home/opennemas/shared/app/config/parameters.yml
@@ -10,7 +10,7 @@
     - Delete doctrine cache
     - Reload php-fpm
 
-- name: Send ONM configuration (connections.yml)
+- name: configure opennemas (connections.yml)
   ansible.builtin.template:
     src: templates/onm_connections.yml.j2
     dest: /home/opennemas/shared/app/config/connections.yml

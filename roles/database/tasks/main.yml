@@ -1,17 +1,17 @@
 ---
-- name: Install dependencies
+- name: install dependencies
   ansible.builtin.package:
     name: python3-pymysql
     state: present
     update_cache: yes
 
-- name: Install mysql-server packages
+- name: install mysql-server packages
   ansible.builtin.package:
     name: mysql-server
     state: present
     update_cache: yes
 
-- name: Send mysqld configuration file
+- name: send mysqld configuration file
   ansible.builtin.template:
     src: templates/mysqld.cnf.j2
     dest: /etc/mysql/mysql.conf.d/mysqld.cnf
@@ -20,7 +20,7 @@
     mode: "0644"
   notify: Restart mysql-server service
 
-- name: Set root password
+- name: set mysql root password
   community.mysql.mysql_user:
     check_implicit_admin: yes
     login_user: root
@@ -33,7 +33,7 @@
 # If column privileges are used, the priv1,priv2 part must be exactly as returned
 # by a SHOW GRANT statement.
 # If not followed, the module will always report changes (as it does right now).
-- name: Add 'onm-instances' mysql user (ALWAYS will report changes)
+- name: add onm-instances mysql user (always reports changes)
   community.mysql.mysql_user:
     login_user: root
     login_password: "{{ vault_root_mysql_password }}"
@@ -44,7 +44,7 @@
     state: present
   no_log: yes
 
-- name: Check if netdata is installed
+- name: check if netdata is installed
   ansible.builtin.stat:
     path: /opt/netdata/usr/sbin/netdata
   register: nd
@@ -52,7 +52,7 @@
 # If column privileges are used, the priv1,priv2 part must be exactly as returned
 # by a SHOW GRANT statement.
 # If not followed, the module will always report changes (as it does right now).
-- name: Create netdata mysql user if netdata is installed
+- name: create netdata mysql user
   community.mysql.mysql_user:
     login_user: root
     login_password: "{{ vault_root_mysql_password }}"
@@ -64,7 +64,7 @@
   when: nd.stat.exists
   no_log: yes
 
-- name: Send netdata mysql plugin configuration if netdata is installed
+- name: send netdata mysql plugin configuration
   ansible.builtin.template:
     src: templates/netdata_plugin_mysql.conf.j2
     dest: /opt/netdata/etc/netdata/python.d/mysql.conf

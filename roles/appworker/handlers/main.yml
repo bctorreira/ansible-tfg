@@ -1,10 +1,10 @@
 ---
-- name: Reload php-fpm
+- name: reload php-fpm
   ansible.builtin.service:
     name: php7.3-fpm
     state: reloaded
 
-- name: Delete doctrine cache
+- name: delete doctrine cache
   ansible.builtin.file:
     path: /home/opennemas/current/tmp/cache
     state: absent

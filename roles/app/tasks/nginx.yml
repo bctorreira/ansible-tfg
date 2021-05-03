@@ -1,41 +1,41 @@
 ---
-- name: Install nginx-extras package
+- name: install nginx-extras package
   ansible.builtin.package:
     name: nginx-extras
     state: present
 
-- name: Copy nginx configuration file
+- name: configure nginx (nginx.conf)
   ansible.builtin.copy:
     src: files/nginx.conf
     dest: /etc/nginx/nginx.conf
     owner: root
     group: root
     mode: "0644"
-  notify: Reload nginx service
+  notify: reload nginx service
 
-- name: Copy vhost-includes
+- name: configure nginx (vhosts-includes)
   ansible.builtin.copy:
     src: files/vhosts-includes
     dest: /etc/nginx/
     owner: root
     group: root
     mode: "0644"
-  notify: Reload nginx service
+  notify: reload nginx service
 
-- name: Disable default site
+- name: disable default site
   ansible.builtin.file:
     path: /etc/nginx/sites-enabled/default
     state: absent
-  notify: Reload nginx service
+  notify: reload nginx service
 
 # If netdata is installed the site configurations are different,
 # so this check must be run beforehand
-- name: Check if netdata is installed
+- name: check if netdata is installed
   ansible.builtin.stat:
     path: /opt/netdata/usr/sbin/netdata
   register: nd
 
-- name: Send netdata nginx plugin configuration if netdata is installed
+- name: configure netdata nginx plugin (nginx.conf)
   ansible.builtin.template:
     src: templates/netdata_nginx.conf.j2
     dest: /opt/netdata/etc/netdata/python.d/nginx.conf
@@ -43,9 +43,9 @@
     group: netdata
     mode: "0644"
   when: nd.stat.exists
-  notify: Restart netdata service
+  notify: restart netdata service
 
-- name: Send netdata php-fpm plugin configuration if netdata is installed
+- name: configure netdata php-fom plugin (phpfpm.conf)
   ansible.builtin.template:
     src: templates/netdata_phpfpm.conf.j2
     dest: /opt/netdata/etc/netdata/python.d/phpfpm.conf
@@ -53,49 +53,49 @@
     group: netdata
     mode: "0644"
   when: nd.stat.exists
-  notify: Restart netdata service
+  notify: restart netdata service
 
-- name: Add `status` page for netdata access if netdata installed (fpm/pool.d/www.conf)
+- name: add `status` page for netdata access (fpm/pool.d/www.conf)
   ansible.builtin.lineinfile:
     path: /etc/php/7.3/fpm/pool.d/www.conf
     regexp: "pm.status_path ="
     line: "pm.status_path = /status"
     state: present
   when: nd.stat.exists
-  notify: Reload php-fpm
+  notify: reload php-fpm
 
-- name: Send "manager" site configuration file
+- name: configure `manager` site
   ansible.builtin.template:
     src: templates/sites/manager.j2
     dest: /etc/nginx/sites-available/manager
     owner: root
     group: root
     mode: "0644"
-  notify: Reload nginx service
+  notify: reload nginx service
 
-- name: Enable "manager" site
+- name: enable `manager` site
   ansible.builtin.file:
     src: /etc/nginx/sites-available/manager
     dest: /etc/nginx/sites-enabled/manager
     owner: root
     group: root
     state: link
-  notify: Reload nginx service
+  notify: reload nginx service
 
-- name: Send "opennemas" site configuration file
+- name: configure `opennemas` site
   ansible.builtin.template:
     src: templates/sites/opennemas.j2
     dest: /etc/nginx/sites-available/opennemas
     owner: root
     group: root
     mode: "0644"
-  notify: Reload nginx service
+  notify: reload nginx service
 
-- name: Enable "opennemas" site
+- name: enable `opennemas` site
   ansible.builtin.file:
     src: /etc/nginx/sites-available/opennemas
     dest: /etc/nginx/sites-enabled/opennemas
     owner: root
     group: root
     state: link
-  notify: Reload nginx service
+  notify: reload nginx service

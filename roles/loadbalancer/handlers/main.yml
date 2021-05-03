@@ -1,10 +1,10 @@
 ---
-- name: Reload nginx service
+- name: reload nginx service
   ansible.builtin.service:
     name: nginx
     state: reloaded
 
-- name: Reload varnish services
+- name: reload varnish services
   ansible.builtin.service:
     name: "{{ item }}"
     state: reloaded
@@ -13,13 +13,13 @@
     - varnish
     - varnishncsa
 
-- name: Restart varnish service
+- name: restart varnish service
   ansible.builtin.service:
     name: varnish
     state: restarted
     daemon_reload: yes
 
-- name: Restart netdata service
+- name: restart netdata service
   ansible.builtin.service:
     name: netdata
     state: restarted
