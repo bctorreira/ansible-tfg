@@ -36,7 +36,6 @@
   roles:
     - loadbalancer
 
-# The PLAY RECAP should be reporting at least 2 changes in database servers
-# (because of permission modification for mysql users, always reporting changes),
-# and 3? changes in worker servers (because the execution of the netdata
-# installation script through the non-idempotent `command` module)
+# The PLAY RECAP should be reporting at least 1 change in database servers
+# (because of permission modification for mysql the onm-instances user,
+# always reporting changes)
