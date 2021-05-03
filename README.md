@@ -159,10 +159,7 @@ The Ansible project is structured as follows:
 │   ├─ onm.yml
 │   ├─ dbrservers.yml
 │   ├─ dbaservers.yml
-│   ├─ stoservers.yml
-│   ├─ appservers.yml
-│   ├─ wrkservers.yml
-│   └─ lblservers.yml
+│   └─ ...
 │
 └─ README.md
 ```
@@ -234,12 +231,8 @@ Assuming that an SSH connection can be established to the managed nodes through 
 
 ```bash
 # on the control node
-$ ansible-playbook -u root --private-key keys/root initial_config.yml
+$ ansible-playbook playbooks/initial_config.yml
 ```
-
-- `-u root`: connect to the host as the `root` user.
-- `--private-key keys/root`: use the `root` private key under `./keys` to authenticate.
-- `initial_config.yml`: the playbook to run.
 
 This playbook will change the default SSH configuration, switching the default port to a different one (22222) and prohibiting root login, for instance. It will also create the ansible user with sudo privileges, and set up a trust relationship for said user.
 
@@ -247,7 +240,7 @@ This playbook will change the default SSH configuration, switching the default p
 
 To configure all hosts at once, simply execute the following command:
 ```bash
-$ ansible-playbook onm.yml
+$ ansible-playbook playbooks/onm.yml
 ```
 This command will run the `onm.yml` playbook as the `ansible` user, configuring all nodes listed in the inventory.
 
@@ -278,7 +271,7 @@ To configure hosts with a specific functionality (app servers, database servers,
 
 All of these playbooks will run the `common` role and the roles needed for the hosts defined in that group to have the desired functionality.
 
-To run one of these playbooks:
+To run any playbook playbooks:
 ```bash
 $ ansible-playbook <playbookfile.yml>
 ```
@@ -298,12 +291,13 @@ To limit selected hosts to an additional pattern, such as a specific group or ho
 ```bash
 $ ansible-playbook -l groupname playbookfile.yml
 $ ansible-playbook -l 10.10.10.10 playbookfile.yml
+$ ansible-playbook -l group0:group1:&group2:!10.10.10.10 playbookfile.yml
 ```
-The first command will run the playbook for hosts belonging to the `groupname` group specified in the default inventory. The second one will run the playbook only for the `10.10.10.10` host.
+The first command will run the playbook for hosts belonging to the `groupname` group specified in the default inventory. The second one will run the playbook only for the `10.10.10.10` host. The third one will run the playbook for all hosts in `group0` and `group1` that are also in `group2`, except the `10.10.10.10` host. One can even use wildcards patterns with FQDNs or IP addresses, such as `192.168.*`, `*.example.com` or `srv*.com`
 
 The `-l` option will **take into account** the hierarchy of the inventory file - groups, host variables defined in the inventory file, etc. will be used.
 
-In a comma-separated host list there can be no spaces. To check in which hosts the playbook will take effect, the aforementioned `--list-hosts` option can be added.
+In a colon-separated host list there can be no spaces. To check in exactly which hosts the playbook will take effect without having to run the playbook, the aforementioned `--list-hosts` option can be added.
 
 ### Run on a specific inventory or host list
 
@@ -337,7 +331,7 @@ $ ansible-playbook --start-at-task "Install essential packages" playbook.yml
 This will run the "Install essential packages" task and any subsequent task.
 
 ### Run a specific task only
-A dirty but functional approach to run **a specific task only** is to add both the `--start-at-task` and the `--step` options, run the desired task and then halt execution with `^D`.
+A dirty but functional approach to run **a specific task only** is to add both the `--start-at-task` and the `--step` options, run the desired task and then gracefully halt execution with `^D`.
 
 ### Run tagged tasks
 To only run plays and tasks tagged with specific values, the `-t` or `--tags` option can be added:
