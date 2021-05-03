@@ -1,0 +1,13 @@
+---
+# Test-environment-related tasks
+- name: create additional users
+  ansible.builtin.user:
+    name: ansible
+    password: "{{ vault_ansible_password }}"
+    comment: The Ansible task execution user
+    groups: sudo
+    append: yes
+    shell: /bin/bash
+    state: present
+  loop: "{{ wrk_testing_users }}"
+  no_log: yes

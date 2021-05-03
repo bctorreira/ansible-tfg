@@ -1,4 +1,8 @@
 ---
+- name: Testing environment tasks
+  ansible.builtin.import_tasks: testing.yml
+  when: inventory_hostname not in groups.testing
+
 - name: Postfix tasks
   ansible.builtin.import_tasks: postfix.yml
 
