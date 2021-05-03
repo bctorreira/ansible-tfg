@@ -1,18 +1,12 @@
 ---
-- name: Include redis role
-  ansible.builtin.include_role:
-    name: geerlingguy.redis
-  vars:
-    redis_bind_interface: 0.0.0.0
-    redis_timeout: 300
-    redis_save: []
-    # TODO: sacar a variable de host ("{{ redis_host_maxmemory }}"?), valor por defecto -> sobreescribir
-    redis_maxmemory: "{{ redis_host_maxmemory }}"
-    redis_maxmemory_policy: "allkeys-lru"
-    redis_logfile: /var/log/redis/redis-server.log
+- name: install redis packages
+  ansible.builtin.package:
+    name: redis-server
+    state: present
 
-    # The following parameters were not in the 'geerlingguy.redis' role,
-    # so it has been modified to add them
-    redis_tcp_keepalive: 60
-    redis_slowlog_max_len: 128
-    # manage_repo: false # only from puppet?
+- name: configure redis
+  template:
+    src: redis.conf.j2
+    dest: /etc/redis/redis.conf
+    mode: "0640"
+  notify: restart redis

@@ -2,7 +2,6 @@
 roles:
   - name: geerlingguy.swap
   - name: geerlingguy.nfs
-  - name: geerlingguy.redis
   - name: arillso.logrotate
   - name: oefenweb.postfix
   - name: gabops.papertrail
