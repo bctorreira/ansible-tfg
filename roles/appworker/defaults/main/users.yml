@@ -6,3 +6,4 @@ appworker_users:
     groups: www-data,sudo
     pubkey: "{{ lookup('file', '../keys/opennemas.pub') }}"
     uid: 10001
+    sudo_permissions: "ALL=(ALL:ALL) /bin/chmod, /bin/chown, /bin/chgrp, /usr/sbin/service php7.3-fpm reload"
