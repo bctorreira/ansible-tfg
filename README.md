@@ -1,8 +1,6 @@
-# onm-ansible
+# ansible-tfg
 
 Ansible dedicated repository.
-
-Clone this repository and move its contents to `/etc/ansible`, overwriting any files if needed.
 
 ## Modified ansible configuration parameters
 ```
@@ -192,11 +190,10 @@ $ apt install ansible
 ```
 
 #### Cloning the repository
-Clone the Ansible repository from https://bitbucket.org/opennemas/onm-ansible/src/master/ and move its contents to `/etc/ansible`, overwriting files if necessary:
+Clone the Ansible repository from https://github.com/bctorreira/ansible-tfg.git
 ```bash
 # on the control node:
-$ git clone git@bitbucket.org:drjato/onm-ansible.git
-$ mv -i onm-ansible/* /etc/ansible/
+$ git clone https://github.com/bctorreira/ansible-tfg
 ```
 
 #### Satisfying dependencies
@@ -240,9 +237,9 @@ This playbook will change the default SSH configuration, switching the default p
 
 To configure all hosts at once, simply execute the following command:
 ```bash
-$ ansible-playbook playbooks/onm.yml
+$ ansible-playbook playbooks/full_setup.yml
 ```
-This command will run the `onm.yml` playbook as the `ansible` user, configuring all nodes listed in the inventory.
+This command will run the `full_setup.yml` playbook as the `ansible` user, configuring all nodes listed in the inventory.
 
 ### Per-group configuration
 
