@@ -2,4 +2,3 @@
 # List of authorized keys for the ansible user
 authorized_key_files:
     - ../keys/ansible_key.pub
-    - ../keys/id_rsa.pub
