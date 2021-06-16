@@ -1,23 +1,23 @@
-group_vars/all/vault_users.yml
+# Ansible Galaxy roles and collections
 
-local
-
-VAULT_PASSWORD_FILE
-
-roles_galaxy/
-
-keys/
-
-.notes/
-
-.cache/
-
-certs/
-
-playbooks/test.yml
-
-.vscode/
+ansible_roles/
 
 ansible_collections/
 
-collections/
+# Secret files
+VAULT_PASSWORD_FILE
+
+keys/
+
+certs/
+
+# Test files
+playbooks/test.yml
+
+# Notes
+.notes/
+
+# Local settings
+.cache/
+
+.vscode/
