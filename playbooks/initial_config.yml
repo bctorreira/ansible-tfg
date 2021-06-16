@@ -79,24 +79,28 @@
         dest: "/etc/ssh/sshd_config"
         regexp: "^Port"
         line: "Port {{ configured_port }}"
+      notify: Restart sshd service
 
     - name: Prohibit root login
       ansible.builtin.lineinfile:
         dest: "/etc/ssh/sshd_config"
         regexp: "^PermitRootLogin"
         line: "PermitRootLogin no"
+      notify: Restart sshd service
 
     - name: Ingore user known hosts
       ansible.builtin.lineinfile:
         dest: "/etc/ssh/sshd_config"
         regexp: "^IgnoreUserKnownHosts"
         line: "IgnoreUserKnownHosts yes"
+      notify: Restart sshd service
 
     - name: Prohibit X11 forwarding
       ansible.builtin.lineinfile:
         dest: "/etc/ssh/sshd_config"
         regexp: "^X11Forwarding"
         line: "X11Forwarding no"
+      notify: Restart sshd service
 
     - name: Add ansible user
       ansible.builtin.user:
@@ -119,6 +123,7 @@
         key: "{{ item }}"
       with_file: "{{ authorized_key_files }}"
 
+  handlers:
     - name: Restart sshd service
       ansible.builtin.service:
         name: sshd
