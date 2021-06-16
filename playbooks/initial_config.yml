@@ -1,10 +1,7 @@
 ---
 - hosts: all
   gather_facts: no
-  become: no
-  remote_user: root
-  vars:
-    ansible_ssh_private_key_file: "./keys/root"
+  remote_user: user
   tasks:
   # ansible_port can change throughout this role, keep a copy around
     - name: Set configured port fact
@@ -65,6 +62,13 @@
       ansible.builtin.fail:
         msg: "The SSH port is neither 22 or {{ ansible_port }}."
       when: ssh_port_set is undefined
+
+    # Install the user key in the servers
+    - name: Install user keys
+      ansible.posix.authorized_key:
+        user: user
+        state: present
+        key: "{{ lookup('file', '../keys/user.pub') }}"
 
     # Sanity check, make sure Ansible is able to connect to the host
     - name: Confirm host connection works (playbook will fail if ssh already configured)
