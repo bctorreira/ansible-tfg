@@ -1,7 +1,0 @@
----
-- name: remove unneeded packages
-  ansible.builtin.package:
-    name:
-      - ufw
-      - unattended-upgrades
-    state: absent

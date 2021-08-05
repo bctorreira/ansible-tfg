@@ -1,8 +1,9 @@
 ---
 - name: install backupninja package
-  ansible.builtin.package:
+  ansible.builtin.apt:
     name: backupninja
     state: present
+    update_cache: yes
 
 - name: configure backupninja (backupninja.conf)
   ansible.builtin.lineinfile:

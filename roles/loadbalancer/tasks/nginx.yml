@@ -1,8 +1,9 @@
 ---
 - name: install nginx package
-  ansible.builtin.package:
+  ansible.builtin.apt:
     name: nginx-extras
     state: present
+    update_cache: yes
 
 - name: configure nginx (nginx.conf)
   ansible.builtin.copy:

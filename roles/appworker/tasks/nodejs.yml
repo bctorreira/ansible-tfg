@@ -34,9 +34,10 @@
   when: not node.stat.exists
 
 - name: install nodejs packages
-  ansible.builtin.package:
+  ansible.builtin.apt:
     name: "{{ nodejs_packages }}"
     state: present
+    update_cache: yes
 
 - name: install needed packages from npm
   community.general.npm:

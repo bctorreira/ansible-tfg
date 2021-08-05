@@ -1,0 +1,13 @@
+---
+- name: remove unneeded packages
+  ansible.builtin.apt:
+    name:
+      - ufw
+      - unattended-upgrades
+    state: absent
+
+- name: install essential packages
+  ansible.builtin.apt:
+    name: "{{ essential_packages }}"
+    state: present
+    update_cache: yes

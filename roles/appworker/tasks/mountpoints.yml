@@ -1,8 +1,9 @@
 ---
 - name: install nfs server package
-  ansible.builtin.package:
+  ansible.builtin.apt:
     name: nfs-common
     state: present
+    update_cache: yes
 
 - name: mount nfs drives
   ansible.posix.mount:

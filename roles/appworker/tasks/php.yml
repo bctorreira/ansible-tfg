@@ -5,9 +5,10 @@
     update_cache: yes
 
 - name: Install php packages
-  ansible.builtin.package:
+  ansible.builtin.apt:
     name: "{{ php_packages }}"
     state: present
+    update_cache: yes
 
 # If no match for regexp in lineinfile, appends line at EOF
 - name: Configure cli (cli/php.ini)

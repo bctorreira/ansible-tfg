@@ -1,12 +1,12 @@
 ---
 - name: install dependencies
-  ansible.builtin.package:
+  ansible.builtin.apt:
     name: python3-pymysql
     state: present
     update_cache: yes
 
 - name: install mysql-server packages
-  ansible.builtin.package:
+  ansible.builtin.apt:
     name: mysql-server
     state: present
     update_cache: yes
