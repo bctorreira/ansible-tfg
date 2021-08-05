@@ -5,10 +5,10 @@
   vars:
     logrotate_global_config: false
     logrotate_applications:
-      - name: cron_opennemas
+      - name: cron_my_app
         definitions:
           - logs:
-              - /home/opennemas/shared/tmp/logs/cron.log
+              - /home/my_app/shared/tmp/logs/cron.log
             options:
               - su www-data www-data
               - maxsize 500M

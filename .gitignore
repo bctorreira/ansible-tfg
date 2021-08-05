@@ -21,3 +21,5 @@ playbooks/test.yml
 .cache/
 
 .vscode/
+
+ansible-galera/

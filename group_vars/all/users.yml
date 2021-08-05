@@ -1,14 +1,7 @@
 ---
 admin_users:
-  - user:
-    name: admmacada
-    comment: David Martinez
-    password: "{{ vault_admmacada_password }}"
-    pubkey: "{{ lookup('file', '../keys/admmacada.pub') }}"
-    uid: 10002
-  - user:
-    name: admdrjato
-    comment: David Reboiro Jato
-    password: "{{ vault_admdrjato_password }}"
-    pubkey: "{{ lookup('file', '../keys/admdrjato.pub') }}"
-    uid: 10008
+  - name: bctorreira
+    comment: Brais Cantorna Torreira
+    password: "{{ vault_bctorreira_password }}"
+    uid: 10010
+    pubkey: "{{ lookup('file', '../keys/bctorreira.pub') }}"

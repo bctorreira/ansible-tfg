@@ -1,22 +1,22 @@
 ---
 mountpoints:
-  - path: /home/opennemas/shared/public/build/
+  - path: /home/my_app/shared/public/build/
     src: "{{ servers.sto }}:/srv/shared/build"
     fstype: nfs
     opts: auto,user,vers=3,rsize=32768,wsize=32768,intr,noatime,noacl,nocto,bg
-  - path: /home/opennemas/shared/public/media/
+  - path: /home/my_app/shared/public/media/
     src: "{{ servers.sto }}:/srv/shared/media"
     fstype: nfs
     opts: auto,user,vers=3,rsize=32768,wsize=32768,intr,noatime,noacl,nocto,bg
-  - path: /home/opennemas/shared/tmp/backups/
+  - path: /home/my_app/shared/tmp/backups/
     src: "{{ servers.sto }}:/srv/shared/backup"
     fstype: nfs
     opts: auto,user,vers=3,rsize=32768,wsize=32768,intr,noatime,noacl,nocto,bg
-  - path: /home/opennemas/shared/tmp/instances/
+  - path: /home/my_app/shared/tmp/instances/
     src: "{{ servers.sto }}:/srv/shared/instances"
     fstype: nfs
     opts: auto,user,vers=3,rsize=32768,wsize=32768,intr,noatime,noacl,nocto,bg
-  - path: /home/opennemas/shared/tmp/spool/
+  - path: /home/my_app/shared/tmp/spool/
     src: "{{ servers.sto }}:/srv/shared/spool"
     fstype: nfs
     opts: auto,user,vers=3,rsize=32768,wsize=32768,intr,noatime,noacl,nocto,bg

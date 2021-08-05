@@ -1,40 +1,8 @@
 ---
-cron_mailto: "support@placeholder.es"
+cron_mailto: "bctorreira17@esei.uvigo.es"
 
 cronjobs:
-  - name: "Delect Smarty cache files"
-    minute: "*/5"
-    job: 'find /home/opennemas/shared/tmp/instances/ -type f -path "*/cache/*" -mmin +60 -exec rm -- {} \; >> /home/opennemas/current/tmp/logs/cron.log  2> /dev/null'
-
-  - name: "Sync instances (media)"
+  - name: "Cron job example"
     minute: "30"
     hour: "*/4"
-    job: "/home/opennemas/current/bin/console core:instance:update --media --env=prod >> /home/opennemas/current/tmp/logs/cron.log 2>&1"
-
-  - name: "Sync instances (stats)"
-    minute: "*/30"
-    job: "/home/opennemas/current/bin/console core:instance:update --stats --env=prod >> /home/opennemas/current/tmp/logs/cron.log 2>&1"
-
-  - name: "Swiftmailer (send)"
-    minute: "*/2"
-    job: "/home/opennemas/current/app/console swiftmailer:spool:send --env=prod &>> /tmp/swiftmailer.log"
-    disabled: yes
-
-  - name: "Swiftmailer (clear failures)"
-    minute: "0"
-    hour: "6"
-    job: "/home/opennemas/current/app/console swiftmailer:spool:clear-failures --env=prod &>> /tmp/swiftmailer.log"
-    disabled: yes
-
-  - name: "Swiftmailer delete files uploaded"
-    minute: "30"
-    hour: "9"
-    job: "find /home/opennemas/current/tmp/spool/files/ -type f -mtime +7 -exec rm -- {} \\;"
-
-  - name: "Generate scheduled newsletters"
-    minute: "1-59/30"
-    job: "/home/opennemas/current/bin/console newsletter:schedule >> /home/opennemas/current/tmp/logs/cron.log 2>&1"
-
-  - name: "Sync news agency elements"
-    minute: "2-59"
-    job: "/home/opennemas/current/bin/console news-agency:synchronize -c >> /home/opennemas/current/tmp/logs/cron.log 2>&1"
+    job: "echo 'Example'"

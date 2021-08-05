@@ -11,7 +11,7 @@ mysqld_config:
   - name: interactive_timeout
     value: 60
   - name: innodb_buffer_pool_size
-    value: "{{ (ansible_facts.memtotal_mb/2) | round | int }}M"    # VALUE WAS 9G, CHANGED BECAUSE NOT THAT MUCH MEMORY IN TESTING ENVIRONMENT
+    value: "{{ (ansible_facts.memtotal_mb*0.9) | round | int }}M"    # VALUE WAS 9G, CHANGED BECAUSE NOT THAT MUCH MEMORY IN TESTING ENVIRONMENT
   - name: innodb_buffer_pool_instances
     value: 8
   - name: innodb_flush_log_at_trx_commit

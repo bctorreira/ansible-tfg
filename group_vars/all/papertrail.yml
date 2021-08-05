@@ -3,8 +3,8 @@
 # in gabops.papertrail role
 
 # original url: logs4.papertrailapp.com
-onm_papertrail_destination_host: logs4.example.com
+log_papertrail_destination_host: logs4.papertrailapp.com
 
-onm_papertrail_destination_port: 24181
+log_papertrail_destination_port: 47189
 
-onm_papertrail_destination_protocol: tls
+log_papertrail_destination_protocol: tls

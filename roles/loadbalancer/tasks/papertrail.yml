@@ -3,7 +3,7 @@
   ansible.builtin.include_role:
     name: gabops.papertrail
   vars:
-    papertrail_destination_host: "{{ onm_papertrail_destination_host }}"
-    papertrail_destination_port: "{{ onm_papertrail_destination_port }}"
-    papertrail_destination_protocol: "{{ onm_papertrail_destination_protocol }}"
+    papertrail_destination_host: "{{ log_papertrail_destination_host }}"
+    papertrail_destination_port: "{{ log_papertrail_destination_port }}"
+    papertrail_destination_protocol: "{{ log_papertrail_destination_protocol }}"
     papertrail_files_to_log: "{{ loadbalancer_papertrail_files_to_log }}"

@@ -14,7 +14,7 @@
   plugins directory = /opt/netdata/usr/libexec/netdata/plugins.d
   web files directory = /opt/netdata/usr/share/netdata/web
   cache directory = /opt/netdata/var/cache/netdata
-  
+
   memory mode = none
 
   debug flags = 0x00000000
@@ -23,16 +23,8 @@
   access log = /opt/netdata/var/log/netdata/access.log
 
   web files user = netdata
-  web files group = netdata   
+  web files group = netdata
   run as user = netdata
   default port = 19999
-  bind to = 127.0.0.1
-
-# web configuration
-
-[web]
-  mode = none
-
-# registry configuration
-
-[registry]
+  # Allows access from outside for testing purposes
+  bind to = 0.0.0.0

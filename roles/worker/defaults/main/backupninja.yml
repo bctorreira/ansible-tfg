@@ -3,7 +3,7 @@ backupninja_conf:
   - directive: "loglevel"
     value: "3"
   - directive: "reportemail"
-    value: "support@openhost.es"
+    value: "support@my_app.es"
   - directive: "reportsuccess"
     value: "yes"
   # - directive: "#reportinfo"

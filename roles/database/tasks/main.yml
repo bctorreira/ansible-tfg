@@ -33,16 +33,16 @@
 # If column privileges are used, the priv1,priv2 part must be exactly as returned
 # by a SHOW GRANT statement.
 # If not followed, the module will always report changes (as it does right now).
-- name: add onm-instances mysql user (always reports changes)
-  community.mysql.mysql_user:
-    login_user: root
-    login_password: "{{ vault_root_mysql_password }}"
-    name: onm-instances
-    password: "{{ vault_onm_instances_mysql_password }}"
-    host: '%'
-    priv: '*.*:ALL,GRANT'
-    state: present
-  no_log: yes
+# - name: add onm-instances mysql user (always reports changes)
+#   community.mysql.mysql_user:
+#     login_user: root
+#     login_password: "{{ vault_root_mysql_password }}"
+#     name: onm-instances
+#     password: "{{ vault_onm_instances_mysql_password }}"
+#     host: '%'
+#     priv: '*.*:ALL,GRANT'
+#     state: present
+#   no_log: yes
 
 - name: check if netdata is installed
   ansible.builtin.stat:

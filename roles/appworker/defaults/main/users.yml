@@ -1,9 +1,9 @@
 ---
 appworker_users:
-  - name: opennemas
-    comment: "Opennemas deploy account"
-    password: "{{ vault_opennemas_password }}"
+  - name: deployer
+    comment: "App deployment account"
+    password: "{{ vault_deployer_password }}"
     groups: www-data,sudo
-    pubkey: "{{ lookup('file', '../keys/opennemas.pub') }}"
+    pubkey: "{{ lookup('file', '../keys/deployer.pub') }}"
     uid: 10001
     sudo_permissions: "ALL=(ALL:ALL) /bin/chmod, /bin/chown, /bin/chgrp, /usr/sbin/service php7.3-fpm reload"

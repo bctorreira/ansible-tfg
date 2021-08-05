@@ -20,32 +20,6 @@
     mode: "0400"
     state: present
     regexp: "^deployer"
-    line: "deployer  ALL=(ALL:ALL) NOPASSWD: /usr/sbin/service php7.3-fpm reload, /usr/local/bin/updaterepo, /usr/bin/apt-get update, /usr/bin/apt list --installed, /usr/bin/apt-get -y install onm-?*, /usr/bin/apt-get -y remove onm-?*, /usr/bin/apt-get -y remove"
+    line: "deployer  ALL=(ALL:ALL) NOPASSWD: /usr/sbin/service php7.3-fpm reload, /usr/local/bin/updaterepo, /usr/bin/apt-get update, /usr/bin/apt list --installed, /usr/bin/apt-get -y install, /usr/bin/apt-get -y remove"
     validate: /usr/sbin/visudo -cf %s
 
-- name: add openhost repository key
-  ansible.builtin.apt_key:
-    id: 7B120C4CBE53D005A9060780A8141E39E2209BB8
-    url: http://repo.openhost.es/public.key
-    state: present
-
-- name: add openhost repository
-  ansible.builtin.apt_repository:
-    repo: deb [arch=amd64] http://repo.openhost.es "{{ dist }}" main
-    state: present
-
-- name: send `updaterepo` file
-  ansible.builtin.copy:
-    src: files/updaterepo
-    dest: /usr/local/bin/updaterepo
-    owner: root
-    group: root
-    mode: "0755"
-
-- name: create `themes` directory
-  ansible.builtin.file:
-    path: /home/opennemas/shared/public/themes
-    state: directory
-    owner: www-data
-    group: www-data
-    mode: '0775'

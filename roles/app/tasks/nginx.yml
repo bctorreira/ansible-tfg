@@ -6,22 +6,22 @@
     update_cache: yes
 
 - name: configure nginx (nginx.conf)
-  ansible.builtin.copy:
-    src: files/nginx.conf
+  ansible.builtin.template:
+    src: templates/nginx.conf.j2
     dest: /etc/nginx/nginx.conf
     owner: root
     group: root
     mode: "0644"
   notify: reload nginx service
 
-- name: configure nginx (vhosts-includes)
-  ansible.builtin.copy:
-    src: files/vhosts-includes
-    dest: /etc/nginx/
-    owner: root
-    group: root
-    mode: "0644"
-  notify: reload nginx service
+# - name: configure nginx (vhosts-includes)
+#   ansible.builtin.copy:
+#     src: files/vhosts-includes
+#     dest: /etc/nginx/
+#     owner: root
+#     group: root
+#     mode: "0644"
+#   notify: reload nginx service
 
 - name: disable default site
   ansible.builtin.file:
@@ -65,37 +65,37 @@
   when: nd.stat.exists
   notify: reload php-fpm
 
-- name: configure `manager` site
+# - name: configure `manager` site
+#   ansible.builtin.template:
+#     src: templates/sites/manager.j2
+#     dest: /etc/nginx/sites-available/manager
+#     owner: root
+#     group: root
+#     mode: "0644"
+#   notify: reload nginx service
+
+# - name: enable `manager` site
+#   ansible.builtin.file:
+#     src: /etc/nginx/sites-available/manager
+#     dest: /etc/nginx/sites-enabled/manager
+#     owner: root
+#     group: root
+#     state: link
+#   notify: reload nginx service
+
+- name: configure `my_web` site
   ansible.builtin.template:
-    src: templates/sites/manager.j2
-    dest: /etc/nginx/sites-available/manager
+    src: templates/sites/my_web.j2
+    dest: /etc/nginx/sites-available/my_web
     owner: root
     group: root
     mode: "0644"
   notify: reload nginx service
 
-- name: enable `manager` site
+- name: enable `my_web` site
   ansible.builtin.file:
-    src: /etc/nginx/sites-available/manager
-    dest: /etc/nginx/sites-enabled/manager
-    owner: root
-    group: root
-    state: link
-  notify: reload nginx service
-
-- name: configure `opennemas` site
-  ansible.builtin.template:
-    src: templates/sites/opennemas.j2
-    dest: /etc/nginx/sites-available/opennemas
-    owner: root
-    group: root
-    mode: "0644"
-  notify: reload nginx service
-
-- name: enable `opennemas` site
-  ansible.builtin.file:
-    src: /etc/nginx/sites-available/opennemas
-    dest: /etc/nginx/sites-enabled/opennemas
+    src: /etc/nginx/sites-available/my_web
+    dest: /etc/nginx/sites-enabled/my_web
     owner: root
     group: root
     state: link

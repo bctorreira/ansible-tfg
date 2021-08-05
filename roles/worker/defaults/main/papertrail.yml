@@ -1,11 +1,8 @@
 ---
-# prepend with role name to avoid overwriting original variables
+# prepend with role name to avoid overwriting variables
 # in gabops.papertrail role
 
 worker_papertrail_files_to_log:
-  - "/home/opennemas/shared/tmp/logs/manager-error.log"
-  - "/home/opennemas/shared/tmp/logs/cron.log"
-  - "/home/opennemas/shared/tmp/logs/prod.log"
-  - "/home/opennemas/shared/tmp/logs/opennemas-error.log"
-  - "/home/opennemas/shared/tmp/logs/application.log"
+  - "/var/log/syslog"
+  - "/var/log/nginx/error.log"
   - "/var/log/php7.3-fpm.log"

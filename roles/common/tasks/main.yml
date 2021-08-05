@@ -1,15 +1,4 @@
 ---
-- name: Swap tasks
-  ansible.builtin.import_tasks: swap.yml
-
-- name: install essential packages
-  ansible.builtin.package:
-    name: "{{ essential_packages }}"
-    state: present
-
-- name: Extra packages tasks
-  ansible.builtin.import_tasks: extra_packages.yml
-
 - name: set timezone to utc
   timezone:
     name: Etc/UTC
@@ -20,6 +9,12 @@
     state: present
   loop:
     "{{ locales }}"
+
+- name: Swap tasks
+  ansible.builtin.import_tasks: swap.yml
+
+- name: Packages tasks
+  ansible.builtin.import_tasks: packages.yml
 
 - name: User tasks
   ansible.builtin.import_tasks: users.yml
