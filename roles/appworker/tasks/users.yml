@@ -11,7 +11,7 @@
     state: present
   loop:
     "{{ appworker_users }}"
-  # no_log: yes
+  no_log: yes
 
 - name: set authorized key for appworker users
   ansible.posix.authorized_key:
