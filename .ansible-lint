@@ -2,7 +2,8 @@
 exclude_paths:
   - .cache/
   - .github/
-  - roles_galaxy/
+  - ansible_roles/
+  - ansible_collections/
 
 skip_list:
   - comments-indentation
