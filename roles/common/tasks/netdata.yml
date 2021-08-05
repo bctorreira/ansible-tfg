@@ -8,7 +8,6 @@
   ansible.builtin.get_url:
     url: https://my-netdata.io/kickstart-static64.sh
     dest: /tmp/kickstart-static64.sh
-    checksum: md5:c735fd724be5726c8a1850deed2793b8
   run_once: yes
   delegate_to: localhost
   when: not nd.stat.exists
