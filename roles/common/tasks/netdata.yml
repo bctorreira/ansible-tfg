@@ -46,11 +46,12 @@
     mode: "0644"
   notify: restart netdata service
 
-- name: configure netdata (stream.conf)
-  ansible.builtin.template:
-    src: templates/stream.conf.j2
-    dest: /opt/netdata/etc/netdata/stream.conf
-    owner: netdata
-    group: netdata
-    mode: "0644"
-  notify: restart netdata service
+# Commented out because the default console will be used to try things out
+# - name: configure netdata (stream.conf)
+#   ansible.builtin.template:
+#     src: templates/stream.conf.j2
+#     dest: /opt/netdata/etc/netdata/stream.conf
+#     owner: netdata
+#     group: netdata
+#     mode: "0644"
+#   notify: restart netdata service
