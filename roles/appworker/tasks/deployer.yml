@@ -22,4 +22,3 @@
     regexp: "^deployer"
     line: "deployer  ALL=(ALL:ALL) NOPASSWD: /usr/sbin/service php7.3-fpm reload, /usr/local/bin/updaterepo, /usr/bin/apt-get update, /usr/bin/apt list --installed, /usr/bin/apt-get -y install, /usr/bin/apt-get -y remove"
     validate: /usr/sbin/visudo -cf %s
-

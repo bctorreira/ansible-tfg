@@ -3,6 +3,7 @@
   ansible.builtin.lineinfile:
     path: /etc/cron.d/onm-default
     create: yes
+    mode: u=rw,g=r,o=r
     regexp: "^MAILTO( )*="
     line: "MAILTO={{ cron_mailto }}"
     insertbefore: BOF
