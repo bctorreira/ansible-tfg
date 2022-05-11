@@ -1,0 +1,110 @@
+{{ ansible_managed | comment }}
+
+########################################################################################
+# This config file is parsed using libconfig , and its grammar is described in:
+# http://www.hyperrealm.com/libconfig/libconfig_manual.html#Configuration-File-Grammar
+# Grammar is also copied at the end of this file
+########################################################################################
+
+########################################################################################
+# IMPORTANT INFORMATION REGARDING THIS CONFIGURATION FILE:
+########################################################################################
+# On startup, ProxySQL reads its config file (if present) to determine its datadir.
+# What happens next depends on if the database file (disk) is present in the defined
+# datadir (i.e. "/var/lib/proxysql/proxysql.db").
+#
+# If the database file is found, ProxySQL initializes its in-memory configuration from
+# the persisted on-disk database. So, disk configuration gets loaded into memory and
+# then propagated towards the runtime configuration.
+#
+# If the database file is not found and a config file exists, the config file is parsed
+# and its content is loaded into the in-memory database, to then be both saved on-disk
+# database and loaded at runtime.
+#
+# IMPORTANT: If a database file is found, the config file is NOT parsed. In this case
+#            ProxySQL initializes its in-memory configuration from the persisted on-disk
+#            database ONLY. In other words, the configuration found in the proxysql.cnf
+#            file is only used to initial the on-disk database read on the first startup.
+#
+# In order to FORCE a re-initialise of the on-disk database from the configuration file
+# the ProxySQL service should be started with "service proxysql initial".
+#
+########################################################################################
+
+# TEST: "{{ hostvars[groups.dba | first].ansible_default_ipv4.address }}"
+
+datadir="/var/lib/proxysql"
+errorlog="/var/lib/proxysql/proxysql.log"
+
+admin_variables =
+{
+	admin_credentials="{{ psql_admin_user }}:{{ psql_admin_pass }};{{ psql_cluster_user }}:{{ psql_cluster_pass }}"
+	cluster_password="{{ psql_cluster_pass }}"
+	cluster_username="{{ psql_cluster_user }}"
+}
+
+mysql_variables =
+{
+	monitor_connect_interval="{{ monitor_connect_interval }}"
+	monitor_password="{{ psql_monitor_pass }}"
+	monitor_ping_interval="{{ monitor_ping_interval }}"
+	monitor_read_only_interval="{{ monitor_read_only_interval }}"
+	monitor_username="{{ psql_monitor_user }}"
+}
+
+mysql_users:
+(
+{% for user in mysql_users %}
+	{
+		username="{{ user.username }}"
+		password="{{ user.password }}"
+		default_hostgroup={{ user.default_hostgroup }}
+	}{% if not loop.last %},{% endif %}
+{% endfor %}
+)
+mysql_query_rules:
+(
+{% for rule in psql_query_rules %}
+	{
+		rule_id={{ loop.index }}
+		active={{ psql_query_rules[loop.index-1].active }}
+		match_digest="{{ psql_query_rules[loop.index-1].digest }}"
+		destination_hostgroup={{ psql_query_rules[loop.index-1].dest_hostgroup }}
+		apply={{ psql_query_rules[loop.index-1].apply }}
+	}{% if not loop.last %},{% endif %}
+{% endfor %}
+)
+mysql_servers:
+(
+{% for host in groups.dba %}
+	{
+		hostgroup_id={{ hostvars[host].psql_hostgroup }}
+		hostname="{{ hostvars[host].ansible_default_ipv4.address }}"
+		port={{ mysql_port }}
+		weight={{ hostvars[host].psql_weight }}
+		comment="dba{{ loop.index }}"
+	}{% if not loop.last %},{% endif %}
+{% endfor %}
+)
+mysql_galera_hostgroups:
+(
+	{
+		writer_hostgroup=10
+		backup_writer_hostgroup=20
+		reader_hostgroup=30
+		offline_hostgroup=99
+		active=1
+		max_writers=1
+		writer_is_also_reader=0
+		max_transactions_behind=15
+	}
+)
+proxysql_servers:
+(
+{% for host in groups.sbl %}
+	{
+		hostname="{{ hostvars[host].ansible_default_ipv4.address }}"
+		port={{ psql_port }}
+	}{% if not loop.last %},{% endif %}
+{% endfor %}
+)

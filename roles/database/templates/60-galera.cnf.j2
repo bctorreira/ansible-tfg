@@ -1,0 +1,34 @@
+#
+# * Galera-related settings
+#
+# See the examples of server wsrep.cnf files in /usr/share/mysql
+# and read more at https://mariadb.com/kb/en/galera-cluster/
+{% if inventory_hostname == (groups.dba | last) %}
+
+[mysqld]
+read_only = ON
+{% endif %}
+
+[galera]
+# Mandatory settings
+wsrep_on                 = ON
+wsrep_cluster_name       = "MariaDB Galera Cluster"
+wsrep_cluster_address    = "gcomm://{% for host in groups.dba %}{{ hostvars[host].ansible_default_ipv4.address | default(hostvars[host].ansible_all_ipv4_addresses | first ) }}{% if not loop.last %},{% endif %}{% endfor %}"
+binlog_format            = row
+default_storage_engine   = InnoDB
+innodb_autoinc_lock_mode = 2
+
+# Allow server to accept connections on all interfaces.
+bind-address = "{{ ansible_default_ipv4.address | default(ansible_all_ipv4_addresses | first) }}"
+
+# Optional settings
+wsrep_slave_threads = 4
+innodb_flush_log_at_trx_commit = 0
+
+# New settings
+wsrep_provider = /usr/lib/galera/libgalera_smm.so
+wsrep_provider_options = "gcache.size=128M; gcache.page_size=128M"
+wsrep_sst_method = rsync
+innodb_buffer_pool_size=128M
+wsrep_node_name = "{{ ansible_hostname }}"
+wsrep_node_address = "{{ ansible_default_ipv4.address | default(ansible_all_ipv4_addresses | first) }}"

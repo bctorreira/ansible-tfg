@@ -1,0 +1,29 @@
+---
+- name: stop proxysql
+  ansible.builtin.service:
+    name: proxysql
+    state: stopped
+  listen: restart proxysql service
+
+- name: stop proxysql-initial
+  ansible.builtin.service:
+    name: proxysql-initial
+    state: stopped
+  listen: restart proxysql service
+
+- name: delete old config database
+  ansible.builtin.file:
+    path: /var/lib/proxysql/proxysql.db
+    state: absent
+  listen: restart proxysql service
+
+- name: start proxysql loading new config
+  ansible.builtin.service:
+    name: proxysql-initial
+    state: started
+  listen: restart proxysql service
+
+- name: restart keepalived service
+  ansible.builtin.service:
+    name: keepalived
+    state: restarted

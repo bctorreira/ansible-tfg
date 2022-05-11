@@ -1,0 +1,75 @@
+---
+- name: remove unneeded packages
+  ansible.builtin.apt:
+    name:
+      - unattended-upgrades
+    state: absent
+
+- name: install mariadb gpg key
+  ansible.builtin.apt_key:
+    url: https://mariadb.org/mariadb_release_signing_key.asc
+    state: present
+
+- name: install proxysql gpg key
+  ansible.builtin.apt_key:
+    url: https://repo.proxysql.com/ProxySQL/repo_pub_key
+    state: present
+
+- name: install mariadb repository
+  ansible.builtin.apt_repository:
+    repo: deb https://mirrors.chroot.ro/mariadb/repo/10.6/ubuntu focal main
+    state: present
+    filename: mariadb
+
+- name: install proxysql repository
+  ansible.builtin.apt_repository:
+    repo: deb https://repo.proxysql.com/ProxySQL/proxysql-2.2.x/focal/ ./
+    state: present
+    filename: proxysql
+
+- name: install packages
+  ansible.builtin.apt:
+    name:
+      - python3-pymysql
+      - mariadb-client
+      - proxysql
+      - keepalived
+    state: present
+    update_cache: yes
+
+- name: gather facts from dba hosts
+  ansible.builtin.setup:
+  delegate_to: "{{ item }}"
+  delegate_facts: yes
+  when: hostvars[item]['ansible_default_ipv4'] is not defined
+  with_items: "{{ groups['dba'] }}"
+  run_once: yes
+
+- name: send proxysql configuration
+  ansible.builtin.template:
+    src: proxysql.cnf.j2
+    dest: /etc/proxysql.cnf
+    owner: root
+    group: proxysql
+    mode: u=rw,g=r,o=
+  notify: restart proxysql service
+
+- name: send keepalived configuration
+  ansible.builtin.template:
+    src: keepalived.conf.j2
+    dest: /etc/keepalived/keepalived.conf
+    owner: root
+    group: root
+    mode: u=rw,g=,o=
+  notify: restart keepalived service
+
+# flush handlers to have services configured
+- name: flush handlers
+  meta: flush_handlers
+
+- name: check access to db nodes from proxy
+  community.mysql.mysql_query:
+    query: SELECT @@port
+    login_user: "{{ mysql_test_user }}"
+    login_password: "{{ mysql_test_pass }}"
+    login_host: "{{ hostvars[groups.dba | first].ansible_default_ipv4.address }}"

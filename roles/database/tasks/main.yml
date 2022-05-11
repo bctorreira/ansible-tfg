@@ -1,74 +1,192 @@
 ---
-- name: install dependencies
+- name: remove unneeded packages
   ansible.builtin.apt:
-    name: python3-pymysql
-    state: present
-    update_cache: yes
+    name:
+      - unattended-upgrades
+    state: absent
 
-- name: install mysql-server packages
+- name: stop and disable apparmor
+  ansible.builtin.service:
+    name: apparmor
+    state: stopped
+    enabled: no
+
+- name: install mariadb gpg key
+  ansible.builtin.apt_key:
+    url: https://mariadb.org/mariadb_release_signing_key.asc
+    state: present
+
+- name: install mariadb repository
+  ansible.builtin.apt_repository:
+    repo: deb https://mirrors.chroot.ro/mariadb/repo/10.6/ubuntu focal main
+    state: present
+    filename: mariadb
+
+- name: install packages
   ansible.builtin.apt:
-    name: mysql-server
+    name:
+      - python3-pymysql
+      - mariadb-server
+      - galera-4
+      - mariadb-client
+      - mariadb-backup
     state: present
-    update_cache: yes
 
-- name: send mysqld configuration file
-  ansible.builtin.template:
-    src: templates/mysqld.cnf.j2
-    dest: /etc/mysql/mysql.conf.d/mysqld.cnf
-    owner: root
-    group: root
-    mode: "0644"
-  notify: Restart mysql-server service
-
+# TODO: CHECK THIS USING VARIABLES
 - name: set mysql root password
   community.mysql.mysql_user:
+    name: root
+    password: "abc123."
     check_implicit_admin: yes
     login_user: root
-    login_password: "{{ vault_root_mysql_password }}"
-    name: root
-    password: "{{ vault_root_mysql_password }}"
-    login_unix_socket: /var/run/mysqld/mysqld.sock
-  no_log: yes
+    login_password: "abc123."
+    login_unix_socket: /run/mysqld/mysqld.sock
+  no_log: no
 
-# If column privileges are used, the priv1,priv2 part must be exactly as returned
-# by a SHOW GRANT statement.
-# If not followed, the module will always report changes (as it does right now).
-# - name: add onm-instances mysql user (always reports changes)
-#   community.mysql.mysql_user:
-#     login_user: root
-#     login_password: "{{ vault_root_mysql_password }}"
-#     name: onm-instances
-#     password: "{{ vault_onm_instances_mysql_password }}"
-#     host: '%'
-#     priv: '*.*:ALL,GRANT'
-#     state: present
-#   no_log: yes
+- name: send galera configuration
+  ansible.builtin.template:
+    src: 60-galera.cnf.j2
+    dest: /etc/mysql/mariadb.conf.d/60-galera.cnf
+    owner: root
+    group: root
+    mode: '0644'
 
-- name: check if netdata is installed
+# Throttle is set to yes to avoid stopping all servers at once,
+# which would register all of them as unsafe to bootstrap from.
+# It limits the number of workers for this task, waiting for it
+# to end in one host to start it in the next one
+- name: stop mysql service
+  ansible.builtin.service:
+    name: mysql
+    state: stopped
+  throttle: yes
+
+- name: check if grastate.dat file exists
   ansible.builtin.stat:
-    path: /opt/netdata/usr/sbin/netdata
-  register: nd
+    path: /var/lib/mysql/grastate.dat
+  register: grastate
 
-# If column privileges are used, the priv1,priv2 part must be exactly as returned
-# by a SHOW GRANT statement.
-# If not followed, the module will always report changes (as it does right now).
-- name: create netdata mysql user
+- name: set grastate file existance as fact
+  ansible.builtin.set_fact:
+    grastate_exists: "{{ grastate.stat.exists }}"
+
+# This task will only run if the grastate file DOES NOT EXIST on ANY NODE
+- name: bootstrap a new galera cluster
+  ansible.builtin.command:
+    cmd: galera_new_cluster
+    creates: /var/lib/mysql/grastate.dat
+  when: >
+    true not in (
+      groups.dba |
+      map('extract', hostvars, 'grastate_exists') |
+      list
+    )
+  run_once: yes
+
+# This task will only run if the grastate file exists and the node is safe
+# to bootstrap from.
+- name: check if any node is safe to bootstrap
+  ansible.builtin.lineinfile:
+    path: /var/lib/mysql/grastate.dat
+    line: "safe_to_bootstrap: 1"
+    state: present
+  when: grastate.stat.exists
+  check_mode: yes
+  failed_when: >
+    (safe_to_bootstrap is changed)
+    or (safe_to_bootstrap is failed)
+  register: safe_to_bootstrap
+  ignore_errors: yes
+
+- name: debug var
+  debug:
+    var: safe_to_bootstrap
+
+- name: bootstrap previous galera cluster
+  ansible.builtin.command:
+    cmd: galera_new_cluster
+  when: >
+    (safe_to_bootstrap is not changed)
+    and (safe_to_bootstrap is not failed)
+    and (safe_to_bootstrap is not skipped)
+
+- name: start mysql service
+  ansible.builtin.service:
+    name: mysql
+    state: started
+
+# Already done
+# - name: set last node as read only
+#   community.mysql.mysql_variables:
+#     variable: read_only
+#     value: ON
+#     mode: persist
+#     login_user: root
+#     login_password: "abc123."
+#     login_unix_socket: /run/mysqld/mysqld.sock
+#   when: inventory_hostname == (groups.dba | last)
+#   no_log: no
+
+- name: pause 10 seconds to wait for node synchronization
+  ansible.builtin.pause:
+    seconds: 10
+
+- name: check if all nodes up
+  community.mysql.mysql_query:
+    query: SHOW status LIKE 'wsrep_cluster_size'
+    login_user: "{{ mysql_root_user }}"
+    login_password: "{{ mysql_root_pass }}"
+    login_unix_socket: /run/mysqld/mysqld.sock
+  run_once: yes
+  delegate_to: "{{ groups.dba | first }}"
+  register: wsrep_cluster_size
+  no_log: no
+
+- name: issue a warning if not all nodes up
+  ansible.builtin.pause:
+    prompt: >
+      "Cluster does not contain every node: should have
+      {{ num_dba_hosts }} node(s), but has
+      {{ wsrep_cluster_size.query_result[0][0].Value }} node(s).
+      Press return to continue. Press Ctrl+c and then 'a' to abort."
+  when: wsrep_cluster_size.query_result[0][0].Value != num_dba_hosts
+  run_once: yes
+  delegate_to: "{{ groups.dba | first }}"
+
+- name: create monitor user for proxysql
   community.mysql.mysql_user:
-    login_user: root
-    login_password: "{{ vault_root_mysql_password }}"
-    name: netdata
-    password: "{{ vault_netdata_mysql_password }}"
-    host: 'localhost'
+    name: "{{ psql_monitor_user }}"
+    password: "{{ psql_monitor_pass }}"
+    host: "%"
     priv: '*.*:USAGE'
     state: present
-  when: nd.stat.exists
-  no_log: yes
+    login_user: "{{ mysql_root_user }}"
+    login_password: "{{ mysql_root_pass }}"
+    login_unix_socket: /run/mysqld/mysqld.sock
+  run_once: yes
+  delegate_to: "{{ groups.dba | first }}"
 
-- name: send netdata mysql plugin configuration
-  ansible.builtin.template:
-    src: templates/netdata_plugin_mysql.conf.j2
-    dest: /opt/netdata/etc/netdata/python.d/mysql.conf
-    owner: netdata
-    group: netdata
-    mode: "0644"
-  when: nd.stat.exists
+- name: create testing database
+  community.mysql.mysql_db:
+    name: sbtest
+    check_implicit_admin: yes
+    login_user: "{{ mysql_root_user }}"
+    login_password: "{{ mysql_root_pass }}"
+    login_unix_socket: /run/mysqld/mysqld.sock
+  run_once: yes
+  delegate_to: "{{ groups.dba | first }}"
+
+- name: create testing user
+  community.mysql.mysql_user:
+    name: "{{ mysql_test_user }}"
+    password: "{{ mysql_test_pass }}"
+    host: "%"
+    priv: 'sbtest.*:USAGE'
+    state: present
+    login_user: "{{ mysql_root_user }}"
+    login_password: "{{ mysql_root_pass }}"
+    login_unix_socket: /run/mysqld/mysqld.sock
+  run_once: yes
+  delegate_to: "{{ groups.dba | first }}"
+
+##### TODO: RUN IN STEP AND CHECK NODES DOWN AND UP AFTER EACH TASK
