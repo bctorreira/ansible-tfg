@@ -1,7 +1,7 @@
 ---
-- name: add mailing directive to onm-default cron file
+- name: add mailing directive to myapp-default cron file
   ansible.builtin.lineinfile:
-    path: /etc/cron.d/onm-default
+    path: /etc/cron.d/myapp-default
     create: yes
     mode: u=rw,g=r,o=r
     regexp: "^MAILTO( )*="
@@ -20,6 +20,6 @@
     job: "{{ item.job }}"
     state: "{{ item.state | default ('present') }}"
     disabled: "{{ item.disabled | default ('no') }}"
-    cron_file: "{{ item.cron_file | default ('onm-default') }}"
+    cron_file: "{{ item.cron_file | default ('myapp-default') }}"
   loop:
     "{{ cronjobs }}"

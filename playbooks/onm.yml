@@ -1,5 +1,5 @@
 ---
-# ONM general playbook
+# myapp general playbook
 
 # Run the common role for all nodes simultaneously
 - hosts: all
@@ -37,5 +37,5 @@
     - loadbalancer
 
 # The PLAY RECAP should be reporting at least 1 change in database servers
-# (because of permission modification for mysql the onm-instances user,
+# (because of permission modification for mysql the myapp-instances user,
 # always reporting changes)

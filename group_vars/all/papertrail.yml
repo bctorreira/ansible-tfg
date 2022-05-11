@@ -1,10 +1,10 @@
 ---
-# prepend with `onm` to avoid overwriting original variables
+# prepend with `myapp` to avoid overwriting original variables
 # in gabops.papertrail role
 
 # original url: logs4.papertrailapp.com
 log_papertrail_destination_host: logs4.papertrailapp.com
 
-log_papertrail_destination_port: 47189
+log_papertrail_destination_port: 45678  # 47189 original
 
 log_papertrail_destination_protocol: tls
