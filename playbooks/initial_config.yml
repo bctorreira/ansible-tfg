@@ -3,7 +3,7 @@
   gather_facts: no
   remote_user: user
   tasks:
-  # ansible_port can change throughout this role, keep a copy around
+    # ansible_port can change throughout this role, keep a copy around
     - name: Set configured port fact
       ansible.builtin.set_fact:
         configured_port: "{{ ansible_port }}"
