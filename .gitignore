@@ -23,3 +23,9 @@ playbooks/test.yml
 .vscode/
 
 ansible-galera/
+
+.ansible-galera/
+
+roles/.database.old
+
+ansible.log
