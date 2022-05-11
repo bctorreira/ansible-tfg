@@ -154,7 +154,7 @@ The Ansible project is structured as follows:
 ├─ playbooks/          # Playbooks directory. Playbooks reside and are
 │   │                  # from here
 │   ├─ initial_config.yml
-│   ├─ onm.yml
+│   ├─ myapp.yml
 │   ├─ dbrservers.yml
 │   ├─ dbaservers.yml
 │   └─ ...
@@ -166,7 +166,7 @@ Following this structure, group-specific and host-specific variables can be defi
 
 Roles are related to specific server configurations, to achieve the desired functionalities. A `common` role exists, that specifies configuration for all hosts defined in the inventory. Also, more specific ones exist, such as a `redis` role, to achieve a working Redis installation, `appworker`, that contains common configuration for `app` and `wrk` nodes, and `worker`, for `wrk` nodes, and so on.
 
-Playbooks for each server role exist, such as `dbrservers.yml` and `appservers.yml`, that set up the needed configurations, both common and specific to the role. In addition, the `onm.yml` playbook is designed to configure every server defined in the inventory file at the same time.
+Playbooks for each server role exist, such as `dbrservers.yml` and `appservers.yml`, that set up the needed configurations, both common and specific to the role. In addition, the `myapp.yml` playbook is designed to configure every server defined in the inventory file at the same time.
 
 ## Setup
 
