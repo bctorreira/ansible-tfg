@@ -2,9 +2,9 @@
 # This is needed to avoid having to parse the groups which a node belongs to
 servers:
   # 'first' filter is needed for lists that will only have one element
-  sto: "{{ groups.sto | intersect(groups.get(cloud)) | first }}"
-  dbr: "{{ groups.dbr | intersect(groups.get(cloud)) | first }}"
-  dba: "{{ groups.dba | intersect(groups.get(cloud)) | first }}"
-  wrk: "{{ groups.wrk | intersect(groups.get(cloud)) | first }}"
-  app: "{{ groups.app | intersect(groups.get(cloud)) }}"
-  lbl: "{{ groups.lbl | intersect(groups.get(cloud)) }}"
+  sto: "{{ groups.sto | first }}"
+  dbr: "{{ groups.dbr | first }}"
+  dba: "{{ groups.dba | first }}"
+  wrk: "{{ groups.wrk | first }}"
+  app: "{{ groups.app }}"
+  lbl: "{{ groups.lbl }}"

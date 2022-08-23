@@ -1,0 +1,12 @@
+psql_admin_user: admin
+psql_admin_pass: admin
+
+psql_cluster_user: cluster
+psql_cluster_pass: cluster
+
+monitor_connect_interval: 2000
+monitor_ping_interval: 2000
+monitor_read_only_interval: 2000
+
+mysql_port: 3306
+psql_port: 6032

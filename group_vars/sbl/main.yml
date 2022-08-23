@@ -1,0 +1,9 @@
+psql_query_rules:
+  - digest: ^SELECT.*FOR UPDATE$
+    dest_hostgroup: 10
+    active: 1
+    apply: 1
+  - digest: ^SELECT
+    dest_hostgroup: 30
+    active: 1
+    apply: 1

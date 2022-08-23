@@ -188,5 +188,3 @@
     login_unix_socket: /run/mysqld/mysqld.sock
   run_once: yes
   delegate_to: "{{ groups.dba | first }}"
-
-##### TODO: RUN IN STEP AND CHECK NODES DOWN AND UP AFTER EACH TASK

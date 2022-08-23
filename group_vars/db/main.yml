@@ -1,0 +1,16 @@
+psql_monitor_user: monitor
+psql_monitor_pass: monitor
+
+mysql_root_user: root
+mysql_root_pass: abc123.
+
+mysql_test_user: sbuser
+mysql_test_pass: sbpass
+
+mysql_users:
+  - username: "{{ mysql_root_user }}"
+    password: "{{ mysql_root_pass }}"
+    default_hostgroup: 10
+  - username: "{{ mysql_test_user }}"
+    password: "{{ mysql_test_pass }}"
+    default_hostgroup: 10

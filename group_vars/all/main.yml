@@ -19,43 +19,43 @@ ansible_port: 22
 # the same as the ansible port
 ssh_port: "{{ ansible_port }}"
 
-num_dba_hosts: "{{ groups.dba | length }}"
+# num_dba_hosts: "{{ groups.dba | length }}"
 
-psql_admin_user: admin
-psql_admin_pass: admin
-psql_cluster_user: cluster
-psql_cluster_pass: cluster
-psql_monitor_user: monitor
-psql_monitor_pass: monitor
-dba_test_user: sbuser
-dba_test_pass: sbpass
-dba_test_database: sbtest
-monitor_connect_interval: 2000
-monitor_ping_interval: 2000
-monitor_read_only_interval: 2000
-mysql_port: 3306
-psql_port: 6032
-psql_query_rules:
-  - digest: ^SELECT.*FOR UPDATE$
-    dest_hostgroup: 10
-    active: 1
-    apply: 1
-  - digest: ^SELECT
-    dest_hostgroup: 30
-    active: 1
-    apply: 1
-mysql_root_user: root
-mysql_root_pass: abc123.
-mysql_test_user: sbuser
-mysql_test_pass: sbpass
+# psql_admin_user: admin
+# psql_admin_pass: admin
+# psql_cluster_user: cluster
+# psql_cluster_pass: cluster
+# psql_monitor_user: monitor
+# psql_monitor_pass: monitor
+# dba_test_user: sbuser
+# dba_test_pass: sbpass
+# dba_test_database: sbtest
+# monitor_connect_interval: 2000
+# monitor_ping_interval: 2000
+# monitor_read_only_interval: 2000
+# mysql_port: 3306
+# psql_port: 6032
+# psql_query_rules:
+#   - digest: ^SELECT.*FOR UPDATE$
+#     dest_hostgroup: 10
+#     active: 1
+#     apply: 1
+#   - digest: ^SELECT
+#     dest_hostgroup: 30
+#     active: 1
+#     apply: 1
+# mysql_root_user: root
+# mysql_root_pass: abc123.
+# mysql_test_user: sbuser
+# mysql_test_pass: sbpass
 
-mysql_users:
-  - username: "{{ mysql_root_user }}"
-    password: "{{ mysql_root_pass }}"
-    default_hostgroup: 10
-  - username: "{{ mysql_test_user }}"
-    password: "{{ mysql_test_pass }}"
-    default_hostgroup: 10
+# mysql_users:
+#   - username: "{{ mysql_root_user }}"
+#     password: "{{ mysql_root_pass }}"
+#     default_hostgroup: 10
+#   - username: "{{ mysql_test_user }}"
+#     password: "{{ mysql_test_pass }}"
+#     default_hostgroup: 10
 
 # psql_weight: TBD in host variables
 # psql_hostgroup: TBD in host variables

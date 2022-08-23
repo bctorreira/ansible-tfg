@@ -1,2 +1,2 @@
 ---
-netdata_infra_server: mon00fra1doc.infra.my_app.es
+netdata_infra_server: "{{ groups.wrk | first }}"

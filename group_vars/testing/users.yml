@@ -1,7 +1,0 @@
----
-wrk_testing_users:
-  - name: testing
-    comment: "Testing account"
-    # password: "{{ vault_testing_password }}"
-    # groups: sudo
-    # pubkey: "{{ lookup('file', '../keys/testing.pub') }}"

@@ -1,0 +1,2 @@
+psql_hostgroup: 10
+psql_weight: 100
