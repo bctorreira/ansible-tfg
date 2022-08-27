@@ -188,3 +188,32 @@
     login_unix_socket: /run/mysqld/mysqld.sock
   run_once: yes
   delegate_to: "{{ groups.dba | first }}"
+
+- name: check if netdata is installed
+  ansible.builtin.stat:
+    path: /opt/netdata/usr/sbin/netdata
+  register: nd
+
+# If column privileges are used, the priv1,priv2 part must be exactly as returned
+# by a SHOW GRANT statement.
+# If not followed, the module will always report changes (as it does right now).
+- name: create netdata mysql user
+  community.mysql.mysql_user:
+    login_user: root
+    login_password: "{{ vault_root_mysql_password }}"
+    name: netdata
+    password: "{{ vault_netdata_mysql_password }}"
+    host: 'localhost'
+    priv: '*.*:USAGE'
+    state: present
+  when: nd.stat.exists
+  no_log: yes
+
+- name: send netdata mysql plugin configuration
+  ansible.builtin.template:
+    src: templates/netdata_plugin_mysql.conf.j2
+    dest: /opt/netdata/etc/netdata/python.d/mysql.conf
+    owner: netdata
+    group: netdata
+    mode: "0644"
+  when: nd.stat.exists
