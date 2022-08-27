@@ -1,0 +1,7 @@
+---
+ansible_port: 22
+
+# This variable is added to avoid confusion and increase readability
+# when referencing the variable containing the ssh port, which is
+# the same as the ansible port
+ssh_port: "{{ ansible_port }}"

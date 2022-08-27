@@ -12,15 +12,16 @@ locales:
   - es_ES.UTF-8
   - ca_ES.UTF-8
 
-ansible_port: 22
+# ansible_port: 22
 
-# This variable is added to avoid confusion and increase readability
-# when referencing the variable containing the ssh port, which is
-# the same as the ansible port
-ssh_port: "{{ ansible_port }}"
+# # This variable is added to avoid confusion and increase readability
+# # when referencing the variable containing the ssh port, which is
+# # the same as the ansible port
+# ssh_port: "{{ ansible_port }}"
 
+##########################################
 # num_dba_hosts: "{{ groups.dba | length }}"
-
+#
 # psql_admin_user: admin
 # psql_admin_pass: admin
 # psql_cluster_user: cluster
@@ -48,7 +49,7 @@ ssh_port: "{{ ansible_port }}"
 # mysql_root_pass: abc123.
 # mysql_test_user: sbuser
 # mysql_test_pass: sbpass
-
+#
 # mysql_users:
 #   - username: "{{ mysql_root_user }}"
 #     password: "{{ mysql_root_pass }}"
@@ -56,6 +57,6 @@ ssh_port: "{{ ansible_port }}"
 #   - username: "{{ mysql_test_user }}"
 #     password: "{{ mysql_test_pass }}"
 #     default_hostgroup: 10
-
+#
 # psql_weight: TBD in host variables
 # psql_hostgroup: TBD in host variables

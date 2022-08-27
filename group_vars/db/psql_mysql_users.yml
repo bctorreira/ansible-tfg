@@ -1,11 +1,12 @@
+---
 psql_monitor_user: monitor
-psql_monitor_pass: monitor
+psql_monitor_pass: "{{ vault_psql_monitor_pass }}"
 
 mysql_root_user: root
-mysql_root_pass: abc123.
+mysql_root_pass: "{{ vault_mysql_root_pass }}"
 
 mysql_test_user: sbuser
-mysql_test_pass: sbpass
+mysql_test_pass: "{{ vault_mysql_test_pass }}"
 
 mysql_users:
   - username: "{{ mysql_root_user }}"

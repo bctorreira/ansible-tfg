@@ -1,3 +1,4 @@
+---
 psql_query_rules:
   - digest: ^SELECT.*FOR UPDATE$
     dest_hostgroup: 10
