@@ -29,3 +29,5 @@ ansible-galera/
 roles/.database.old
 
 ansible.log
+
+tests
