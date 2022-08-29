@@ -1,5 +1,51 @@
 ---
 - hosts: app
+  pre_tasks:
+    - name: stop application tasks if no application nodes defined in hosts
+      ansible.builtin.fail:
+        prompt: |
+
+          % % % % % % % %
+          There are no application nodes defined in the app group!
+          The play will stop.
+          % % % % % % % %
+
+      when: "groups.app | length == 0"
+
+    - name: stop application tasks if no storage nodes defined in hosts
+      ansible.builtin.fail:
+        prompt: |
+
+          % % % % % % % %
+          WARNING! There are no storage nodes defined in the sto group!
+          The play will stop.
+          % % % % % % % %
+
+      when: "groups.sto | length == 0"
+
+    - name: stop application tasks if more than one storage nodes defined in hosts
+      ansible.builtin.fail:
+        prompt: |
+
+          % % % % % % % %
+          WARNING! There are multiple storage nodes defined in the sto group!
+          Only one storage node is supported at the time. The play will stop.
+          % % % % % % % %
+
+      when: "groups.sto | length > 1"
+
+    - name: warn about not having high availability
+      ansible.builtin.pause:
+        prompt: |
+
+          % % % % % % % %
+          WARNING! There's only one application node defined.
+          This does not guarantee High Availability!
+          % % % % % % % %
+
+          Press <Enter> to continue, or <Ctrl + C> to stop the play
+      when: "groups.app | length < 2"
+
   roles:
     - common
     - appworker

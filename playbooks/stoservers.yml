@@ -1,5 +1,28 @@
 ---
 - hosts: sto
+  pre_tasks:
+    - name: stop storage tasks if no storage nodes defined in hosts
+      ansible.builtin.fail:
+        prompt: |
+
+          % % % % % % % %
+          WARNING! There are no storage nodes defined in the sto group!
+          The play will stop.
+          % % % % % % % %
+
+      when: "groups.sto | length == 0"
+
+    - name: stop storage tasks if more than one storage nodes defined in hosts
+      ansible.builtin.fail:
+        prompt: |
+
+          % % % % % % % %
+          WARNING! There are multiple storage nodes defined in the sto group!
+          Only one storage node is supported at the time. The play will stop.
+          % % % % % % % %
+
+      when: "groups.sto | length > 1"
+
   roles:
     - common
     - storage

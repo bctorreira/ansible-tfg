@@ -1,5 +1,28 @@
 ---
 - hosts: dbr
+  pre_tasks:
+    - name: stop nosql tasks if no nosql nodes defined in hosts
+      ansible.builtin.fail:
+        prompt: |
+
+          % % % % % % % %
+          WARNING! There are no nosql nodes defined in the dbr group!
+          The play will stop.
+          % % % % % % % %
+
+      when: "groups.dba | length == 0"
+
+    - name: stop nosql tasks if no nosql nodes defined in hosts
+      ansible.builtin.fail:
+        prompt: |
+
+          % % % % % % % %
+          WARNING! There are no nosql nodes defined in the dbr group!
+          The play will stop.
+          % % % % % % % %
+
+      when: "groups.dba | length == 0"
+
   roles:
     - common
     - redis

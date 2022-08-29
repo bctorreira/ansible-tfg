@@ -1,5 +1,42 @@
 ---
 - hosts: dba
+  pre_tasks:
+    - name: stop database tasks if no database nodes defined in hosts
+      ansible.builtin.fail:
+        prompt: |
+
+          % % % % % % % %
+          WARNING! There are no database nodes defined in the dba group!
+          The play will stop.
+          % % % % % % % %
+
+      when: "groups.dba | length == 0"
+
+    - name: warn about not having high availability
+      ansible.builtin.pause:
+        prompt: |
+
+          % % % % % % % %
+          WARNING! There's only one database node defined.
+          This does not guarantee High Availability!
+          % % % % % % % %
+
+          Press <Enter> to continue, or <Ctrl + C> to stop the play
+      when: "groups.dba | length < 2"
+
+    - name: warn about possible quorum issues when even number of database nodes defined in hosts
+      ansible.builtin.pause:
+        prompt: |
+
+          % % % % % % % %
+          WARNING! There's an even number of database nodes defined.
+          You may run into quorum issues.
+          % % % % % % % %
+
+          Press <Enter> to continue, or <Ctrl + C> to stop the play
+      when: "groups.dba | length % 2  == 0"
+
+
   roles:
     - common
     - database

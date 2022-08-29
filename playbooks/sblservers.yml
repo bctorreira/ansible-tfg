@@ -1,41 +1,41 @@
 ---
-- hosts: lbl
+- hosts: sbl
   pre_tasks:
-    - name: stop loadbalancer tasks if no application nodes defined in hosts
+    - name: stop database tasks if no sql balancing nodes defined in hosts
       ansible.builtin.fail:
-        msg: |
+        prompt: |
 
           % % % % % % % %
-          WARNING! There are no load balancing nodes defined in the lbl group!
+          There are no SQL balancing nodes defined in the sbl group!
           The play will stop.
           % % % % % % % %
 
-      when: "groups.lbl | length == 0"
+      when: "groups.sbl | length == 0"
 
-    - name: warn if no application nodes defined in hosts
+    - name: warn if no database nodes defined in hosts
       ansible.builtin.pause:
         prompt: |
 
           % % % % % % % %
-          WARNING! There are no application nodes defined in the app group!
-          No application nodes will be defined in the Varnish configuration.
+          There are no database nodes defined in the dba group!
+          No database nodes will be defined in the ProxySQL configuration.
           % % % % % % % %
 
           Press <Enter> to continue, or <Ctrl + C> to stop the play
-      when: "groups.app | length == 0"
+      when: "groups.dba | length == 0"
 
     - name: warn about not having high availability
       ansible.builtin.pause:
         prompt: |
 
           % % % % % % % %
-          WARNING! There's only one load balancing node defined.
+          WARNING! There's only one SQL balancing node defined.
           This does not guarantee High Availability!
           % % % % % % % %
 
           Press <Enter> to continue, or <Ctrl + C> to stop the play
-      when: "groups.lbl | length < 2"
+      when: "groups.sbl | length < 2"
 
   roles:
     - common
-    - loadbalancer
+    - proxysql

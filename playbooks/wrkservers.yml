@@ -1,5 +1,39 @@
 ---
 - hosts: wrk
+  pre_tasks:
+    - name: stop worker tasks if no worker nodes defined in hosts
+      ansible.builtin.fail:
+        prompt: |
+
+          % % % % % % % %
+          WARNING! There are no worker nodes defined in the wrk group!
+          The play will stop.
+          % % % % % % % %
+
+      when: "groups.wrk | length == 0"
+
+    - name: stop worker tasks if no storage nodes defined in hosts
+      ansible.builtin.fail:
+        prompt: |
+
+          % % % % % % % %
+          WARNING! There are no storage nodes defined in the sto group!
+          The play will stop.
+          % % % % % % % %
+
+      when: "groups.sto | length == 0"
+
+    - name: stop application tasks if more than one storage nodes defined in hosts
+      ansible.builtin.fail:
+        prompt: |
+
+          % % % % % % % %
+          WARNING! There are multiple storage nodes defined in the sto group!
+          Only one storage node is supported at the time. The play will stop.
+          % % % % % % % %
+
+      when: "groups.sto | length > 1"
+
   roles:
     - common
     - appworker
