@@ -11,8 +11,8 @@
 - name: PHP tasks
   ansible.builtin.import_tasks: php.yml
 
-- name: Node.js tasks
-  ansible.builtin.import_tasks: nodejs.yml
+# - name: Node.js tasks
+#   ansible.builtin.import_tasks: nodejs.yml
 
 - name: Logrotate tasks
   ansible.builtin.import_tasks: logrotate.yml
