@@ -152,7 +152,7 @@
 
 # Run the appworker role for all app and wrk nodes simultaneously,
 # avoiding running the appworker role twice.
-- hosts: appworker
+- hosts: appwrk
   pre_tasks:
     - name: stop application and worker tasks if no application nodes defined in hosts
       ansible.builtin.fail:
