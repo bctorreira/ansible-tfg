@@ -83,6 +83,14 @@
 #     state: link
 #   notify: reload nginx service
 
+- name: send example index file for `my_web` site
+  ansible.builtin.template:
+    src: templates/index.php.j2
+    dest: "/home/{{ cert_name }}/current/public/index.php"
+    owner: www-data
+    group: www-data
+    mode: "0644"
+
 - name: configure `my_web` site
   ansible.builtin.template:
     src: templates/sites/my_web.j2

@@ -337,5 +337,5 @@
     - loadbalancer
 
 # The PLAY RECAP should be reporting at least 1 change in database servers
-# (because of permission modification for mysql the myapp-instances user,
+# (because of permission modification for mysql users,
 # always reporting changes)

@@ -5,10 +5,10 @@
   vars:
     logrotate_global_config: false      # TODO: check if correct
     logrotate_applications:
-      - name: application_my_app
+      - name: "application_{{ cert_name }}"
         definitions:
           - logs:
-              - /home/my_app/shared/tmp/logs/application.log
+              - "/home/{{ cert_name }}/shared/tmp/logs/application.log"
             options:
               - su www-data www-data
               - maxsize 500M
@@ -19,10 +19,10 @@
               - rotate 7
               - missingok
               - copytruncate
-      - name: manager_error_my_app
+      - name: "manager_error_{{ cert_name }}"
         definitions:
           - logs:
-              - /home/my_app/shared/tmp/logs/manager-error.log
+              - "/home/{{ cert_name }}/shared/tmp/logs/manager-error.log"
             options:
               - su www-data www-data
               - maxsize 500M
@@ -35,10 +35,10 @@
               - postrotate
               - "[ ! -f /var/run/nginx.pid ] || kill -USR1 `cat /var/run/nginx.pid`"
               - endscript
-      - name: error_my_app
+      - name: "error_{{ cert_name }}"
         definitions:
           - logs:
-              - /home/my_app/shared/tmp/logs/my_app-error.log
+              - "/home/{{ cert_name }}/shared/tmp/logs/{{ cert_name }}-error.log"
             options:
               - su www-data www-data
               - maxsize 500M
@@ -52,10 +52,10 @@
               - postrotate
               - "[ ! -f /var/run/nginx.pid ] || kill -USR1 `cat /var/run/nginx.pid`"
               - endscript
-      - name: prod_my_app
+      - name: "prod_{{ cert_name }}"
         definitions:
           - logs:
-              - /home/my_app/shared/tmp/logs/prod.log
+              - "/home/{{ cert_name }}/shared/tmp/logs/prod.log"
             options:
               - su www-data www-data
               - maxsize 500M

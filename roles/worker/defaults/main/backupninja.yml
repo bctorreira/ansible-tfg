@@ -3,7 +3,7 @@ backupninja_conf:
   - directive: "loglevel"
     value: "3"
   - directive: "reportemail"
-    value: "support@my_app.es"
+    value: "support@{{ cert_name }}.es"
   - directive: "reportsuccess"
     value: "yes"
   # - directive: "#reportinfo"

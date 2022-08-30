@@ -4,4 +4,4 @@ admin_users:
     comment: Administrator
     password: "{{ vault_admin_password }}"
     uid: 10010
-    pubkey: "{{ lookup('file', '../keys/bctorreira.pub') }}"
+    pubkey: "{{ lookup('file', '../keys/{{ admin_key_name }}.pub') }}"

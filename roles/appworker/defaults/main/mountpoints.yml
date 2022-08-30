@@ -1,22 +1,22 @@
 ---
 mountpoints:
-  - path: /home/my_app/shared/public/build/
+  - path: "/home/{{ cert_name }}/shared/public/build/"
     src: "{{ servers.sto }}:/srv/shared/build"
     fstype: nfs
     opts: auto,user,vers=3,rsize=32768,wsize=32768,intr,noatime,noacl,nocto,bg
-  - path: /home/my_app/shared/public/media/
+  - path: "/home/{{ cert_name }}/shared/public/media/"
     src: "{{ servers.sto }}:/srv/shared/media"
     fstype: nfs
     opts: auto,user,vers=3,rsize=32768,wsize=32768,intr,noatime,noacl,nocto,bg
-  - path: /home/my_app/shared/tmp/backups/
+  - path: "/home/{{ cert_name }}/shared/tmp/backups/"
     src: "{{ servers.sto }}:/srv/shared/backup"
     fstype: nfs
     opts: auto,user,vers=3,rsize=32768,wsize=32768,intr,noatime,noacl,nocto,bg
-  - path: /home/my_app/shared/tmp/instances/
+  - path: "/home/{{ cert_name }}/shared/tmp/instances/"
     src: "{{ servers.sto }}:/srv/shared/instances"
     fstype: nfs
     opts: auto,user,vers=3,rsize=32768,wsize=32768,intr,noatime,noacl,nocto,bg
-  - path: /home/my_app/shared/tmp/spool/
+  - path: "/home/{{ cert_name }}/shared/tmp/spool/"
     src: "{{ servers.sto }}:/srv/shared/spool"
     fstype: nfs
     opts: auto,user,vers=3,rsize=32768,wsize=32768,intr,noatime,noacl,nocto,bg

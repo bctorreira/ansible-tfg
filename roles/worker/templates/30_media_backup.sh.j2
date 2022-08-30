@@ -1,2 +1,2 @@
 #!/bin/sh
-/usr/bin/rsync -ar -e "ssh -p {{ ssh_port }}" /home/my_app/shared/public/media/ rsyncusr@backup.my_app.es:/home/media.my_app.com/media/
+/usr/bin/rsync -ar -e "ssh -p {{ ssh_port }}" /home/{{ cert_name }}/shared/public/media/ rsyncusr@backup.{{ cert_name }}.es:/home/media.{{ cert_name }}.com/media/

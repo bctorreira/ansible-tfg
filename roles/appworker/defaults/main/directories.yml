@@ -1,13 +1,13 @@
 ---
 appworker_directories:
-  - '/home/my_app/shared/'
-  - '/home/my_app/shared/public'
-  - '/home/my_app/shared/public/media'
-  - '/home/my_app/shared/public/build'
-  - '/home/my_app/shared/tmp'
-  - '/home/my_app/shared/tmp/instances'
-  - '/home/my_app/shared/tmp/logs'
-  - '/home/my_app/shared/tmp/spool'
-  - '/home/my_app/shared/tmp/backups'
-  - '/home/my_app/shared/app'
-  - '/home/my_app/shared/app/config'
+  - "/home/{{ cert_name }}/shared/"
+  - "/home/{{ cert_name }}/shared/public"
+  - "/home/{{ cert_name }}/shared/public/media"
+  - "/home/{{ cert_name }}/shared/public/build"
+  - "/home/{{ cert_name }}/shared/tmp"
+  - "/home/{{ cert_name }}/shared/tmp/instances"
+  - "/home/{{ cert_name }}/shared/tmp/logs"
+  - "/home/{{ cert_name }}/shared/tmp/spool"
+  - "/home/{{ cert_name }}/shared/tmp/backups"
+  - "/home/{{ cert_name }}/shared/app"
+  - "/home/{{ cert_name }}/shared/app/config"

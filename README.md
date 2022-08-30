@@ -154,7 +154,7 @@ The Ansible project is structured as follows:
 ├─ playbooks/          # Playbooks directory. Playbooks reside and are
 │   │                  # from here
 │   ├─ initial_config.yml
-│   ├─ myapp.yml
+│   ├─ full_config.yml
 │   ├─ dbrservers.yml
 │   ├─ dbaservers.yml
 │   └─ ...

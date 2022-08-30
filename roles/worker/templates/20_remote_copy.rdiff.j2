@@ -12,7 +12,7 @@ exclude = /home/*/gtk-gnutella-downloads
 
 [dest]
 type = remote
-host = backup.my_app.es
-directory = /home/backup_my_app/rdiff-backup/
+host = backup.{{ cert_name }}.es
+directory = /home/backup_{{ cert_name }}/rdiff-backup/
 user = rsyncusr
 sshoptions = -p {{ ssh_port }}

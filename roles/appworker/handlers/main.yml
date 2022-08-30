@@ -6,5 +6,5 @@
 
 # - name: delete doctrine cache
 #   ansible.builtin.file:
-#     path: /home/my_app/current/tmp/cache
+#     path: "/home/{{ cert_name }}/current/tmp/cache"
 #     state: absent

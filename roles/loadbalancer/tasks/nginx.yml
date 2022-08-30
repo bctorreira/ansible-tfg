@@ -22,8 +22,8 @@
 
 - name: send certificate file
   ansible.builtin.copy:
-    src: ../certs/my_app/my_app.crt
-    dest: /etc/ssl/certs/my_app.crt
+    src: "../certs/{{ cert_name }}/{{ cert_name }}.crt"
+    dest: "/etc/ssl/certs/{{ cert_name }}.crt"
     owner: root
     group: root
     mode: "0400"
@@ -31,8 +31,8 @@
 
 - name: send key file
   ansible.builtin.copy:
-    src: ../certs/my_app/my_app.key
-    dest: /etc/ssl/private/my_app.key
+    src: "../certs/{{ cert_name }}/{{ cert_name }}.key"
+    dest: "/etc/ssl/private/{{ cert_name }}.key"
     owner: root
     group: root
     mode: "0400"

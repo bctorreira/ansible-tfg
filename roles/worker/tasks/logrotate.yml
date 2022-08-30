@@ -5,10 +5,10 @@
   vars:
     logrotate_global_config: false
     logrotate_applications:
-      - name: cron_my_app
+      - name: "cron_{{ cert_name }}"
         definitions:
           - logs:
-              - /home/my_app/shared/tmp/logs/cron.log
+              - "/home/{{ cert_name }}/shared/tmp/logs/cron.log"
             options:
               - su www-data www-data
               - maxsize 500M
