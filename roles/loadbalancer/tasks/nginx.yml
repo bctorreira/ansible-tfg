@@ -39,8 +39,8 @@
   notify: reload nginx service
 
 - name: configure `sslendpoint` site
-  ansible.builtin.copy:
-    src: nginx_conf/sslendpoint
+  ansible.builtin.template:
+    src: templates/sslendpoint.j2
     dest: /etc/nginx/sites-available/sslendpoint
     owner: root
     group: root
