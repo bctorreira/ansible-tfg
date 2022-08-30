@@ -1,7 +1,8 @@
 # Ansible managed file
 
 server {
-    root /home/{{ cert_name }}/current/public;
+    # root /home/{{ cert_name }}/current/public;
+    root /var/www/html;
     listen 0.0.0.0:8080 default_server;
     merge_slashes on;
     rewrite "^/(.+)\.(\d+){10,14}\.(js|css|png|jpg|gif)$" /$1.$3;

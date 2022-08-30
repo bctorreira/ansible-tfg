@@ -83,10 +83,15 @@
 #     state: link
 #   notify: reload nginx service
 
+- name: remove default index file
+  file:
+    path: "/var/www/html/index.nginx-debian.html"
+    state: absent
+
 - name: send example index file for `my_web` site
   ansible.builtin.template:
     src: templates/index.php.j2
-    dest: "/home/{{ cert_name }}/current/public/index.php"
+    dest: "/var/www/html/app.php"
     owner: www-data
     group: www-data
     mode: "0644"
