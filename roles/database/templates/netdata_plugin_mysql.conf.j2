@@ -1,0 +1,14 @@
+# Ansible managed file
+
+tcpipv4_root:
+  name     : 'local'
+  user     : '{{ mysql_root_user }}'
+  pass     : '{{ mysql_root_pass }}'
+  host     : 'localhost'
+  port     : '3306'
+
+{# socket_local_test:
+  name     : 'local'
+  user     : 'netdata'
+  pass     : 'mysqlnetdata'
+  socket   : '/var/run/mysqld/mysqld.sock' #}
