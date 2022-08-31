@@ -3,12 +3,6 @@
 # Get package list
 my_packages = yaml(content: inspec.profile.file('packages.yml')).params
 
-# Get user list
-my_users = yaml(content: inspec.profile.file('users.yml')).params
-
-# Get file list
-my_files = yaml(content: inspec.profile.file('files.yml')).params
-
 # Check for installed packages
 my_packages.each do |p|
     describe package(p) do
@@ -17,12 +11,18 @@ my_packages.each do |p|
     end
 end
 
+# Get user list
+my_users = yaml(content: inspec.profile.file('users.yml')).params
+
 # Check for users
 my_users.each do |u|
     describe user(u) do
         it { should exist }
     end
 end
+
+# Get file list
+my_files = yaml(content: inspec.profile.file('files.yml')).params
 
 # Check for files
 my_files.each do |f|
