@@ -1,0 +1,3 @@
+- /etc/bash.bashrc
+- /etc/skel/.bashrc
+- /etc/profile.d/history.sh

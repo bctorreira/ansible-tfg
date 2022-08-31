@@ -1,0 +1,5 @@
+name: common_test
+title: Test for the "common" common_role
+supports:
+  - platform-name: ubuntu
+    release: 20.*

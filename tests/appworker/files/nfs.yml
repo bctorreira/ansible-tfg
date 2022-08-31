@@ -1,0 +1,5 @@
+- '/home/my_app/shared/public/media'
+- '/home/my_app/shared/public/build'
+- '/home/my_app/shared/tmp/instances'
+- '/home/my_app/shared/tmp/spool'
+- '/home/my_app/shared/tmp/backups'

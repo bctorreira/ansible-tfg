@@ -30,4 +30,4 @@ roles/.database.old
 
 ansible.log
 
-tests
+inspec.lock
