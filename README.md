@@ -7,7 +7,7 @@ Ansible dedicated repository.
 [defaults]
 
 # use the 'local' file in the working directory as inventory
-inventory = ./local
+inventory = ./hosts
 
 # use 'debug' callback to improve output readability
 stdout_callback = debug
@@ -16,13 +16,13 @@ stdout_callback = debug
 remote_user = ansible
 
 # install and search for roles in the 'roles_galaxy' directory under the working directory
-roles_path = ./roles_galaxy
+roles_path = ./ansible_roles
 
 # enable logging and log into /var/log/ansible.log
 log_path = /var/log/ansible.log
 
 # use this private key for ssh authentication
-private_key_file = ./keys/ansible_key
+private_key_file = ./keys/ansible
 
 # set the path to the Vault password file
 vault_password_file = ./VAULT_PASSWORD_FILE
@@ -137,7 +137,7 @@ The Ansible project is structured as follows:
 │       └─ vars/           # Role variables directory.
 │           └─ vars.yml      # Role-specific variables are defined here.
 │
-├─ roles_galaxy/           # Galaxy roles directory. Roles downloaded from the
+├─ ansible_roles/          # Galaxy roles directory. Roles downloaded from the
 │   │                      # ansible-galaxy repo are installed here.
 │   └─ author.rolename/      # Each role installed in its own directory.
 │
@@ -147,7 +147,7 @@ The Ansible project is structured as follows:
 │       └─ collection/        # Each collection installed in its own directory.
 │
 ├─ ansible.cfg         # Ansible configuration file.
-├─ local               # Inventory file.
+├─ hosts               # Inventory file.
 ├─ requirements.yml    # Requirements (dependencies) file.
 ├─ VAULT_PASSWORD_FILE # Vault password file, for encryption and decryption of
 │                      # sensible information (passwords, api keys, etc.)
@@ -179,15 +179,14 @@ Playbooks for each server role exist, such as `dbrservers.yml` and `appservers.y
 #### Installing ansible
 Ubuntu builds are available in the official ansible PPA: https://launchpad.net/~ansible/+archive/ubuntu/ansible
 
-To configure the PPA and install Ansible, run the following commands with root permissions:
+To install Ansible through pip, run the following command:
 
 ```bash
 # on the control node:
-$ apt update
-$ apt install software-properties-common
-$ apt-add-repository --yes --update ppa:ansible/ansible
-$ apt install ansible
+$ python3 -m pip install ansible
 ```
+
+Then, add the `~/.local/bin` directory to the PATH.
 
 #### Cloning the repository
 Clone the Ansible repository from https://github.com/bctorreira/ansible-tfg.git
@@ -211,7 +210,7 @@ Sensible data is (and must be) encrypted with ansible-vault. To be able to decry
 
 `./VAULT_PASSWORD_FILE`:
 ```
-thisisapassword
+password
 ```
 
 ### Managed node setup
@@ -237,7 +236,7 @@ This playbook will change the default SSH configuration, switching the default p
 
 To configure all hosts at once, simply execute the following command:
 ```bash
-$ ansible-playbook playbooks/full_setup.yml
+$ ansible-playbook -u <ssh_user> -k -K playbooks/initial_config.yml
 ```
 This command will run the `full_setup.yml` playbook as the `ansible` user, configuring all nodes listed in the inventory.
 
@@ -248,6 +247,9 @@ To configure hosts with a specific functionality (app servers, database servers,
 - `dbrservers.yml`: configures hosts with the Redis role (`dbr` group).
 	- `common` role.
 	- `redis` role.
+- `sblservers.yml`: configures hosts with the SQL Load Balancer role (`sbl` group).
+	- `common` role.
+	- `sqlbalancer` role.
 - `dbaservers.yml`: configures hosts with the MySQL database role (`dba` group).
 	- `common` role.
 	- `database` role.
@@ -268,7 +270,7 @@ To configure hosts with a specific functionality (app servers, database servers,
 
 All of these playbooks will run the `common` role and the roles needed for the hosts defined in that group to have the desired functionality.
 
-To run any playbook playbooks:
+To run any playbook:
 ```bash
 $ ansible-playbook <playbookfile.yml>
 ```
