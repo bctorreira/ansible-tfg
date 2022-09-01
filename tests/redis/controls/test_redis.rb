@@ -1,12 +1,9 @@
 # Test the "redis" role.
 
-# Check for installed packages
-my_packages = yaml(content: inspec.profile.file('packages.yml')).params
-my_packages.each do |p|
-    describe package(p) do
-        it { should be_installed }
-        it { should be_latest }
-    end
+# Check for redis package
+describe package('redis-server') do
+    it { should be_installed }
+    it { should be_latest }
 end
 
 # Check for config file

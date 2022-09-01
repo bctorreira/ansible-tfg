@@ -10,5 +10,3 @@
 - /etc/nginx/nginx.conf
 - /etc/nginx/sites-available/sslendpoint
 - /etc/nginx/sites-enabled/sslendpoint
-- /etc/ssl/private/my_app.key
-- /etc/ssl/private/my_app.crt

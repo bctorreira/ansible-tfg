@@ -2,13 +2,7 @@
 
 
 # Check for mariadb repository
-describe apt('deb https://mirrors.chroot.ro/mariadb/repo/10.6/ubuntu focal main') do
-    it { should exist }
-    it { should be_enabled }
-end
-
-# Check for proxysql repository
-describe apt('deb https://repo.proxysql.com/ProxySQL/proxysql-2.2.x/focal/ ./') do
+describe apt('https://mirrors.chroot.ro/mariadb/repo/10.6/ubuntu') do
     it { should exist }
     it { should be_enabled }
 end

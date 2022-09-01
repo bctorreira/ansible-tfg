@@ -48,6 +48,7 @@ end
 # Check if HTTP port (80) is listening
 describe port(80) do
     it { should be_listening }
+end
 # Check if HTTPS port (443) is listening
 describe port(443) do
     it { should be_listening }

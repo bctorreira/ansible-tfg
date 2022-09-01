@@ -13,7 +13,7 @@ end
 # Check rpc ports
 my_ports = yaml(content: inspec.profile.file('ports.yml')).params
 my_ports.each do |p|
-    describe port(P) do
+    describe port(p) do
         it { should be_listening }
     end
 end

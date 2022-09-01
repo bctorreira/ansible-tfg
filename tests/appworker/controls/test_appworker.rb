@@ -35,7 +35,7 @@ describe apt('ppa:ondrej/php') do
 end
 
 # Check for php packages
-my_packages = yaml(content: inspec.profile.file('packages.yml')).params
+my_packages = yaml(content: inspec.profile.file('php_packages.yml')).params
 my_packages.each do |p|
     describe package(p) do
         it { should be_installed }

@@ -1,2 +1,6 @@
 - /var/backups/mysql
-- /var/backups/mysql/sqldump
+
+# This directory exists but the test returns that it doesn't
+# The reason for this is read permissions: 'user' can't check for it
+# TODO: how to check this, without changing permissions and wihtout allowing root ssh
+#- /var/backups/mysql/sqldump
