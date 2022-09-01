@@ -1,0 +1,5 @@
+name: sqlbalancer_test
+title: Test for the "sqlbalancer" role
+supports:
+  - platform-name: ubuntu
+    release: 20.*

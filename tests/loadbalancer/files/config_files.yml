@@ -1,0 +1,14 @@
+- /etc/varnish/conf.d/backends.vcl
+- /etc/varnish/conf.d/acls.vcl
+- /etc/varnish/conf.d/error.vcl
+- /etc/varnish/conf.d/error.html
+- /etc/varnish/default.vcl
+- /etc/default/varnish
+- /etc/systemd/system/varnish.service
+- /etc/systemd/system/varnishncsa.service
+
+- /etc/nginx/nginx.conf
+- /etc/nginx/sites-available/sslendpoint
+- /etc/nginx/sites-enabled/sslendpoint
+- /etc/ssl/private/my_app.key
+- /etc/ssl/private/my_app.crt

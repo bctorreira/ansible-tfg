@@ -1,5 +1,5 @@
-name: common_test
-title: Test for the "common" role
+name: redis_test
+title: Test for the "redis" role
 supports:
   - platform-name: ubuntu
     release: 20.*

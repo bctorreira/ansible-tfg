@@ -1,0 +1,3 @@
+- /etc/nginx/nginx.conf
+- /opt/netdata/etc/netdata/python.d/nginx.conf
+- /opt/netdata/etc/netdata/python.d/phpfpm.conf

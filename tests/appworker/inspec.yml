@@ -1,5 +1,5 @@
 name: appworker_test
-title: Test for the "common" common_role
+title: Test for the "appworker" role
 supports:
   - platform-name: ubuntu
     release: 20.*

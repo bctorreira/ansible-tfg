@@ -1,0 +1,5 @@
+name: loadbalancer_test
+title: Test for the "loadbalancer" role
+supports:
+  - platform-name: ubuntu
+    release: 20.*

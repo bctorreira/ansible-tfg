@@ -1,0 +1,4 @@
+- python3-pymysql
+- mariadb-client
+- proxysql
+- keepalived

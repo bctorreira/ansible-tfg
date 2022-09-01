@@ -1,0 +1,5 @@
+name: storage_test
+title: Test for the "storage" role
+supports:
+  - platform-name: ubuntu
+    release: 20.*

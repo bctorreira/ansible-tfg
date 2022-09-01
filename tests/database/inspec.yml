@@ -1,0 +1,5 @@
+name: database_test
+title: Test for the "database" role
+supports:
+  - platform-name: ubuntu
+    release: 20.*

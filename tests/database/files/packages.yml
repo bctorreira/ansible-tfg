@@ -1,0 +1,5 @@
+- python3-pymysql
+- mariadb-server
+- galera-4
+- mariadb-client
+- mariadb-backup

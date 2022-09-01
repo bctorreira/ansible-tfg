@@ -1,0 +1,4 @@
+- /etc/backupninja.conf
+- /etc/backup.d/10_database_dump.mysql
+- /etc/backup.d/20_remote_copy.rdiff
+- /etc/backup.d/30_media_backup.sh
