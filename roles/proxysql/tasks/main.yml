@@ -1,10 +1,4 @@
 ---
-- name: remove unneeded packages
-  ansible.builtin.apt:
-    name:
-      - unattended-upgrades
-    state: absent
-
 - name: install mariadb gpg key
   ansible.builtin.apt_key:
     url: https://mariadb.org/mariadb_release_signing_key.asc
