@@ -32,14 +32,13 @@
       - mariadb-backup
     state: present
 
-# TODO: CHECK THIS USING VARIABLES
 - name: set mysql root password
   community.mysql.mysql_user:
-    name: root
-    password: "abc123."
+    name: "{{ mysql_root_user }}"
+    password: "{{ mysql_root_pass }}"
     check_implicit_admin: yes
-    login_user: root
-    login_password: "abc123."
+    login_user: "{{ mysql_root_user }}"
+    login_password: "{{ mysql_root_pass }}"
     login_unix_socket: /run/mysqld/mysqld.sock
   no_log: no
 
