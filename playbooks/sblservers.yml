@@ -38,4 +38,4 @@
 
   roles:
     - common
-    - proxysql
+    - sqlbalancer

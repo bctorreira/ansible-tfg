@@ -146,7 +146,7 @@
       when: "groups.sbl | length < 2"
 
   roles:
-    - proxysql
+    - sqlbalancer
 
 ####################################################
 
