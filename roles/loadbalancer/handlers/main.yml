@@ -13,6 +13,11 @@
     - varnish
     - varnishncsa
 
+- name: restart keepalived service
+  ansible.builtin.service:
+    name: keepalived
+    state: restarted
+
 - name: restart varnish service
   ansible.builtin.service:
     name: varnish

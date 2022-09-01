@@ -1,0 +1,15 @@
+---
+- name: install keepalived
+  ansible.builtin.apt:
+    name: keepalived
+    state: present
+    update_cache: yes
+
+- name: send keepalived configuration
+  ansible.builtin.template:
+    src: keepalived.conf.j2
+    dest: /etc/keepalived/keepalived.conf
+    owner: root
+    group: root
+    mode: u=rw,g=,o=
+  notify: restart keepalived service

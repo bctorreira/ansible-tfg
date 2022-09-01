@@ -1,0 +1,28 @@
+{{ ansible_managed | comment }}
+
+global_defs {
+    lvs_id proxy_HA_http
+}
+
+vrrp_script check_proxy {
+  script "killall -0 proxysql"
+  interval 1
+}
+
+vrrp_instance VI_02 {
+    state {{ state }}
+    interface {{ ansible_default_ipv4.interface }}
+    virtual_router_id 31
+    priority {{ priority | default ('MASTER') }}
+    advert_int 1
+    authentication {
+        auth_type PASS
+        auth_pass 1337
+    }
+    virtual_ipaddress {
+        192.168.1.111/24
+    }
+    track_script {
+        check_proxy
+    }
+}

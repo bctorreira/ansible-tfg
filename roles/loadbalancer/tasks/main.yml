@@ -1,4 +1,7 @@
 ---
+- name: Keepalived tasks
+  ansible.builtin.import_tasks: keepalived.yml
+
 - name: Varnish tasks
   ansible.builtin.import_tasks: varnish.yml
 
