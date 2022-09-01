@@ -10,3 +10,5 @@
 - /etc/nginx/nginx.conf
 - /etc/nginx/sites-available/sslendpoint
 - /etc/nginx/sites-enabled/sslendpoint
+
+- /etc/keepalived/keepalived.conf

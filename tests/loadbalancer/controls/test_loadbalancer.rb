@@ -9,7 +9,7 @@ my_packages.each do |p|
     end
 end
 
-# Check for config files (varnish and nginx)
+# Check for config files (varnish, nginx, keepalived)
 my_files = yaml(content: inspec.profile.file('config_files.yml')).params
 my_files.each do |f|
     describe file(f) do
@@ -39,6 +39,13 @@ describe service('varnish') do
     it { should be_running }
 end
 describe service('varnishncsa') do
+    it { should be_enabled }
+    it { should be_installed }
+    it { should be_running }
+end
+
+# Check if keepalived service is running
+describe service('keepalived') do
     it { should be_enabled }
     it { should be_installed }
     it { should be_running }
